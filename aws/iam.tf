@@ -23,22 +23,6 @@ data "aws_iam_policy_document" "director_policy" {
   statement {
     effect = "Allow"
     actions = [
-      "ssm:GetParameter",
-    ]
-    resources = [aws_ssm_parameter.director_version.arn]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "ssm:GetParameter",
-    ]
-    resources = [aws_ssm_parameter.director_version.arn]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
       "secretsmanager:GetSecretValue",
     ]
     resources = [aws_secretsmanager_secret.director_api_key.arn]
@@ -48,21 +32,6 @@ data "aws_iam_policy_document" "director_policy" {
     effect = "Allow"
     actions = [
       "ecr:*",
-    ]
-    resources = ["*"]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "ec2:DescribeVpcs",
-      "ec2:DescribeSecurityGroups",
-      "ec2:CreateNetworkInterface",
-      "ec2:DescribeNetworkInterfaces",
-      "ec2:DescribeSubnets",
-      "ec2:DeleteNetworkInterface",
-      "ec2:AssignPrivateIpAddresses",
-      "ec2:UnassignPrivateIpAddresses"
     ]
     resources = ["*"]
   }

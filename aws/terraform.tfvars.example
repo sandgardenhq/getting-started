@@ -1,0 +1,5 @@
+namespace="sandgarden-poc or YOUR NAMESPACE HERE"
+vpc_id="YOUR VPC ID HERE"
+subnet_ids=["YOUR SUBNET ID HERE"]
+tags={ app = "sandgarden", role = "director" }
+sand_api_key="YOUR API KEY HERE"

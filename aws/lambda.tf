@@ -4,15 +4,15 @@ resource "aws_iam_policy" "lambda_demo" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
-      # TODO: Replace with actual policy
-      # {
-      #   Effect = "Allow"
-      #   Action = [
-      #     "s3:GetObject",
-      #     "s3:PutObject",
-      #   ]
-      #   Resource = "arn:aws:s3:::fake-bucket/fake-object"
-      # },
+      {
+        Effect = "Allow"
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+        Resource = "arn:aws:logs:*:*:*"
+      }
     ]
   })
 

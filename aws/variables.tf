@@ -1,5 +1,5 @@
 variable "namespace" {
-  description = "Namespace to prefix resources"
+  description = "Namespace for resource naming"
   type        = string
   default     = "sandgarden"
 }
@@ -7,23 +7,25 @@ variable "namespace" {
 variable "tags" {
   description = "Tags to apply to resources"
   type        = map(string)
-  default     = {}
+  default     = {
+    Project = "sandgarden"
+  }
 }
 
 variable "vpc_id" {
-  description = "VPC ID to deploy into"
+  description = "VPC ID where resources will be deployed"
   type        = string
 }
 
 variable "subnet_ids" {
-  description = "Subnet IDs to deploy into"
+  description = "List of subnet IDs for the ECS service"
   type        = list(string)
 }
 
 variable "aws_region" {
-  description = "AWS region to deploy into"
+  description = "AWS region to deploy resources"
   type        = string
-  default     = "us-east-2"
+  default     = "us-east-2"  # Adjust default as needed
 }
 
 variable "ecr_repository_name" {
@@ -38,18 +40,20 @@ variable "sand_api_key" {
 }
 
 variable "sandgarden_ecr_repo_url" {
-  description = "Sandgarden ECR repository URL"
+  description = "URL of the ECR repository containing the Sandgarden Director image"
   type        = string
   default     = "public.ecr.aws/h7j2x0j6/sandgarden-director"
 }
 
 variable "fargate_cpu" {
-  description = "Director Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-  default     = "2048"
+  description = "Fargate instance CPU units (1 vCPU = 1024 CPU units)"
+  type        = number
+  default     = 1024
 }
 
 variable "fargate_memory" {
-  description = "Director Fargate instance memory to provision (in MiB)"
-  default     = "8192"
+  description = "Fargate instance memory in MiB"
+  type        = number
+  default     = 2048
 }
 

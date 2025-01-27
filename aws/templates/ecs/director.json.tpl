@@ -2,17 +2,16 @@
   {
     "essential": true,
     "name": "sandgarden-director-ctr",
-    "image": "${sandgarden_ecr_repo_url}:latest",
+    "image": "${sandgarden_ecr_repo_url}",
     "cpu": ${fargate_cpu},
     "memory": ${fargate_memory},
     "networkMode": "awsvpc",
     "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "/sandgarden/director",
-          "awslogs-region": "us-east-2",
-          "awslogs-stream-prefix": "sg-director",
-          "mode": "non-blocking"
+          "awslogs-group": "/ecs/sandgarden-director",
+          "awslogs-region": "${aws_region}",
+          "awslogs-stream-prefix": "ecs"
         }
     },
     "portMappings": [
@@ -36,7 +35,7 @@
       {
         "name": "SAND_API_KEY",
         "valueFrom": "${sand_api_key_arn}"
-      },
+      }
     ],
     "volumesFrom":[],
     "systemControls":[],

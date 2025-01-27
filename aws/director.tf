@@ -53,9 +53,41 @@ resource "aws_ecs_service" "director-frontend" {
     assign_public_ip = false
   }
 
-  # load_balancer {
-  #   target_group_arn = aws_lb_target_group.director_nlb_tg.id
-  #   container_name   = "sandgarden-director-ctr"
-  #   container_port   = 8987
-  # }
+  load_balancer {
+    target_group_arn = aws_lb_target_group.director_nlb_tg.id
+    container_name   = "sandgarden-director-ctr"
+    container_port   = 8987
+  }
+}
+
+resource "aws_cloudwatch_log_group" "director" {
+  name              = "/ecs/sandgarden-director"
+  retention_in_days = 30
+
+  tags = {
+    Name = "${var.namespace}-director-logs"
+  }
+}
+
+resource "aws_appautoscaling_target" "director_target" {
+  max_capacity       = 10
+  min_capacity       = 2
+  resource_id        = "service/${aws_ecs_cluster.sandgarden_director_cluster.name}/${aws_ecs_service.director-frontend.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
+}
+
+resource "aws_appautoscaling_policy" "director_cpu" {
+  name               = "${var.namespace}-director-cpu-autoscaling"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.director_target.resource_id
+  scalable_dimension = aws_appautoscaling_target.director_target.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.director_target.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    target_value = 70
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
+  }
 }

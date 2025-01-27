@@ -30,10 +30,9 @@ resource "aws_ecs_service" "director-frontend" {
   desired_count   = 2
   launch_type     = "FARGATE"
 
-# TODO: define the security group
   network_configuration {
-    security_groups  = [aws_security_group.sandgarden_director.id]
-    subnets          = data.terraform_remote_state.network.outputs.vpc.private_subnets
+    security_groups  = [aws_security_group.sandgarden_director_sg.id]
+    subnets          = var.subnet_ids
     assign_public_ip = false
   }
 

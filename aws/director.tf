@@ -19,6 +19,15 @@ resource "aws_vpc_security_group_ingress_rule" "director_sg_rule_8443" {
   cidr_ipv4         = "0.0.0.0/0"
 }
 
+# Update port to match ECS container port
+resource "aws_vpc_security_group_ingress_rule" "director_sg_rule_8987" {
+  security_group_id = aws_security_group.sandgarden_director_sg.id
+  from_port         = 8987
+  to_port           = 8987
+  ip_protocol       = "tcp"
+  cidr_ipv4         = "0.0.0.0/0"  # Consider restricting this to NLB CIDR
+}
+
 resource "aws_vpc_security_group_egress_rule" "sandgarden_director_all_outbound" {
   security_group_id = aws_security_group.sandgarden_director_sg.id
   ip_protocol       = "-1"

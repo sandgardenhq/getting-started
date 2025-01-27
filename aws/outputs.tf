@@ -24,10 +24,6 @@ output "ecr_registry_url" {
   value = aws_ecr_repository.ecr.repository_url
 }
 
-output "binaries_bucket_name" {
-  value = aws_s3_bucket.director_binaries.id
-}
-
 output "namespace" {
   value = var.namespace
 }

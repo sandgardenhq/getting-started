@@ -31,18 +31,6 @@ data "aws_iam_policy_document" "director_policy" {
   statement {
     effect = "Allow"
     actions = [
-      "s3:GetObject",
-      "s3:ListBucket"
-    ]
-    resources = [
-      aws_s3_bucket.director_binaries.arn,
-      "${aws_s3_bucket.director_binaries.arn}/*"
-    ]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
       "ssm:GetParameter",
     ]
     resources = [aws_ssm_parameter.director_version.arn]

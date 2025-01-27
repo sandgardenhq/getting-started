@@ -27,9 +27,3 @@ resource "aws_ssm_parameter" "director_version" {
     Name = "${var.namespace}-director-version"
   }
 }
-
-resource "aws_ssm_parameter" "binaries_bucket_name" {
-  name  = "/${var.namespace}/director/binaries_bucket_name"
-  type  = "String"
-  value = aws_s3_bucket.director_binaries.id
-}

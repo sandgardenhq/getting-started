@@ -14,11 +14,14 @@ resource "aws_lb_target_group" "director_nlb_tg" {
   port        = 8443
   protocol    = "TCP"
   vpc_id      = var.vpc_id
-  target_type = "instance"
+  target_type = "ip"
 
   health_check {
-    protocol = "TCP"
-    port     = 8443
+    protocol            = "TCP"
+    port                = 8987
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    interval           = 30
   }
 }
 

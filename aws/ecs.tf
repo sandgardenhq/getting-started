@@ -25,7 +25,7 @@ resource "aws_ecs_task_definition" "sandgarden_director" {
 
 resource "aws_ecs_service" "director-frontend" {
   name            = "sandgarden-director-service"
-  cluster         = aws_ecs_cluster.sandgarden_director.id
+  cluster         = aws_ecs_cluster.sandgarden_director_cluster.id
   task_definition = aws_ecs_task_definition.sandgarden_director.arn
   desired_count   = 2
   launch_type     = "FARGATE"
@@ -34,7 +34,7 @@ resource "aws_ecs_service" "director-frontend" {
   network_configuration {
     security_groups  = [aws_security_group.sandgarden_director.id]
     subnets          = data.terraform_remote_state.network.outputs.vpc.private_subnets
-    assign_public_ip = true
+    assign_public_ip = false
   }
 
   load_balancer {

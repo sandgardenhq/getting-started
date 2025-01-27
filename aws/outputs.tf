@@ -16,10 +16,6 @@ output "ssm_parameter_name" {
   value = aws_ssm_parameter.director_version.name
 }
 
-output "asg_name" {
-  value = aws_autoscaling_group.sandgarden_director_asg.name
-}
-
 output "ecr_registry_url" {
   value = aws_ecr_repository.ecr.repository_url
 }

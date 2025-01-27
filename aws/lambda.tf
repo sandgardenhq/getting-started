@@ -38,7 +38,7 @@ resource "aws_iam_role" "lambda_demo_role" {
   })
 
   tags = {
-    Name = "${var.namespace}-lambda-demo-role"
+    Name = "${var.namespace}-lambda-role"
   }
 }
 

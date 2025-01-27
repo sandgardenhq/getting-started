@@ -1,0 +1,1 @@
+director: export $(cat .env | xargs) && ./.sandgarden/bin/sgdirector serve

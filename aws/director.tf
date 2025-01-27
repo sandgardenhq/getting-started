@@ -10,6 +10,7 @@ resource "aws_security_group" "sandgarden_director_sg" {
 }
 
 # Listen on port 8443
+# TODO: make this more appropriate
 resource "aws_vpc_security_group_ingress_rule" "director_sg_rule_8443" {
   security_group_id = aws_security_group.sandgarden_director_sg.id
   from_port         = 8443

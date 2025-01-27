@@ -2,11 +2,10 @@ resource "aws_ecs_cluster" "sandgarden_director_cluster" {
   name = "sandgarden-director-cluster"
 }
 
-# TODO: define the sg_director role
 resource "aws_ecs_task_definition" "sandgarden_director" {
   family                   = "sandgarden-director-task"
-  execution_role_arn       = aws_iam_role.sg_director.arn
-  task_role_arn            = aws_iam_role.sg_director.arn
+  execution_role_arn       = aws_iam_role.director_role.arn
+  task_role_arn            = aws_iam_role.director_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.fargate_cpu
@@ -24,7 +23,7 @@ resource "aws_ecs_task_definition" "sandgarden_director" {
   )
 }
 
-resource "aws_ecs_service" "frontend" {
+resource "aws_ecs_service" "director-frontend" {
   name            = "sandgarden-director-service"
   cluster         = aws_ecs_cluster.sandgarden_director.id
   task_definition = aws_ecs_task_definition.sandgarden_director.arn
@@ -38,10 +37,9 @@ resource "aws_ecs_service" "frontend" {
     assign_public_ip = true
   }
 
-# TODO: define the load balancer target group
   load_balancer {
-    target_group_arn = aws_lb_target_group.sandgarden_director_ecs_https.id
+    target_group_arn = aws_lb_target_group.director_nlb_tg.id
     container_name   = "sandgarden-director-ctr"
-    container_port   = 3000
+    container_port   = 8987
   }
 }

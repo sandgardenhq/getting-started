@@ -15,6 +15,15 @@ resource "aws_vpc_security_group_egress_rule" "sandgarden_director_all_outbound"
   cidr_ipv4         = "0.0.0.0/0"
 }
 
+resource "aws_vpc_security_group_egress_rule" "sandgarden_director_https" {
+  security_group_id = aws_security_group.sandgarden_director_sg.id
+  from_port         = 443
+  to_port           = 443
+  ip_protocol       = "tcp"
+  cidr_ipv4         = "0.0.0.0/0"
+  description       = "Allow outbound HTTPS"
+}
+
 resource "aws_ecs_cluster" "sandgarden_director_cluster" {
   name = "sandgarden-director-cluster"
 }
@@ -144,38 +153,12 @@ resource "aws_vpc_endpoint" "ecr_dkr" {
   }
 }
 
-# Create private route table
-resource "aws_route_table" "private" {
-  vpc_id = var.vpc_id
-
-  tags = {
-    Name = "${var.namespace}-private-rt"
-  }
-}
-
-# Associate private subnets with route table
-resource "aws_route_table_association" "private" {
-  count          = length(var.subnet_ids)
-  subnet_id      = var.subnet_ids[count.index]
-  route_table_id = aws_route_table.private.id
-}
-
-# Update S3 endpoint to use our route table
+# Update S3 endpoint to use existing route table
 resource "aws_vpc_endpoint" "s3" {
   vpc_id            = var.vpc_id
   service_name      = "com.amazonaws.${var.aws_region}.s3"
   vpc_endpoint_type = "Gateway"
-  route_table_ids   = [aws_route_table.private.id]  # Use our route table
-
-  tags = {
-    Name = "${var.namespace}-s3-endpoint"
-  }
-}
-
-# Remove the separate association since it's included in the endpoint
-resource "aws_vpc_endpoint_route_table_association" "private_s3" {
-  vpc_endpoint_id = aws_vpc_endpoint.s3.id
-  route_table_id  = aws_route_table.private.id
+  route_table_ids   = [data.aws_route_table.private.id]
 }
 
 # CloudWatch Logs endpoint
@@ -189,5 +172,60 @@ resource "aws_vpc_endpoint" "logs" {
 
   tags = {
     Name = "${var.namespace}-logs-endpoint"
+  }
+}
+
+# HTTPS endpoint for external API access
+resource "aws_vpc_endpoint" "https" {
+  vpc_id              = var.vpc_id
+  service_name        = "com.amazonaws.${var.aws_region}.execute-api"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = var.subnet_ids
+  security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
+  private_dns_enabled = false
+
+  tags = {
+    Name = "${var.namespace}-https-endpoint"
+  }
+}
+
+# Add route to internet via NAT Gateway for external API access
+resource "aws_route" "internet" {
+  route_table_id         = data.aws_route_table.private.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.main.id
+}
+
+# NAT Gateway for outbound internet access
+resource "aws_nat_gateway" "main" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = var.public_subnet_id
+
+  tags = {
+    Name = "${var.namespace}-nat"
+  }
+}
+
+# Elastic IP for NAT Gateway
+resource "aws_eip" "nat" {
+  domain = "vpc"
+}
+
+# Look up existing route tables
+data "aws_route_table" "private" {
+  vpc_id = var.vpc_id
+  
+  filter {
+    name   = "tag:Name"
+    values = ["*private*"]  # Adjust this filter based on your existing route table naming
+  }
+}
+
+data "aws_route_table" "public" {
+  vpc_id = var.vpc_id
+  
+  filter {
+    name   = "tag:Name"
+    values = ["*public*"]  # Adjust this filter based on your existing route table naming
   }
 }

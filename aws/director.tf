@@ -142,3 +142,37 @@ resource "aws_vpc_endpoint" "ecr_dkr" {
     Name = "${var.namespace}-ecr-dkr-endpoint"
   }
 }
+
+# Create private route table
+resource "aws_route_table" "private" {
+  vpc_id = var.vpc_id
+
+  tags = {
+    Name = "${var.namespace}-private-rt"
+  }
+}
+
+# Associate private subnets with route table
+resource "aws_route_table_association" "private" {
+  count          = length(var.subnet_ids)
+  subnet_id      = var.subnet_ids[count.index]
+  route_table_id = aws_route_table.private.id
+}
+
+# Update S3 endpoint to use our route table
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id            = var.vpc_id
+  service_name      = "com.amazonaws.${var.aws_region}.s3"
+  vpc_endpoint_type = "Gateway"
+  route_table_ids   = [aws_route_table.private.id]  # Use our route table
+
+  tags = {
+    Name = "${var.namespace}-s3-endpoint"
+  }
+}
+
+# Remove the separate association since it's included in the endpoint
+resource "aws_vpc_endpoint_route_table_association" "private_s3" {
+  vpc_endpoint_id = aws_vpc_endpoint.s3.id
+  route_table_id  = aws_route_table.private.id
+}

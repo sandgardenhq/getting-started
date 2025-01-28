@@ -51,7 +51,7 @@ resource "aws_ecs_service" "director-frontend" {
   network_configuration {
     security_groups  = [aws_security_group.sandgarden_director_sg.id]
     subnets          = var.subnet_ids
-    assign_public_ip = true
+    assign_public_ip = false
   }
 
   load_balancer {
@@ -175,4 +175,18 @@ resource "aws_vpc_endpoint" "s3" {
 resource "aws_vpc_endpoint_route_table_association" "private_s3" {
   vpc_endpoint_id = aws_vpc_endpoint.s3.id
   route_table_id  = aws_route_table.private.id
+}
+
+# CloudWatch Logs endpoint
+resource "aws_vpc_endpoint" "logs" {
+  vpc_id              = var.vpc_id
+  service_name        = "com.amazonaws.${var.aws_region}.logs"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = var.subnet_ids
+  security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
+  private_dns_enabled = true
+
+  tags = {
+    Name = "${var.namespace}-logs-endpoint"
+  }
 }

@@ -27,6 +27,16 @@ resource "aws_ecs_task_definition" "sandgarden_director" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.fargate_cpu
   memory                   = var.fargate_memory
+
+  volume {
+    name = "config"
+    docker_volume_configuration {
+      scope         = "task"
+      autoprovision = true
+      driver        = "local"
+    }
+  }
+
   container_definitions = templatefile(
     "./templates/ecs/director.json.tpl",
     {
@@ -36,6 +46,7 @@ resource "aws_ecs_task_definition" "sandgarden_director" {
       "sand_api_key_arn"      = aws_secretsmanager_secret.director_api_key.arn
       "sandgarden_ecr_repo_url" = aws_ssm_parameter.ecr_repo_url.value
       "aws_region"            = var.aws_region
+      "staticcfg_content"     = jsonencode({"restarted": true})
     }
   )
   depends_on = [aws_cloudwatch_log_group.director]

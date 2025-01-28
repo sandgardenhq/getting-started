@@ -211,21 +211,12 @@ resource "aws_eip" "nat" {
   domain = "vpc"
 }
 
-# Look up existing route tables
+# Look up existing private route table
 data "aws_route_table" "private" {
   vpc_id = var.vpc_id
   
   filter {
-    name   = "tag:Name"
-    values = ["*private*"]  # Adjust this filter based on your existing route table naming
-  }
-}
-
-data "aws_route_table" "public" {
-  vpc_id = var.vpc_id
-  
-  filter {
-    name   = "tag:Name"
-    values = ["*public*"]  # Adjust this filter based on your existing route table naming
+    name   = "tag:app"
+    values = ["*director-poc*"]  # Adjust this filter based on your existing route table naming
   }
 }

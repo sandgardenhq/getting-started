@@ -63,3 +63,8 @@ variable "director_version" {
   default     = "v0.400.0"
 }
 
+variable "public_subnet_id" {
+  description = "Public subnet ID for NAT Gateway"
+  type        = string
+}
+

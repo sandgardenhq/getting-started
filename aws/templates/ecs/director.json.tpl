@@ -7,12 +7,12 @@
     "memory": ${fargate_memory},
     "networkMode": "awsvpc",
     "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "/ecs/sandgarden-director",
-          "awslogs-region": "${aws_region}",
-          "awslogs-stream-prefix": "ecs"
-        }
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "/ecs/sandgarden-director",
+        "awslogs-region": "${aws_region}",
+        "awslogs-stream-prefix": "ecs"
+      }
     },
     "portMappings": [
       {
@@ -29,10 +29,6 @@
       {
         "name": "SAND_LOG_LEVEL",
         "value": "${sand_log_level}"
-      },
-      {
-        "name": "SAND_HOME",
-        "value": "/sandgarden"
       }
     ],
     "secrets": [
@@ -41,19 +37,8 @@
         "valueFrom": "${sand_api_key_arn}"
       }
     ],
-    "volumesFrom":[],
-    "systemControls":[],
-    "mountPoints": [
-      {
-        "sourceVolume": "config",
-        "containerPath": "/sandgarden",
-        "readOnly": false
-      }
-    ],
-    "entryPoint": [
-      "sh",
-      "-c",
-      "echo '${staticcfg_content}' > /sandgarden/staticcfg.json && /usr/local/bin/sgdirector serve"
-    ]
+    "volumesFrom": [],
+    "systemControls": [],
+    "mountPoints": []
   }
 ]

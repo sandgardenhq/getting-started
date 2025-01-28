@@ -201,3 +201,24 @@ resource "aws_iam_role_policy" "execution_secrets_policy" {
     ]
   })
 }
+
+resource "aws_iam_role_policy" "execution_logs_policy" {
+  name = "${var.namespace}-execution-logs-policy"
+  role = aws_iam_role.ecs_task_execution_role.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+        Resource = [
+          "${aws_cloudwatch_log_group.director.arn}:*"
+        ]
+      }
+    ]
+  })
+}

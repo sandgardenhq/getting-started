@@ -15,15 +15,6 @@ resource "aws_vpc_security_group_egress_rule" "sandgarden_director_all_outbound"
   cidr_ipv4         = "0.0.0.0/0"
 }
 
-resource "aws_vpc_security_group_egress_rule" "sandgarden_director_https" {
-  security_group_id = aws_security_group.sandgarden_director_sg.id
-  from_port         = 443
-  to_port           = 443
-  ip_protocol       = "tcp"
-  cidr_ipv4         = "0.0.0.0/0"
-  description       = "Allow outbound HTTPS"
-}
-
 resource "aws_ecs_cluster" "sandgarden_director_cluster" {
   name = "sandgarden-director-cluster"
 }
@@ -60,7 +51,7 @@ resource "aws_ecs_service" "director-frontend" {
 
   network_configuration {
     security_groups  = [aws_security_group.sandgarden_director_sg.id]
-    subnets          = var.subnet_ids
+    subnets         = [aws_subnet.private.id]
     assign_public_ip = false
   }
 
@@ -107,7 +98,7 @@ resource "aws_vpc_endpoint" "secretsmanager" {
   vpc_id              = var.vpc_id
   service_name        = "com.amazonaws.${var.aws_region}.secretsmanager"
   vpc_endpoint_type   = "Interface"
-  subnet_ids          = var.subnet_ids
+  subnet_ids          = [aws_subnet.private.id]
   security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
   private_dns_enabled = true
 
@@ -130,7 +121,7 @@ resource "aws_vpc_endpoint" "ecr_api" {
   vpc_id              = var.vpc_id
   service_name        = "com.amazonaws.${var.aws_region}.ecr.api"
   vpc_endpoint_type   = "Interface"
-  subnet_ids          = var.subnet_ids
+  subnet_ids          = [aws_subnet.private.id]
   security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
   private_dns_enabled = true
 
@@ -144,7 +135,7 @@ resource "aws_vpc_endpoint" "ecr_dkr" {
   vpc_id              = var.vpc_id
   service_name        = "com.amazonaws.${var.aws_region}.ecr.dkr"
   vpc_endpoint_type   = "Interface"
-  subnet_ids          = var.subnet_ids
+  subnet_ids          = [aws_subnet.private.id]
   security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
   private_dns_enabled = true
 
@@ -158,7 +149,7 @@ resource "aws_vpc_endpoint" "s3" {
   vpc_id            = var.vpc_id
   service_name      = "com.amazonaws.${var.aws_region}.s3"
   vpc_endpoint_type = "Gateway"
-  route_table_ids   = [data.aws_route_table.private.id]
+  route_table_ids   = [aws_route_table.private.id]
 }
 
 # CloudWatch Logs endpoint
@@ -166,7 +157,7 @@ resource "aws_vpc_endpoint" "logs" {
   vpc_id              = var.vpc_id
   service_name        = "com.amazonaws.${var.aws_region}.logs"
   vpc_endpoint_type   = "Interface"
-  subnet_ids          = var.subnet_ids
+  subnet_ids          = [aws_subnet.private.id]
   security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
   private_dns_enabled = true
 
@@ -180,43 +171,11 @@ resource "aws_vpc_endpoint" "https" {
   vpc_id              = var.vpc_id
   service_name        = "com.amazonaws.${var.aws_region}.execute-api"
   vpc_endpoint_type   = "Interface"
-  subnet_ids          = var.subnet_ids
+  subnet_ids          = [aws_subnet.private.id]
   security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
   private_dns_enabled = false
 
   tags = {
     Name = "${var.namespace}-https-endpoint"
-  }
-}
-
-# Add route to internet via NAT Gateway for external API access
-resource "aws_route" "internet" {
-  route_table_id         = data.aws_route_table.private.id
-  destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.main.id
-}
-
-# NAT Gateway for outbound internet access
-resource "aws_nat_gateway" "main" {
-  allocation_id = aws_eip.nat.id
-  subnet_id     = var.public_subnet_id
-
-  tags = {
-    Name = "${var.namespace}-nat"
-  }
-}
-
-# Elastic IP for NAT Gateway
-resource "aws_eip" "nat" {
-  domain = "vpc"
-}
-
-# Look up existing private route table
-data "aws_route_table" "private" {
-  vpc_id = var.vpc_id
-  
-  filter {
-    name   = "tag:app"
-    values = ["*director-poc*"]  # Adjust this filter based on your existing route table naming
   }
 }

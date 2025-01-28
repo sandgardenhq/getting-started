@@ -57,3 +57,9 @@ variable "fargate_memory" {
   default     = 2048
 }
 
+variable "director_version" {
+  description = "Version of the Sandgarden Director image to use. If not specified, latest non-latest tag will be used."
+  type        = string
+  default     = "v0.400.0"
+}
+

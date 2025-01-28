@@ -176,3 +176,28 @@ resource "aws_vpc_endpoint_route_table_association" "private_s3" {
   vpc_endpoint_id = aws_vpc_endpoint.s3.id
   route_table_id  = aws_route_table.private.id
 }
+
+# Elastic IP for NAT Gateway
+resource "aws_eip" "nat" {
+  domain = "vpc"
+  tags = {
+    Name = "${var.namespace}-nat-eip"
+  }
+}
+
+# NAT Gateway
+resource "aws_nat_gateway" "main" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = var.public_subnet_id  # This needs to be in a public subnet
+
+  tags = {
+    Name = "${var.namespace}-nat-gateway"
+  }
+}
+
+# Add route to NAT Gateway in private route table
+resource "aws_route" "private_nat_gateway" {
+  route_table_id         = aws_route_table.private.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.main.id
+}

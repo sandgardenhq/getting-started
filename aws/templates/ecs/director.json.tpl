@@ -29,6 +29,10 @@
       {
         "name": "SAND_LOG_LEVEL",
         "value": "${sand_log_level}"
+      },
+      {
+        "name": "SAND_HOME",
+        "value": "/sandgarden"
       }
     ],
     "secrets": [
@@ -39,6 +43,17 @@
     ],
     "volumesFrom":[],
     "systemControls":[],
-    "mountPoints":[]
+    "mountPoints": [
+      {
+        "sourceVolume": "config",
+        "containerPath": "/sandgarden",
+        "readOnly": false
+      }
+    ],
+    "entryPoint": [
+      "sh",
+      "-c",
+      "echo '${staticcfg_content}' > /sandgarden/staticcfg.json && /usr/local/bin/sgdirector serve"
+    ]
   }
 ]

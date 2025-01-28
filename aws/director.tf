@@ -38,6 +38,7 @@ resource "aws_ecs_task_definition" "sandgarden_director" {
       "aws_region"            = var.aws_region
     }
   )
+  depends_on = [aws_cloudwatch_log_group.director]
 }
 
 resource "aws_ecs_service" "director-frontend" {

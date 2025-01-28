@@ -17,11 +17,6 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "subnet_ids" {
-  description = "List of subnet IDs for the ECS service"
-  type        = list(string)
-}
-
 variable "aws_region" {
   description = "AWS region to deploy resources"
   type        = string
@@ -63,8 +58,13 @@ variable "director_version" {
   default     = "v0.400.0"
 }
 
-variable "public_subnet_id" {
-  description = "Public subnet ID for NAT Gateway"
+variable "public_subnet_cidr" {
+  description = "CIDR block for public subnet"
+  type        = string
+}
+
+variable "private_subnet_cidr" {
+  description = "CIDR block for private subnet"
   type        = string
 }
 

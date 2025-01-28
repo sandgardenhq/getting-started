@@ -2,7 +2,7 @@ resource "aws_lb" "director_nlb" {
   name               = "${var.namespace}-director-nlb"
   internal           = false
   load_balancer_type = "network"
-  subnets            = var.subnet_ids
+  subnets            = [aws_subnet.private.id]
 
   tags = {
     Name = "${var.namespace} Director NLB"

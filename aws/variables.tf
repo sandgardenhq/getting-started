@@ -42,7 +42,7 @@ variable "sand_api_key" {
 variable "sandgarden_ecr_repo_url" {
   description = "URL of the ECR repository containing the Sandgarden Director image"
   type        = string
-  default     = "public.ecr.aws/h7j2x0j6/sandgarden-director"
+  default     = "public.ecr.aws"  # Changed to just the registry domain
 }
 
 variable "fargate_cpu" {

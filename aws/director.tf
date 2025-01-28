@@ -21,8 +21,8 @@ resource "aws_ecs_cluster" "sandgarden_director_cluster" {
 
 resource "aws_ecs_task_definition" "sandgarden_director" {
   family                   = "sandgarden-director-task"
-  execution_role_arn       = aws_iam_role.director_role.arn
-  task_role_arn            = aws_iam_role.director_role.arn
+  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn 
+  task_role_arn     = aws_iam_role.director_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.fargate_cpu
@@ -34,7 +34,7 @@ resource "aws_ecs_task_definition" "sandgarden_director" {
       "fargate_memory"        = var.fargate_memory
       "sand_log_level"        = "DEBUG"
       "sand_api_key_arn"      = aws_secretsmanager_secret.director_api_key.arn
-      "sandgarden_ecr_repo_url" = var.sandgarden_ecr_repo_url
+      "sandgarden_ecr_repo_url" = aws_ssm_parameter.ecr_repo_url.value
       "aws_region"            = var.aws_region
     }
   )
@@ -112,4 +112,32 @@ resource "aws_vpc_security_group_ingress_rule" "director_secretsmanager" {
   ip_protocol       = "tcp"
   description       = "Allow HTTPS access to Secrets Manager VPC Endpoint"
   referenced_security_group_id = aws_security_group.sandgarden_director_sg.id
+}
+
+# ECR API endpoint
+resource "aws_vpc_endpoint" "ecr_api" {
+  vpc_id              = var.vpc_id
+  service_name        = "com.amazonaws.${var.aws_region}.ecr.api"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = var.subnet_ids
+  security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
+  private_dns_enabled = true
+
+  tags = {
+    Name = "${var.namespace}-ecr-api-endpoint"
+  }
+}
+
+# ECR DKR endpoint for pulling images
+resource "aws_vpc_endpoint" "ecr_dkr" {
+  vpc_id              = var.vpc_id
+  service_name        = "com.amazonaws.${var.aws_region}.ecr.dkr"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = var.subnet_ids
+  security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
+  private_dns_enabled = true
+
+  tags = {
+    Name = "${var.namespace}-ecr-dkr-endpoint"
+  }
 }

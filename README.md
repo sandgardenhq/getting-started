@@ -1,7 +1,5 @@
 # Getting Started with Sandgarden
 
-# Getting Started with Sandgarden
-
 Sandgarden is a platform to prototype, iterate, and deploy AI applications. It eliminates the overhead of:
 
 1. Configuring and creating pipelines for AI tools and processes

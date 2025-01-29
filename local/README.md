@@ -58,7 +58,7 @@ Same as dev container, but run remotely in Codespaces:
 
 4. Edit `.env` and replace `YOUR_SAND_API_KEY` with your actual Sand API key
 
-5. Rebuild the container
+5. Codespaces should prompt you to rebuild the container. If not open the command palette and select "Rebuild Container". _This will take a few minutes but you should only have to do it once._
 
 ## Vanilla Binary
 

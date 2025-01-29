@@ -38,3 +38,4 @@ terraform.rc
 .env
 *.db
 *.lock.hcl
+staticcfg.json

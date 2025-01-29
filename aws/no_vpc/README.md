@@ -34,7 +34,6 @@ sand health # Health check?
 
 * namespace ("sandgarden" by default)
 * vpc_id
-* subnet_ids
 * include_sample_database=true
 
 ## Outputs

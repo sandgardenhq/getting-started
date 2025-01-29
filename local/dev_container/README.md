@@ -1,9 +1,10 @@
 # Dev Container Development Mode
 
 This configuration provides a complete development environment for Sandgarden workflows:
+
 - VS Code configured with Python tooling
 - Sandgarden Director running as a sidecar service
-- Full workspace mounting and Docker access
+- Your code is mounted in the container as `/workspaces/sandgarden`
 
 ## Setup
 

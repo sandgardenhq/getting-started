@@ -1,8 +1,18 @@
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
+}
+
+data "aws_vpc" "default" {
+  default = true
+}
+
 # Security group for director
 resource "aws_security_group" "sandgarden_director_sg" {
   name        = "${var.namespace}-director-sg"
   description = "Security group for sandgarden director"
-  vpc_id      = var.vpc_id
 
   tags = {
     Name = "${var.namespace} Sandgarden Director SG"
@@ -51,8 +61,8 @@ resource "aws_ecs_service" "director-frontend" {
 
   network_configuration {
     security_groups  = [aws_security_group.sandgarden_director_sg.id]
-    subnets         = [aws_subnet.private.id]
-    assign_public_ip = false
+    subnets         = data.aws_subnets.default.ids
+    assign_public_ip = true
   }
 
   load_balancer {
@@ -91,91 +101,5 @@ resource "aws_appautoscaling_policy" "director_cpu" {
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
-  }
-}
-
-resource "aws_vpc_endpoint" "secretsmanager" {
-  vpc_id              = var.vpc_id
-  service_name        = "com.amazonaws.${var.aws_region}.secretsmanager"
-  vpc_endpoint_type   = "Interface"
-  subnet_ids          = [aws_subnet.private.id]
-  security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
-  private_dns_enabled = true
-
-  tags = {
-    Name = "${var.namespace}-secretsmanager-endpoint"
-  }
-}
-
-resource "aws_vpc_security_group_ingress_rule" "director_secretsmanager" {
-  security_group_id = aws_security_group.sandgarden_director_sg.id
-  from_port         = 443
-  to_port           = 443
-  ip_protocol       = "tcp"
-  description       = "Allow HTTPS access to Secrets Manager VPC Endpoint"
-  referenced_security_group_id = aws_security_group.sandgarden_director_sg.id
-}
-
-# ECR API endpoint
-resource "aws_vpc_endpoint" "ecr_api" {
-  vpc_id              = var.vpc_id
-  service_name        = "com.amazonaws.${var.aws_region}.ecr.api"
-  vpc_endpoint_type   = "Interface"
-  subnet_ids          = [aws_subnet.private.id]
-  security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
-  private_dns_enabled = true
-
-  tags = {
-    Name = "${var.namespace}-ecr-api-endpoint"
-  }
-}
-
-# ECR DKR endpoint for pulling images
-resource "aws_vpc_endpoint" "ecr_dkr" {
-  vpc_id              = var.vpc_id
-  service_name        = "com.amazonaws.${var.aws_region}.ecr.dkr"
-  vpc_endpoint_type   = "Interface"
-  subnet_ids          = [aws_subnet.private.id]
-  security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
-  private_dns_enabled = true
-
-  tags = {
-    Name = "${var.namespace}-ecr-dkr-endpoint"
-  }
-}
-
-# Update S3 endpoint to use existing route table
-resource "aws_vpc_endpoint" "s3" {
-  vpc_id            = var.vpc_id
-  service_name      = "com.amazonaws.${var.aws_region}.s3"
-  vpc_endpoint_type = "Gateway"
-  route_table_ids   = [aws_route_table.private.id]
-}
-
-# CloudWatch Logs endpoint
-resource "aws_vpc_endpoint" "logs" {
-  vpc_id              = var.vpc_id
-  service_name        = "com.amazonaws.${var.aws_region}.logs"
-  vpc_endpoint_type   = "Interface"
-  subnet_ids          = [aws_subnet.private.id]
-  security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
-  private_dns_enabled = true
-
-  tags = {
-    Name = "${var.namespace}-logs-endpoint"
-  }
-}
-
-# HTTPS endpoint for external API access
-resource "aws_vpc_endpoint" "https" {
-  vpc_id              = var.vpc_id
-  service_name        = "com.amazonaws.${var.aws_region}.execute-api"
-  vpc_endpoint_type   = "Interface"
-  subnet_ids          = [aws_subnet.private.id]
-  security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
-  private_dns_enabled = false
-
-  tags = {
-    Name = "${var.namespace}-https-endpoint"
   }
 }

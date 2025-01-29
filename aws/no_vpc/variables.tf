@@ -12,11 +12,6 @@ variable "tags" {
   }
 }
 
-variable "vpc_id" {
-  description = "VPC ID where resources will be deployed"
-  type        = string
-}
-
 variable "aws_region" {
   description = "AWS region to deploy resources"
   type        = string
@@ -57,14 +52,3 @@ variable "director_version" {
   type        = string
   default     = "v0.400.0"
 }
-
-variable "public_subnet_cidr" {
-  description = "CIDR block for public subnet"
-  type        = string
-}
-
-variable "private_subnet_cidr" {
-  description = "CIDR block for private subnet"
-  type        = string
-}
-

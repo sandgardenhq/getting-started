@@ -4,6 +4,7 @@ services:
     volumes:
       - ..:/workspaces/sandgarden:cached
       - /var/run/docker.sock:/var/run/docker.sock
+      - setup.sh:/workspaces/sandgarden/setup.sh
     command: sleep infinity
     user: vscode
     init: true

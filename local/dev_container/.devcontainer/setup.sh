@@ -6,7 +6,9 @@
 
 echo "Setting up devcontainer"
 echo "Downloading Sandgarden CLI..."
-sudo curl https://api.sandgarden.com/api/v1/assets/sand/latest/sand_linux_amd64 -L -o /usr/local/bin/sand
+curl https://api.sandgarden.com/api/v1/assets/sand/latest/sand_linux_amd64 -L -o sand
+sudo mv sand /usr/local/bin/sand
+sudo chown vscode:vscode /usr/local/bin/sand
 sudo chmod 0755 /usr/local/bin/sand
 sudo chown -R vscode:vscode /workspaces/sandgarden
 echo "Done"

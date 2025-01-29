@@ -49,5 +49,5 @@
       ]
     }
   },
-  "postCreateCommand": "sudo chown -R vscode:vscode /workspaces/sandgarden"
+  "postCreateCommand": "sh /workspaces/sandgarden/setup.sh"
 }

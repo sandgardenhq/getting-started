@@ -17,13 +17,11 @@ resource "aws_lb_target_group" "director_nlb_tg" {
   target_type = "ip"
 
   health_check {
-    protocol            = "HTTP"
+    protocol            = "TCP"
     port                = 8987
-    path               = "/health"
     healthy_threshold   = 3
     unhealthy_threshold = 3
     interval           = 30
-    matcher            = "200-399"
   }
 }
 

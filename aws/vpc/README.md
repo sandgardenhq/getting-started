@@ -55,14 +55,3 @@ If you used include_sample_database:
 * Role/Instance Profile for directors to assume
 * Basic example role for lambda workflows to run as
 * The ECR repo where lambda docker images are built and stored
-
-## Private Cloud Director Notes
-
-### Questions
-* Will customers be able to fetch the AMI we have specified?
-
-### TODO
-
-* [ ] Make lambda policy customizable
-* [ ] Kill docker in EC2
-* [ ] Replace with ECS pulling our director image from ECR

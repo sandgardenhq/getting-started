@@ -2,7 +2,7 @@ resource "aws_lb" "director_nlb" {
   name               = "${var.namespace}-director-nlb"
   internal           = false
   load_balancer_type = "network"
-  subnets            = [aws_subnet.private.id]
+  subnets            = data.aws_subnets.default.ids
   security_groups    = [aws_security_group.nlb_sg.id]
 
   tags = {
@@ -14,8 +14,8 @@ resource "aws_lb_target_group" "director_nlb_tg" {
   name        = "${var.namespace}-director-tg"
   port        = 8987
   protocol    = "TCP"
-  vpc_id      = var.vpc_id
   target_type = "ip"
+  vpc_id      = data.aws_vpc.default.id
 
   health_check {
     protocol            = "TCP"
@@ -41,7 +41,6 @@ resource "aws_lb_listener" "director_nlb" {
 resource "aws_security_group" "nlb_sg" {
   name        = "${var.namespace}-nlb-sg-2"
   description = "Security group for Network Load Balancer"
-  vpc_id      = var.vpc_id
 
   tags = {
     Name = "${var.namespace}-nlb-sg"

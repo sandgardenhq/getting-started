@@ -39,3 +39,4 @@ terraform.rc
 *.db
 *.lock.hcl
 staticcfg.json
+setup.sh

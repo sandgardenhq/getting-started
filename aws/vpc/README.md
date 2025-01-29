@@ -1,9 +1,14 @@
-# Director Deployment
+# Director Deployment in AWS VPC
 
-This is an example of how to deploy a Sandgarden director pool
-into your private infrastructure.
+This guide demonstrates how to deploy a Sandgarden director pool into your private AWS infrastructure. The deployment:
+- Creates a highly available director pool
+- Configures secure network access
+- Sets up monitoring and logging
 
-It assumes you have a private VPC already set up where your director pool will live.
+## Prerequisites
+- Existing AWS VPC
+- AWS CLI configured with appropriate permissions
+- Terraform or OpenTofu installed locally
 
 ## Inputs
 
@@ -18,17 +23,29 @@ Optional:
 
 ## Usage
 
+1. Copy the example variables file and edit it with your specific values.
+
 ```bash
 cp terraform.tfvars.example terraform.tfvars
+```
 
-# Set the variables as needed
-# namespace="sandgarden-poc or YOUR NAMESPACE HERE"
-# vpc_id="YOUR VPC ID HERE"
-# tags={ app = "sandgarden", role = "director" }
-# sand_api_key="YOUR API KEY HERE"
-# public_subnet_cidr = "10.0.1.0/24"  # Adjust based on your VPC CIDR
-# private_subnet_cidr = "10.0.2.0/24"  # Adjust based on your VPC CIDR
+```hcl 
+namespace = "sandgarden-poc"              # Your unique identifier
+vpc_id    = "vpc-1234567890abcdef0"      # Your VPC ID
+tags      = {
+  app  = "sandgarden"
+  role = "director"
+}
+sand_api_key = "your_api_key_here"
 
+# Network Configuration
+public_subnet_cidr  = "10.0.1.0/24"      # Must be within VPC CIDR
+private_subnet_cidr = "10.0.2.0/24"      # Must be within VPC CIDR
+```
+
+2. Initialize Terraform and apply the configuration.
+
+```bash
 tofu init
 tofu apply
 ```

@@ -1,7 +1,6 @@
 import sandgarden_runtime
 import json
 import random
-from .schema import Question, Answer, HandlerResponse
 
 def handler(input, sandgarden, runtime_context):
     bucket_name = "sandgarden-trivia-challenge"
@@ -17,7 +16,7 @@ def handler(input, sandgarden, runtime_context):
     dataset = response['Body'].read().decode('utf-8')
     
     # Parse the JSONL
-    questions = [Question(**json.loads(line)) for line in dataset.splitlines()]
+    questions = [json.loads(line) for line in dataset.splitlines()]
     
     # Choose twenty questions at random
     to_answer = random.sample(questions, 20)
@@ -26,17 +25,17 @@ def handler(input, sandgarden, runtime_context):
     answers = []
     for question in to_answer:
         answer = answer_question(openai, prompt(question))
-        answers.append(Answer(question=question, answer=answer))
+        answers.append({"question" : question, "answer" : answer})
         
-    return HandlerResponse(answers=answers).dict()
+    return {"answers": answers}
 
 def prompt(question):
-    q = question.question_text
-    p = question.paragraph_text
+    q = question['question_text']
+    p = question['paragraph_text']
     return f"Do your best to answer the following question: {q}\n\nThe answer is contained in the following text: {p}\n\nOnly answer based on the information in the text."
     
 def answer_question(openai, context):
-    res = openai.beta.chat.completions.create(
+    res = openai.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {"role": "user", "content": context}

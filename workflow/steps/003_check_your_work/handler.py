@@ -1,5 +1,10 @@
 import sandgarden_runtime
-from .schema import HandlerResponse, Judgment
+from pydantic import BaseModel
+
+class Judgment(BaseModel):
+    question_id: str
+    correct: bool
+    explanation: str
 
 system_prompt = """You are an evaluator tasked with determining whether an answer matches the information provided in a reference text. Your job is to check if the answer aligns with what the text states, regardless of whether the text contains accurate real-world information.
 
@@ -24,7 +29,7 @@ id should be the id of the question you were given.
 
 
 
-def handler(input: HandlerResponse, sandgarden, runtime_context):
+def handler(input, sandgarden, runtime_context):
     # Initialize the OpenAI connectors
     sandgarden_runtime.initialize_connectors(['trivia-openai'], sandgarden)
     openai = sandgarden.connectors['trivia-openai']
@@ -34,7 +39,7 @@ def handler(input: HandlerResponse, sandgarden, runtime_context):
         id = response['question']['question_id']
         question = response['question']['question_text']
         reference_text = response['question']['paragraph_text']
-        answer = response['question']['annotation']['paragraph_reference']['string']
+        answer = response['question']['annotation']['answer'][0]['paragraph_reference']['string']
         given_answer = response['answer']
         judgment = evaluate_answer(openai, id, question, reference_text, answer, given_answer)
         judgements.append(judgment)
@@ -50,7 +55,7 @@ Answer: {given_answer}
 Given Answer: {answer}
 """
         
-    return openai.beta.chat.completions.parse(
+    res = openai.beta.chat.completions.parse(
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": system_prompt},
@@ -58,3 +63,5 @@ Given Answer: {answer}
         ],
         response_format=Judgment
     )        
+    
+    return res.choices[0].message.parsed.dict()

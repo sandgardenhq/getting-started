@@ -17,11 +17,14 @@ Important rules:
 For each evaluation, you will receive:
 - A question
 - A reference text
+- The correct answer based on the reference text
 - The answer given
 
-Please evaluate whether the answer correctly represents what is stated in the text. 
-If the answer accurately reflects the information in the text then correct should be true, 
-if the answer contradicts or does not match the information in the text then correct should be false.
+Please evaluate whether the given answer correctly represents what is stated in the text.
+It should be the same as the correct answer provided in the reference text but does not need to match
+the text exactly. 
+If the answer accurately reflects the information in the text and the correct answer then correct should be true, 
+if the answer contradicts the text or does not match the the correct answer then correct should be false.
 
 The explanation should be a string that explains why the answer is correct or incorrect citing specific evidence from the text.
 id should be the id of the question you were given.
@@ -51,7 +54,7 @@ def evaluate_answer(openai, id, question, reference_text, answer, given_answer):
 ID: {id}
 Question: {question}
 Reference Text: {reference_text}
-Answer: {given_answer}
+Correct Answer: {given_answer}
 Given Answer: {answer}
 """
         

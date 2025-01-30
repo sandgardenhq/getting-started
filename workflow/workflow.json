@@ -1,0 +1,21 @@
+{
+  "id": "wrk_01jjt03nf0e6ntm27ze6nrkmra",
+  "name": "trivia",
+  "version": 1,
+  "config": {
+    "stages": [
+      {
+        "name": "stage0",
+        "input": "runInput",
+        "workflowRunInput": true,
+        "workflow": "load-trivia-dataset:latest",
+        "step": "load-trivia-dataset:latest"
+      }
+    ]
+  },
+  "connectors": null,
+  "url": "https://api.sandgarden.com/api/v1/workflows/trivia:1",
+  "inputSchema": "{}",
+  "outputSchema": "{}",
+  "description": "An example workflow using GPT-4o-mini to answer questions from the CF-TriviaQA Dataset"
+}

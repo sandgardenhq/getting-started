@@ -7,10 +7,10 @@ def handler(input, sandgarden, runtime_context):
     bucket_name = "sandgarden-trivia-challenge"
     key = "har_dataset.jsonl"
     
-    # Initialize S3 and OpenAI modules
-    sandgarden_runtime.initialize_modules(['sandgarden-trivia-challenge', 'trivia-openai'], sandgarden)
-    s3 = sandgarden.modules['sandgarden-trivia-challenge']['s3']
-    openai = sandgarden.modules['trivia-openai']
+    # Initialize S3 and OpenAI connectors
+    sandgarden_runtime.initialize_connectors(['sandgarden-trivia-challenge', 'trivia-openai'], sandgarden)
+    s3 = sandgarden.connectors['sandgarden-trivia-challenge']['s3']
+    openai = sandgarden.connectors['trivia-openai']
     
     # Load the file from S3
     response = s3.get_object(Bucket=bucket_name, Key=key)

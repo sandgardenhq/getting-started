@@ -6,9 +6,9 @@ def handler(input, sandgarden, runtime_context):
     bucket_name = "sandgarden-trivia-challenge"
     key = "har_dataset.jsonl"
     
-    # Initialize S3 module
-    sandgarden_runtime.initialize_modules(['sandgarden-trivia-challenge'], sandgarden)
-    s3 = sandgarden.modules['sandgarden-trivia-challenge']['s3']
+    # Initialize S3 connector
+    sandgarden_runtime.initialize_connectors(['sandgarden-trivia-challenge'], sandgarden)
+    s3 = sandgarden.connectors['sandgarden-trivia-challenge']['s3']
     
     # Check if the key exists in the bucket
     try:

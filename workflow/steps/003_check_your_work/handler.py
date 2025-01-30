@@ -25,9 +25,9 @@ id should be the id of the question you were given.
 
 
 def handler(input: HandlerResponse, sandgarden, runtime_context):
-    # Initialize the OpenAI module
-    sandgarden_runtime.initialize_modules(['trivia-openai'], sandgarden)
-    openai = sandgarden.modules['trivia-openai']
+    # Initialize the OpenAI connectors
+    sandgarden_runtime.initialize_connectors(['trivia-openai'], sandgarden)
+    openai = sandgarden.connectors['trivia-openai']
     
     judgements = []
     for response in input['answers']:

@@ -3,9 +3,10 @@
     "essential": true,
     "name": "sandgarden-director-ctr",
     "image": "${sandgarden_ecr_repo_url}",
-    "cpu": ${fargate_cpu},
-    "memory": ${fargate_memory},
-    "networkMode": "awsvpc",
+    "privileged": true,
+    "cpu": ${task_cpu},
+    "memory": ${task_memory},
+    "networkMode": "host",
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {

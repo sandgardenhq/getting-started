@@ -15,6 +15,6 @@ This configuration provides a complete development environment for Sandgarden wo
 
 2. Edit `.env` and replace `YOUR_SAND_API_KEY` with your actual Sand API key
 
-3. Open this directory in VS Code and click "Reopen in Container" when prompted
+3. Open this directory in VS Code and click "Reopen in Container" when prompted (or use the control pane if not prompted)
 
 The Director service will be available at `http://localhost:8987` and visible in the [Sandgarden UI](https://app.sandgarden.com). Your workspace will be mounted and ready for workflow development.

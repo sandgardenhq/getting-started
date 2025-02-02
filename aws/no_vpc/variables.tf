@@ -15,7 +15,7 @@ variable "tags" {
 variable "aws_region" {
   description = "AWS region to deploy resources"
   type        = string
-  default     = "us-east-2"  # Adjust default as needed
+  default     = "us-east-1"  # Adjust default as needed
 }
 
 variable "ecr_repository_name" {
@@ -50,5 +50,5 @@ variable "fargate_memory" {
 variable "director_version" {
   description = "Version of the Sandgarden Director image to use. If not specified, latest non-latest tag will be used."
   type        = string
-  default     = "v0.400.0"
+  default     = "v0.416.0"
 }

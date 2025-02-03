@@ -1,68 +1,82 @@
-# Director Deployment
+# Director Deployment in AWS VPC
 
-This is an example of how to deploy a Sandgarden director pool
-into your private infrastructure.
+This guide demonstrates how to deploy a Sandgarden director pool into your private AWS infrastructure. The deployment:
+- Creates a highly available director pool
+- Configures secure network access
+- Sets up monitoring and logging
 
-It assumes you have a private VPC already set up where your director pool will live.
-
-## Usage
-
-```bash
-cp terraform.tfvars.example terraform.tfvars
-# Set the variables as needed
-
-tofu init
-tofu apply
-
-# Update the secrets manager value for the key 'apiKey'
-
-# Set the ASG count to 1 in director.tf
-tofu apply
-
-# This file will be referenced with the vars needed for various other setup
-tofu output -json > outputs.json
-
-# Initiate a deploy
-./roll_asg.sh director v0.290.0 "$(tofu output -raw namespace)"
-
-# Your CLI expects this value to be set to the NLB of your director pool
-export SAND_BACKEND_URL="https://$(tofu output -raw nlb_dns)"
-sand health # Health check?
-```
+## Prerequisites
+- Existing AWS VPC
+- AWS CLI configured with appropriate permissions
+- Terraform or OpenTofu installed locally
 
 ## Inputs
 
-* namespace ("sandgarden" by default)
-* vpc_id
-* include_sample_database=true
+Required:
+* `namespace` - Unique identifier for your deployment (e.g., "sandgarden-poc")
+* `vpc_id` - ID of your existing VPC where resources will be deployed
+* `sand_api_key` - Your Sandgarden API key for director authentication
+
+Optional:
+* `tags` - Map of tags to apply to all resources (default: `{ app = "sandgarden", role = "director" }`)
+* `aws_region` - AWS region for deployment (default: "us-west-2")
+
+## Usage
+
+1. Copy the example variables file and edit it with your specific values.
+
+```bash
+cp terraform.tfvars.example terraform.tfvars
+```
+
+```hcl 
+namespace = "sandgarden-poc"              # Your unique identifier
+vpc_id    = "vpc-1234567890abcdef0"      # Your VPC ID
+tags      = {
+  app  = "sandgarden"
+  role = "director"
+}
+sand_api_key = "your_api_key_here"
+
+# Network Configuration
+public_subnet_cidr  = "10.0.1.0/24"      # Must be within VPC CIDR
+private_subnet_cidr = "10.0.2.0/24"      # Must be within VPC CIDR
+```
+
+2. Initialize Terraform and apply the configuration.
+
+```bash
+tofu init
+tofu apply
+```
 
 ## Outputs
 
-* director_secret_arn
-* lambda_role_arn
-* nlb_dns
+* `lambda_role_arn` - ARN of the IAM role created for Lambda functions to use
+* `ecr_registry_url` - URL of the ECR repository where container images are stored
 
-If you used include_sample_database:
-* db_host
-* db_port
-* db_name
-* db_username
-* db_password
+## Resources Created
 
-## Resources created
+This Terraform configuration creates the following AWS resources:
 
-* ASG for directors
-* Role/Instance Profile for directors to assume
-* Basic example role for lambda workflows to run as
-* The ECR repo where lambda docker images are built and stored
+Network Resources:
+* Network Load Balancer in public subnets
+* VPC Endpoints for ECR, CloudWatch Logs, and Secrets Manager
+* Security groups for NLB and ECS tasks
 
-## Private Cloud Director Notes
+Container Resources:
+* ECS Fargate cluster
+* ECS task definition and service
+* ECR repository with pull-through cache
+* CloudWatch log group for container logs
 
-### Questions
-* Will customers be able to fetch the AMI we have specified?
+IAM Resources:
+* ECS task execution role
+* ECS task role
+* Lambda execution role
 
-### TODO
+Other:
+* Secrets Manager secret for API key
+* SSM Parameter for ECR repository URL
 
-* [ ] Make lambda policy customizable
-* [ ] Kill docker in EC2
-* [ ] Replace with ECS pulling our director image from ECR
+

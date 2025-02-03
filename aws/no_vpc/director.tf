@@ -33,16 +33,16 @@ resource "aws_ecs_task_definition" "sandgarden_director" {
   family                   = "sandgarden-director-task"
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn 
   task_role_arn     = aws_iam_role.director_role.arn
-  network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
-  cpu                      = var.fargate_cpu
-  memory                   = var.fargate_memory
+  network_mode             = "host"
+  requires_compatibilities = ["EC2"]
+  cpu                      = var.task_cpu
+  memory                   = var.task_memory
 
   container_definitions = templatefile(
     "./templates/ecs/director.json.tpl",
     {
-      "fargate_cpu"           = var.fargate_cpu
-      "fargate_memory"        = var.fargate_memory
+      "task_cpu"           = var.task_cpu
+      "task_memory"        = var.task_memory
       "sand_log_level"        = "DEBUG"
       "sand_api_key_arn"      = aws_secretsmanager_secret.director_api_key.arn
       "sandgarden_ecr_repo_url" = aws_ssm_parameter.ecr_repo_url.value
@@ -57,12 +57,11 @@ resource "aws_ecs_service" "director-frontend" {
   cluster         = aws_ecs_cluster.sandgarden_director_cluster.id
   task_definition = aws_ecs_task_definition.sandgarden_director.arn
   desired_count   = 2
-  launch_type     = "FARGATE"
+  launch_type     = "EC2"
 
   network_configuration {
     security_groups  = [aws_security_group.sandgarden_director_sg.id]
     subnets         = data.aws_subnets.default.ids
-    assign_public_ip = true
   }
 
   load_balancer {
@@ -78,6 +77,33 @@ resource "aws_cloudwatch_log_group" "director" {
 
   tags = {
     Name = "${var.namespace}-director-logs"
+  }
+}
+
+resource "aws_ecs_capacity_provider" "director" {
+  name = "${var.namespace}-ecs-ec2"
+
+  auto_scaling_group_provider {
+    auto_scaling_group_arn         = aws_autoscaling_group.director_ecs.arn
+    managed_termination_protection = "DISABLED"
+
+    managed_scaling {
+      maximum_scaling_step_size = 2
+      minimum_scaling_step_size = 1
+      status                    = "ENABLED"
+      target_capacity           = 100
+    }
+  }
+}
+
+resource "aws_ecs_cluster_capacity_providers" "main" {
+  cluster_name       = aws_ecs_cluster.sandgarden_director_cluster.name
+  capacity_providers = [aws_ecs_capacity_provider.director.name]
+
+  default_capacity_provider_strategy {
+    capacity_provider = aws_ecs_capacity_provider.director.name
+    base              = 1
+    weight            = 100
   }
 }
 
@@ -101,5 +127,19 @@ resource "aws_appautoscaling_policy" "director_cpu" {
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
+  }
+}
+
+# HTTPS endpoint for external API access
+resource "aws_vpc_endpoint" "https" {
+  vpc_id              = data.aws_vpc.default.id
+  service_name        = "com.amazonaws.${var.aws_region}.execute-api"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = data.aws_subnets.default.ids 
+  security_group_ids  = [aws_security_group.sandgarden_director_sg.id]
+  private_dns_enabled = false
+
+  tags = {
+    Name = "${var.namespace}-https-endpoint"
   }
 }

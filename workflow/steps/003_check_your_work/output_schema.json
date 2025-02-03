@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HandlerOutput",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": { "type": "string" },
+      "correct": { "type": "boolean" },
+      "explanation": { "type": "string" }
+    },
+    "required": ["correct", "explanation"]
+  }
+}

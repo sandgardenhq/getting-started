@@ -26,7 +26,7 @@ def handler(input, sandgarden, runtime_context):
     for question in to_answer:
         answer = answer_question(openai, prompt(question))
         answers.append({"question" : question, "answer" : answer})
-    
+        
     return {"answers": answers}
 
 def prompt(question):

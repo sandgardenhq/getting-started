@@ -27,7 +27,6 @@
       }
     ]
   },
-  "connectors": null,
   "url": "https://api.sandgarden.com/api/v1/workflows/trivia:3",
   "inputSchema": "{}",
   "outputSchema": "{}",

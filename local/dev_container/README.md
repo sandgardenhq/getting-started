@@ -8,6 +8,8 @@ This configuration provides a complete development environment for Sandgarden wo
 
 ## Setup
 
+0. GO TO  `../../.devcontainer to see the config`
+
 1. Copy the environment file and add your API key:
    ```bash
    cp .devcontainer/.env.example .devcontainer/.env

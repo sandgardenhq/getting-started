@@ -1,0 +1,34 @@
+{
+  "id": "wrk_01jjwcbk15fejacq8st7n9fhtp",
+  "name": "trivia",
+  "version": 3,
+  "config": {
+    "stages": [
+      {
+        "name": "stage0",
+        "input": "runInput",
+        "workflowRunInput": true,
+        "workflow": "load-trivia-dataset:latest",
+        "step": "load-trivia-dataset:latest"
+      },
+      {
+        "name": "stage1",
+        "input": "stage0",
+        "stageInput": 0,
+        "workflow": "answer-some-questions:latest",
+        "step": "answer-some-questions:latest"
+      },
+      {
+        "name": "stage2",
+        "input": "stage1",
+        "stageInput": 1,
+        "workflow": "check-your-work:latest",
+        "step": "check-your-work:latest"
+      }
+    ]
+  },
+  "url": "https://api.sandgarden.com/api/v1/workflows/trivia:3",
+  "inputSchema": "{}",
+  "outputSchema": "{}",
+  "description": "An example workflow using GPT-4o-mini to answer questions from the CF-TriviaQA Dataset"
+}

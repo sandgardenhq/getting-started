@@ -55,7 +55,7 @@ variable "fargate_memory" {
 variable "director_version" {
   description = "Version of the Sandgarden Director image to use. If not specified, latest non-latest tag will be used."
   type        = string
-  default     = "v0.400.0"
+  default     = "v1.0.0"
 }
 
 variable "public_subnet_cidr" {

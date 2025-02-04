@@ -19,8 +19,7 @@ sand steps create docker --name=load-trivia-dataset --file=. --baseImage="python
 ## 3. Create the S3 connector
 
 ```bash
-sand connectors create s3 --name="sandgarden-trivia-challenge" --access-key-id="FILL_IN" --secret-access
--key="FILL_IN" --session-token="FILL_IN" --region="FILL_IN" 
+sand connectors create s3 --name="sandgarden-trivia-challenge" --access-key-id="FILL_IN" --secret-access-key="FILL_IN" --session-token="FILL_IN" --region="FILL_IN" 
 ```
 
 ### 3.1 Attach the S3 connector to the step
@@ -39,7 +38,7 @@ sand connectors create openai --name="trivia-openai" --api-key="FILL_IN"
 
 ```bash
 cd steps/002_answer_some_questions
-sand steps create  docker --name=answer-some-questions --file=. --baseImage="python:3.12" --entrypoint="handler.handler"  --connector sandgarden-trivia-challenge,trivia-openai --tag=latest --outputSchema "$(cat response_schema.json)"
+sand steps create  docker --name=answer-some-questions --file=. --baseImage="python:3.12" --entrypoint="handler.handler"  --connector sandgarden-trivia-challenge --connector trivia-openai --tag=latest --outputSchema "$(cat response_schema.json)"
 ```
 
 ### 5.1 Add the step to the workflow
@@ -52,7 +51,7 @@ sand workflows push --name trivia --description "An example workflow using GPT-4
 
 ```bash
 cd steps/003_check_your_work
-sand steps create docker --name=check-your-work --file=. --baseImage="python:3.12" --entrypoint="handler.handler" --connector trivia-openai --outputSchema "$(cat output_schema.json)" --inputSchema "$(cat input_schema.json)"
+sand steps create docker --name=check-your-work --file=. --baseImage="python:3.12" --entrypoint="handler.handler" --connector trivia-openai --outputSchema "$(cat output_schema.json)" --tag latest --inputSchema "$(cat input_schema.json)"
 ```
 
 ## 7. Update the workflow

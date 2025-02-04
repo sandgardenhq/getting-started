@@ -15,7 +15,7 @@ resource "aws_lb_target_group" "director_nlb_tg" {
   port        = 8987
   protocol    = "TCP"
   vpc_id      = var.vpc_id
-  target_type = "ip"
+  target_type = "instance"
 
   health_check {
     protocol            = "TCP"
@@ -58,7 +58,17 @@ resource "aws_vpc_security_group_ingress_rule" "nlb_https" {
   description       = "Allow HTTPS inbound"
 }
 
-# Allow NLB to ECS traffic
+# Allow NLB to ECS traffic (egress)
+resource "aws_vpc_security_group_egress_rule" "nlb_https" {
+  security_group_id = aws_security_group.nlb_sg.id
+  from_port         = 8987
+  to_port           = 8987
+  ip_protocol       = "tcp"
+  cidr_ipv4         = "0.0.0.0/0"
+  description       = "Allow director traffic outbound"
+}
+
+# Allow NLB to ECS traffic (ingress)
 resource "aws_vpc_security_group_ingress_rule" "ecs_from_nlb" {
   security_group_id = aws_security_group.sandgarden_director_sg.id
   from_port         = 8987

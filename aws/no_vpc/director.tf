@@ -59,11 +59,6 @@ resource "aws_ecs_service" "director-frontend" {
   desired_count   = 2
   launch_type     = "EC2"
 
-  network_configuration {
-    security_groups  = [aws_security_group.sandgarden_director_sg.id]
-    subnets         = data.aws_subnets.default.ids
-  }
-
   load_balancer {
     target_group_arn = aws_lb_target_group.director_nlb_tg.id
     container_name   = "sandgarden-director-ctr"

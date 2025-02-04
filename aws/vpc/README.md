@@ -65,7 +65,7 @@ Network Resources:
 * Security groups for NLB and ECS tasks
 
 Container Resources:
-* ECS Fargate cluster
+* ECS EC2 cluster
 * ECS task definition and service
 * ECR repository with pull-through cache
 * CloudWatch log group for container logs

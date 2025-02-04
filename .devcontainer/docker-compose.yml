@@ -1,6 +1,8 @@
 services:
   devcontainer:
     image: mcr.microsoft.com/devcontainers/base:bookworm
+    environment:
+      - SAND_API_KEY=${SAND_API_KEY}
     volumes:
       - ..:/workspaces/sandgarden:cached
       - /var/run/docker.sock:/var/run/docker.sock

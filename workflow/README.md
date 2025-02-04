@@ -6,7 +6,7 @@ Then is checks the answers using an LLM-as-Judge pattern. In this example we use
 ## 1. Create the workflow
 
 ```bash
-sand workflows create --name trivia --description "An example workflow using GPT-4o-mini to answer questions from the CF-TriviaQA Dataset" --stages='[{"workflow":"load-trivia-dataset:latest"}]'
+sand workflows create --name trivia --description "An example workflow using GPT-4o-mini to answer questions from the CF-TriviaQA Dataset" --stages='[{"step":"load-trivia-dataset:latest"}]'
 ```
 
 ## 2. Create the first step - load the dataset
@@ -45,7 +45,7 @@ sand steps create  docker --name=answer-some-questions --file=. --baseImage="pyt
 ### 5.1 Add the step to the workflow
 
 ```bash
-sand workflows push --name trivia --description "An example workflow using GPT-4o-mini to answer questions from the CF-TriviaQA Dataset" --stages='[{"workflow":"load-trivia-dataset:latest"},{"workflow":"answer-some-questions:latest"}]'
+sand workflows push --name trivia --description "An example workflow using GPT-4o-mini to answer questions from the CF-TriviaQA Dataset" --stages='[{"step":"load-trivia-dataset:latest"},{"step":"answer-some-questions:latest"}]'
 ```
 
 ## 6. Create Step 3 - check the answers
@@ -58,5 +58,5 @@ sand steps create docker --name=check-your-work --file=. --baseImage="python:3.1
 ## 7. Update the workflow
 
 ```bash
-sand workflows push --name trivia --description "An example workflow using GPT-4o-mini to answer questions from the CF-TriviaQA Dataset" --stages='[{"workflow":"load-trivia-dataset:latest"},{"workflow":"answer-some-questions:latest"},{"workflow":"check-your-work:latest"}]'
+sand workflows push --name trivia --description "An example workflow using GPT-4o-mini to answer questions from the CF-TriviaQA Dataset" --stages='[{"step":"load-trivia-dataset:latest"},{"step":"answer-some-questions:latest"},{"step":"check-your-work:latest"}]'
 ```

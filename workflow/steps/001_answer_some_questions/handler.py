@@ -1,19 +1,17 @@
 import sandgarden_runtime
 import json
 import random
+import requests
 
 def handler(input, sandgarden, runtime_context):
-    bucket_name = "sandgarden-trivia-challenge"
-    key = "har_dataset.jsonl"
-    
-    # Initialize S3 and OpenAI connectors
-    sandgarden_runtime.initialize_connectors(['sandgarden-trivia-challenge', 'trivia-openai'], sandgarden)
-    s3 = sandgarden.connectors['sandgarden-trivia-challenge']['s3']
+    # Initialize OpenAI connector
+    sandgarden_runtime.initialize_connectors(['trivia-openai'], sandgarden)
     openai = sandgarden.connectors['trivia-openai']
     
-    # Load the file from S3
-    response = s3.get_object(Bucket=bucket_name, Key=key)
-    dataset = response['Body'].read().decode('utf-8')
+    # Load the dataset via HTTP
+    url = "https://raw.githubusercontent.com/google-research-datasets/cf_triviaqa/refs/heads/main/har_dataset.jsonl"
+    response = requests.get(url)
+    dataset = response.text
     
     # Parse the JSONL
     questions = [json.loads(line) for line in dataset.splitlines()]
@@ -25,7 +23,7 @@ def handler(input, sandgarden, runtime_context):
     answers = []
     for question in to_answer:
         answer = answer_question(openai, prompt(question))
-        answers.append({"question" : question, "answer" : answer})
+        answers.append({"question": question, "answer": answer})
         
     return {"answers": answers}
 

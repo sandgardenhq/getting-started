@@ -40,22 +40,22 @@ variable "sandgarden_ecr_repo_url" {
   default     = "public.ecr.aws"  # Changed to just the registry domain
 }
 
-variable "fargate_cpu" {
-  description = "Fargate instance CPU units (1 vCPU = 1024 CPU units)"
+variable "task_cpu" {
+  description = "ECS Task instance CPU units (1 vCPU = 1024 CPU units)"
   type        = number
   default     = 1024
 }
 
-variable "fargate_memory" {
-  description = "Fargate instance memory in MiB"
+variable "task_memory" {
+  description = "ECS Task instance memory in MiB"
   type        = number
-  default     = 2048
+  default     = 970
 }
 
 variable "director_version" {
   description = "Version of the Sandgarden Director image to use. If not specified, latest non-latest tag will be used."
   type        = string
-  default     = "v0.400.0"
+  default     = "v1.0.0"
 }
 
 variable "public_subnet_cidr" {

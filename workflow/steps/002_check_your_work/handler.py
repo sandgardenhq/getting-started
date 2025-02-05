@@ -65,4 +65,4 @@ Given Answer: {answer}
         response_format=Judgment
     )        
     
-    return res.choices[0].message.parsed
+    return res.choices[0].message.parsed.dict()

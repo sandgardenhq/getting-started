@@ -52,8 +52,8 @@ def evaluate_answer(openai, id, question, reference_text, answer, given_answer):
 ID: {id}
 Question: {question}
 Reference Text: {reference_text}
-Correct Answer: {given_answer}
-Given Answer: {answer}
+Correct Answer: {answer}
+Given Answer: {given_answer}
 """
         
     res = openai.beta.chat.completions.parse(
@@ -65,4 +65,4 @@ Given Answer: {answer}
         response_format=Judgment
     )        
     
-    return res.choices[0].message.parsed
+    return res.choices[0].message.parsed.dict()

@@ -47,7 +47,7 @@ def handler(input, sandgarden, runtime_context):
         judgment = evaluate_answer(openai, id, question, reference_text, answer, given_answer)
         judgements.append(judgment)
 
-    return judgements
+    return { "judgments": judgements }
 
 def evaluate_answer(openai, id, question, reference_text, answer, given_answer):
     prompt = f"""
@@ -67,4 +67,4 @@ Given Answer: {answer}
         response_format=Judgment
     )        
     
-    return { "judgments": res.choices[0].message.parsed }
+    return res.choices[0].message.parsed

@@ -32,34 +32,6 @@ Dev Container provides a complete development environment for Sandgarden workflo
 
 The Director service will be available at `http://localhost:8987` and visible in the [Sandgarden UI](https://app.sandgarden.com). Your workspace will be mounted and ready for workflow development.
 
-## Github Codespaces
-
-Same as dev container, but run remotely in Codespaces:
-
-- VS Code configured with Python tooling
-- Sandgarden Director running as a sidecar service
-- Your code is mounted in the container as `/workspaces/sandgarden`
-
-### Setup
-
-0. Copy the `.devcontainer/` directory into the root of your repository
-   ```bash
-   cp -r .devcontainer/ /path/to/your/repo
-   ```
-
-1. Create a new Codespace
-
-2. Start the Codespace
-
-3. In the Codespace, copy the environment file and add your API key:
-   ```bash
-   cp .devcontainer/.env.example .devcontainer/.env
-   ```
-
-4. Edit `.env` and replace `YOUR_SAND_API_KEY` with your actual Sand API key
-
-5. Codespaces should prompt you to rebuild the container. If not open the command palette and select "Rebuild Container". _This will take a few minutes but you should only have to do it once._
-
 ## Vanilla Binary
 
 This is the simplest way to run the director locally. It's a single binary that you can run in a local process.

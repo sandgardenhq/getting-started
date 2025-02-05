@@ -30,8 +30,6 @@ The explanation should be a string that explains why the answer is correct or in
 id should be the id of the question you were given.
 """
 
-
-
 def handler(input, sandgarden, runtime_context):
     # Initialize the OpenAI connectors
     sandgarden_runtime.initialize_connectors(['trivia-openai'], sandgarden)
@@ -47,7 +45,7 @@ def handler(input, sandgarden, runtime_context):
         judgment = evaluate_answer(openai, id, question, reference_text, answer, given_answer)
         judgements.append(judgment)
 
-    return judgements
+    return { "judgments": judgements }
 
 def evaluate_answer(openai, id, question, reference_text, answer, given_answer):
     prompt = f"""
@@ -67,4 +65,4 @@ Given Answer: {answer}
         response_format=Judgment
     )        
     
-    return res.choices[0].message.parsed.dict()
+    return res.choices[0].message.parsed

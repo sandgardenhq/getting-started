@@ -30,8 +30,6 @@ The explanation should be a string that explains why the answer is correct or in
 id should be the id of the question you were given.
 """
 
-
-
 def handler(input, sandgarden, runtime_context):
     # Initialize the OpenAI connectors
     sandgarden_runtime.initialize_connectors(['trivia-openai'], sandgarden)

@@ -41,3 +41,4 @@ terraform.rc
 .devcontainer/.sandgarden/staticcfg.json
 setup.sh
 .devcontainer/.sandgarden/sgdirector.log
+.devcontainer/.sandgarden/logs/runs.log

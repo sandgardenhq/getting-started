@@ -1,0 +1,4 @@
+{"input": {"ticket_id": 1},"validators": [{"regex": "true", "jpath": "$.escalate"}]}
+{"input": {"ticket_id": 2},"validators": [{"regex": "true", "jpath": "$.escalate"}]}
+{"input": {"ticket_id": 4},"validators": [{"regex": "false", "jpath": "$.escalate"}]}
+{"input": {"ticket_id": 6},"validators": [{"regex": "true", "jpath": "$.escalate"}]}

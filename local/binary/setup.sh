@@ -37,7 +37,7 @@ fi
 mkdir -p .sandgarden/bin
 
 echo "Downloading Sandgarden Director..."
-if ! OUTPUT=$(curl -fsSL "https://app.sandgarden.com/api/assets/sgdirector/latest/sgdirector_${OS}_${ARCH}" -o ./.sandgarden/bin/sgdirector 2>&1); then
+if ! OUTPUT=$(curl -fsSL "https://api.sandgarden.com/api/v1/assets/sgdirector/latest/sgdirector_${OS}_${ARCH}" -o ./.sandgarden/bin/sgdirector 2>&1); then
     echo "❌ Failed to download Director binary:"
     echo "$OUTPUT"
     exit 1
@@ -55,9 +55,9 @@ read -s SAND_API_KEY
 
 # Create the .env file
 echo "Creating .env file..."
-echo "SAND_API_KEY=$SAND_API_KEY" >> ./.sandgarden/.env
+echo "SAND_API_KEY=$SAND_API_KEY" > ./.sandgarden/.env
 echo "SAND_HOME=./.sandgarden" >> ./.sandgarden/.env
 echo '{"restarted": true}' > ./.sandgarden/staticcfg.json
 
 echo "Setup complete. You can start the director with the following command:"
-echo "runner -f Procfile -p ."
+echo "runner --env ./.sandgarden/.env"

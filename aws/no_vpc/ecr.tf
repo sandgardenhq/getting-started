@@ -21,7 +21,7 @@ resource "aws_ecr_pull_through_cache_rule" "public" {
 resource "aws_ssm_parameter" "ecr_repo_url" {
   name  = "/${var.namespace}/ecr/repo_url"
   type  = "String"
-  value = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/sgdirector-cache/h7j2x0j6/sgdirector:${local.director_version}"
+  value = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/sgdirector-cache/sandgarden/sgdirector:${local.director_version}"
 }
 
 data "aws_caller_identity" "current" {}

@@ -1,0 +1,7 @@
+{
+  "name": "SQL Viewer",
+  "short_name": "SQL Viewer",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

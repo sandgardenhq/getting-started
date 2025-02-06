@@ -1,7 +1,7 @@
 data "external" "latest_director_version" {
   program = ["bash", "-c", <<-EOT
     VERSION=$(aws ecr-public describe-image-tags \
-      --repository-name h7j2x0j6/sgdirector \
+      --repository-name sandgarden/sgdirector \
       --region us-east-1 \
       --query 'imageTagDetails[?imageTag!=`latest`]|[0].imageTag' \
       --output text)

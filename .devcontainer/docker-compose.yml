@@ -15,7 +15,7 @@ services:
       - sandgarden_demo_network
 
   director:
-    image: public.ecr.aws/h7j2x0j6/sgdirector:latest
+    image: public.ecr.aws/sandgarden/sgdirector:latest
     environment:
       - SAND_LOG_LEVEL=debug
       - SAND_API_KEY=${SAND_API_KEY}

@@ -7,7 +7,7 @@ const pool = new Pool({
   database: process.env.POSTGRES_DB,
   password: process.env.POSTGRES_PASSWORD,
   port: parseInt(process.env.POSTGRES_PORT || '5432'),
-  ssl: process.env.POSTGRES_HOST === 'localhost' ? false : 'no-verify',
+  ssl: false,
 });
 
 export default async function handler(

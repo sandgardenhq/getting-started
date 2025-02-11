@@ -45,7 +45,7 @@ green "Take a look at the results"
 
 green "Running test cases with first version of escalate_checker"
 sand batches start --workflow escalate_checker:latest --in=../workflow/demo-steps/test_escalations1.jsonl --follow
-FIRST_BATCH_ID=$(sand batches list --json | jq -r '.batches[0].id')
+FIRST_BATCH_ID=$(sand runs list --batches --json | jq -r '.runs[0].id')
 sand batches get $FIRST_BATCH_ID
 
 green "Pushing second version of escalate_checker"
@@ -53,7 +53,7 @@ sand steps push $STEP_TYPE --entrypoint escalate_checker2.handler --tag latest -
 
 green "Running test cases with second version of escalate_checker"
 sand batches start --step escalate_checker:latest --in=../workflow/demo-steps/test_escalations2.jsonl --follow
-SECOND_BATCH_ID=$(sand batches list --json | jq -r '.batches[0].id')
+SECOND_BATCH_ID=$(sand runs list --batches --json | jq -r '.runs[0].id')
 
 green "Comparing results"
 sand batches compare $FIRST_BATCH_ID $SECOND_BATCH_ID

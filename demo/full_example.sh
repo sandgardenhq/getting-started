@@ -63,7 +63,7 @@ green "Tagging second version as latest"
 sand steps tag --step escalate_checker:2 --tag latest
 
 green "Running backfill again to use new latest version"
-sand runs start --workflow=backfill:latest
+sand runs start --workflow=backfill:latest --payload='{}'
 
 green "Take a look at the final results"
 ./psql.sh "SELECT id,subject,CASE WHEN needs_escalation THEN 'True' ELSE 'False' END AS needs_escalation FROM tickets"

@@ -62,7 +62,7 @@ sand batches compare $FIRST_BATCH_ID $SECOND_BATCH_ID
 green "Tagging second version as latest"
 sand steps tag --step escalate_checker:2 --tag latest
 
-green "Running backfill again to use new production version"
+green "Running backfill again to use new latest version"
 sand runs start --workflow=backfill:latest
 
 green "Take a look at the final results"

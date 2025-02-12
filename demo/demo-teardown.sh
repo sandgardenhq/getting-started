@@ -10,6 +10,5 @@ yes | sand steps delete --name="escalate_checker%"
 yes | sand steps delete --name="scan_tickets%"
 yes | sand steps delete --name="save_results%"
 yes | sand workflows delete --name="backfill%"
-yes | sand workflows delete --name="composite%"
 
 yes | sand connectors delete --name="tickets-%"

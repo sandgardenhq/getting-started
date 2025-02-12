@@ -39,13 +39,13 @@ sand workflows push --name backfill --stages=../workflow/demo-steps/backfill1.js
 sand workflows tag --workflow backfill:1 --tag latest
 
 green "Running backfill"
-sand runs start --workflow=backfill:latest
+sand runs start --workflow=backfill:latest --payload='{}'
 
 green "Take a look at the results"
 ./psql.sh "SELECT id,subject,CASE WHEN needs_escalation THEN 'True' ELSE 'False' END AS needs_escalation FROM tickets"
 
 green "Running test cases with first version of escalate_checker"
-sand batches start --workflow escalate_checker:1 --in=../workflow/demo-steps/test_escalations1.jsonl --follow
+sand batches start --step escalate_checker:1 --in=../workflow/demo-steps/test_escalations1.jsonl --follow
 FIRST_BATCH_ID=$(sand runs list --batches --json | jq -r '.runs[0].id')
 sand batches get $FIRST_BATCH_ID
 

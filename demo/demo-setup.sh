@@ -30,7 +30,7 @@ if [ -z "$OPENAI_API_KEY" ]; then
   exit 1
 fi
 
-export COMMON_OPTS="--connector tickets-postgres  --tag latest $STEP_OPTS"
+export COMMON_OPTS="--connector tickets-postgres $STEP_OPTS"
 export SAND_FRONTEND=noninteractive
 
 green "Configuring connectors..."
@@ -74,5 +74,10 @@ $SGCLI steps push $STEP_TYPE \
   --entrypoint save_results.handler \
   --file ../workflow/demo-steps/save_results.py \
   $COMMON_OPTS
+
+# tagging now happens separately
+$SGCLI steps tag --step save_results:1 --tag latest
+$SGCLI steps tag --step scan_tickets:1 --tag latest
+$SGCLI steps tag --step tickets_hydrate:1 --tag latest
 
 $SGCLI runs start --step tickets_hydrate:latest --json

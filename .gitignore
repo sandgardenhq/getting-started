@@ -42,3 +42,6 @@ terraform.rc
 setup.sh
 .devcontainer/.sandgarden/sgdirector.log
 .devcontainer/.sandgarden/logs/runs.log
+
+# local directories
+workflow/scratch/**

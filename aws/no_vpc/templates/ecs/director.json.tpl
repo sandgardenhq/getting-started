@@ -30,6 +30,10 @@
       {
         "name": "SAND_LOG_LEVEL",
         "value": "${sand_log_level}"
+      },
+      {
+        "name": "SAND_LOG_DESTINATION",
+        "value": "s3://${s3_bucket}"
       }
     ],
     "secrets": [

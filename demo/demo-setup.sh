@@ -59,7 +59,7 @@ $SGCLI steps push $STEP_TYPE \
   --name tickets_hydrate \
   --entrypoint hydrate.handler \
   --file ./hydrate.zip \
-  --sync \
+  --sync true \
   $COMMON_OPTS
 
 rm -f hydrate.zip

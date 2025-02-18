@@ -39,6 +39,16 @@ data "aws_iam_policy_document" "director_policy" {
   statement {
     effect = "Allow"
     actions = [
+      "s3:PutObject",
+    ]
+    resources = [
+      "${aws_s3_bucket.director_logs_bucket.arn}/*",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
       "ecr:*",
     ]
     resources = ["*"]
@@ -158,6 +168,11 @@ resource "aws_iam_role_policy_attachment" "execution_role_attachment" {
 resource "aws_iam_role_policy_attachment" "director_managed_core" {
   role       = aws_iam_role.director_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy_attachment" "cloudwatch_agent_policy" {
+  role       = aws_iam_role.director_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
 
 # Create separate execution role for ECS tasks

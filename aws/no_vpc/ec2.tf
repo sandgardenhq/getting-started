@@ -8,6 +8,12 @@ resource "aws_launch_template" "director_ecs_ec2" {
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.sandgarden_director_sg.id]
 
+  metadata_options {
+    http_tokens = "required"
+    http_endpoint = "enabled"
+    instance_metadata_tags = "enabled"
+  }
+
   iam_instance_profile { arn = aws_iam_instance_profile.director_profile.arn }
   monitoring { enabled = true }
 

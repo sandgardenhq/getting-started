@@ -37,6 +37,7 @@ resource "aws_ecs_task_definition" "sandgarden_director" {
       "sand_api_key_arn"      = aws_secretsmanager_secret.director_api_key.arn
       "sandgarden_ecr_repo_url" = aws_ssm_parameter.ecr_repo_url.value
       "aws_region"            = var.aws_region
+      "s3_bucket"             = aws_s3_bucket.director_logs_bucket.bucket
     }
   )
   depends_on = [aws_cloudwatch_log_group.director]

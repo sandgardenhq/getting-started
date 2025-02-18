@@ -30,7 +30,7 @@ if [ -z "$OPENAI_API_KEY" ]; then
   exit 1
 fi
 
-export COMMON_OPTS="--connector tickets-postgres --tag=latest $STEP_OPTS"
+export COMMON_OPTS="--connector tickets-postgres --tag=latest --sync=true $STEP_OPTS"
 export SAND_FRONTEND=noninteractive
 
 green "Configuring connectors..."
@@ -59,7 +59,6 @@ $SGCLI steps push $STEP_TYPE \
   --name tickets_hydrate \
   --entrypoint hydrate.handler \
   --file ./hydrate.zip \
-  --sync true \
   $COMMON_OPTS
 
 rm -f hydrate.zip

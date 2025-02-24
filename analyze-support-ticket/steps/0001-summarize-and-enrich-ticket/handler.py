@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from zenpy import Zenpy
 
 def handler(input, sandgarden, runtime_context):
     """

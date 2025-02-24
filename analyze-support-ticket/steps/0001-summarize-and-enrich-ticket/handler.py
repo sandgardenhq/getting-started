@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-def handler(event, context):
+def handler(input, sandgarden, runtime_context):
     """
     Summarize ticket content and enrich with relevant metadata
     """

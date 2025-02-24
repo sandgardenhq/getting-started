@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-def handler(event, context):
+def handler(input, sandgarden, runtime_context):
     """
     Analyze customer sentiment from ticket content
     """

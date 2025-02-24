@@ -5,10 +5,20 @@
   "config": {
     "stages": [
       {
-        "name": "stage0",
-        "input": "runInput",
-        "workflowRunInput": true,
-        "step": "dummy-step:none"
+        "name": "summarize-and-enrich-ticket",
+        "step": "summarize-and-enrich-ticket:latest"
+      },
+      {
+        "name": "analyze-customer-sentiment",
+        "step": "analyze-customer-sentiment:latest"
+      },
+      {
+        "name": "determine-churn-risk",
+        "step": "determine-churn-risk:latest"
+      },
+      {
+        "name": "escalation-decision",
+        "step": "escalation-decision:latest"
       }
     ]
   },

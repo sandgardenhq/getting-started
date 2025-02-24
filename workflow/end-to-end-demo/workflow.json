@@ -1,27 +1,16 @@
-{
-  "id": "wrk_support_ticket_prioritizer",
-  "name": "support-ticket-prioritizer",
-  "version": 1,
-  "config": {
-    "stages": [
-      {
-        "name": "analyze-ticket",
-        "input": "runInput",
-        "workflowRunInput": true,
-        "workflow": "analyze-support-ticket:latest",
-        "step": "analyze-support-ticket:latest"
-      },
-      {
-        "name": "determine-priority",
-        "input": "analyze-ticket",
-        "stageInput": 0,
-        "workflow": "evaluate-priority:latest",
-        "step": "evaluate-priority:latest"
-      }
-    ]
+[
+  {
+    "name": "analyze-ticket",
+    "input": "runInput",
+    "workflowRunInput": true,
+    "workflow": "analyze-support-ticket:latest",
+    "step": "analyze-support-ticket:latest"
   },
-  "url": "https://api.sandgarden.com/api/v1/workflows/support-ticket-prioritizer:1",
-  "inputSchema": "{}",
-  "outputSchema": "{}",
-  "description": "Automatically analyze support tickets to identify high-priority situations requiring immediate attention based on customer tier, historical context, and technical complexity"
-}
+  {
+    "name": "determine-priority",
+    "input": "analyze-ticket",
+    "stageInput": 0,
+    "workflow": "evaluate-priority:latest",
+    "step": "evaluate-priority:latest"
+  }
+]

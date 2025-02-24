@@ -1,0 +1,22 @@
+{
+    "name": "analyze-support-ticket",
+    "description": "Automatically analyze support tickets to identify urgent situations",
+    "steps": [
+        {
+            "name": "summarize-and-enrich-ticket",
+            "handler": "steps/0001-summarize-and-enrich-ticket/handler.py"
+        },
+        {
+            "name": "analyze-customer-sentiment", 
+            "handler": "steps/0002-analyze-customer-sentiment/handler.py"
+        },
+        {
+            "name": "determine-churn-risk",
+            "handler": "steps/0003-determine-churn-risk/handler.py"
+        },
+        {
+            "name": "escalation-decision",
+            "handler": "steps/0004-escalation-decision/handler.py"
+        }
+    ]
+}

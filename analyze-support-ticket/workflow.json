@@ -1,22 +1,19 @@
 {
-    "name": "analyze-support-ticket",
-    "description": "Automatically analyze support tickets to identify urgent situations",
-    "steps": [
-        {
-            "name": "summarize-and-enrich-ticket",
-            "handler": "steps/0001-summarize-and-enrich-ticket/handler.py"
-        },
-        {
-            "name": "analyze-customer-sentiment", 
-            "handler": "steps/0002-analyze-customer-sentiment/handler.py"
-        },
-        {
-            "name": "determine-churn-risk",
-            "handler": "steps/0003-determine-churn-risk/handler.py"
-        },
-        {
-            "name": "escalation-decision",
-            "handler": "steps/0004-escalation-decision/handler.py"
-        }
+  "id": "wrk_01jmx21xm6f6s83qd0fts84m1j",
+  "name": "analyze-support-ticket",
+  "version": 1,
+  "config": {
+    "stages": [
+      {
+        "name": "stage0",
+        "input": "runInput",
+        "workflowRunInput": true,
+        "step": "dummy-step:none"
+      }
     ]
+  },
+  "url": "https://api.sandgarden.com/api/v1/workflows/analyze-support-ticket:1",
+  "inputSchema": "{}",
+  "outputSchema": "{}",
+  "description": "Automatically analyze support tickets to identify urgent situations"
 }

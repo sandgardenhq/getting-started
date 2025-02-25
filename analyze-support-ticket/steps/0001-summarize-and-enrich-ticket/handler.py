@@ -37,18 +37,18 @@ async def handler(input, sandgarden, runtime_context):
     )
     summary = response.choices[0].message.content
     
-    # Process the ticket
-    ticket_data = {
-        'id': ticket.id,
-        'subject': ticket.subject,
-        'description': ticket.description,
-        'status': ticket.status,
-        'priority': ticket.priority,
-        'created_at': ticket.created_at.isoformat(),
-        'updated_at': ticket.updated_at.isoformat(),
-        'requester_id': ticket.requester_id,
-        'assignee_id': ticket.assignee_id,
+    # Return both ticket data and summary
+    return {
+        'ticket': {
+            'id': ticket.id,
+            'subject': ticket.subject,
+            'description': ticket.description,
+            'status': ticket.status,
+            'priority': ticket.priority,
+            'created_at': ticket.created_at.isoformat(),
+            'updated_at': ticket.updated_at.isoformat(),
+            'requester_id': ticket.requester_id,
+            'assignee_id': ticket.assignee_id
+        },
         'summary': summary
     }
-    
-    return ticket_data

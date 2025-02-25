@@ -86,7 +86,23 @@ class TicketInput(BaseModel):
 
 async def handler(input, sandgarden, runtime_context):
     """
-    Summarize ticket content and enrich with relevant metadata
+    Analyze a support ticket and generate an AI-powered summary of its content.
+
+    This handler processes a Zendesk support ticket by:
+    1. Validating the input ticket data
+    2. Extracting relevant content for analysis
+    3. Using an LLM to generate a structured summary
+    4. Assessing the ticket's severity and impact
+
+    Args:
+        input: Dict containing Zendesk ticket data
+        sandgarden: SandGarden context with connectors and prompts
+        runtime_context: Runtime execution context
+
+    Returns:
+        Dict containing:
+        - ticket: The original ticket data
+        - summary: Structured analysis including technical summary and severity assessment
     """
     # Parse input
     ticket = TicketInput(**input)

@@ -1,17 +1,51 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List, Dict, Any
+
+class CustomField(BaseModel):
+    id: int
+    value: str
+
+class SatisfactionRating(BaseModel):
+    comment: Optional[str] = None
+    id: int
+    score: str
+
+class Via(BaseModel):
+    channel: str
 
 class TicketResponse(BaseModel):
     id: int
     subject: str
+    raw_subject: Optional[str] = None
     description: Optional[str] = None
     status: str
     priority: Optional[str] = None
     created_at: datetime
     updated_at: datetime
     requester_id: int
+    submitter_id: int
     assignee_id: Optional[int] = None
+    organization_id: Optional[int] = None
+    group_id: Optional[int] = None
+    collaborator_ids: List[int] = Field(default_factory=list)
+    follower_ids: List[int] = Field(default_factory=list)
+    email_cc_ids: List[int] = Field(default_factory=list)
+    custom_fields: List[CustomField] = Field(default_factory=list)
+    satisfaction_rating: Optional[SatisfactionRating] = None
+    sharing_agreement_ids: List[int] = Field(default_factory=list)
+    custom_status_id: Optional[int] = None
+    type: Optional[str] = None
+    url: Optional[str] = None
+    external_id: Optional[str] = None
+    via: Optional[Via] = None
+    tags: List[str] = Field(default_factory=list)
+    has_incidents: bool = False
+    due_at: Optional[datetime] = None
+    problem_id: Optional[int] = None
+    from_messaging_channel: bool = False
+    generated_timestamp: Optional[int] = None
+    recipient: Optional[str] = None
 
 class TicketSummaryResponse(BaseModel):
     ticket: TicketResponse
@@ -20,13 +54,35 @@ class TicketSummaryResponse(BaseModel):
 class TicketInput(BaseModel):
     id: int
     subject: str
+    raw_subject: Optional[str] = None
     description: Optional[str] = None
     status: str
     priority: Optional[str] = None
     created_at: datetime
     updated_at: datetime
     requester_id: int
+    submitter_id: int
     assignee_id: Optional[int] = None
+    organization_id: Optional[int] = None
+    group_id: Optional[int] = None
+    collaborator_ids: List[int] = Field(default_factory=list)
+    follower_ids: List[int] = Field(default_factory=list)
+    email_cc_ids: List[int] = Field(default_factory=list)
+    custom_fields: List[CustomField] = Field(default_factory=list)
+    satisfaction_rating: Optional[SatisfactionRating] = None
+    sharing_agreement_ids: List[int] = Field(default_factory=list)
+    custom_status_id: Optional[int] = None
+    type: Optional[str] = None
+    url: Optional[str] = None
+    external_id: Optional[str] = None
+    via: Optional[Via] = None
+    tags: List[str] = Field(default_factory=list)
+    has_incidents: bool = False
+    due_at: Optional[datetime] = None
+    problem_id: Optional[int] = None
+    from_messaging_channel: bool = False
+    generated_timestamp: Optional[int] = None
+    recipient: Optional[str] = None
 
 async def handler(input, sandgarden, runtime_context):
     """

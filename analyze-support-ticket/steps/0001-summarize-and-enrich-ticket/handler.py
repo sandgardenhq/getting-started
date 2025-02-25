@@ -108,7 +108,7 @@ async def handler(input, sandgarden, runtime_context):
     )
     summary = response.choices[0].message.content
     
-    # Return validated response
+    # Return validated response with JSON serialization
     return TicketSummaryResponse(
         ticket=TicketResponse(
             id=ticket.id,
@@ -122,4 +122,4 @@ async def handler(input, sandgarden, runtime_context):
             assignee_id=ticket.assignee_id
         ),
         summary=summary
-    ).model_dump()
+    ).model_dump(mode='json')

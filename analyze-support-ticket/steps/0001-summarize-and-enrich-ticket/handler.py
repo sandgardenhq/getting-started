@@ -2,6 +2,21 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
 
+class TicketResponse(BaseModel):
+    id: int
+    subject: str
+    description: Optional[str] = None
+    status: str
+    priority: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+    requester_id: int
+    assignee_id: Optional[int] = None
+
+class TicketSummaryResponse(BaseModel):
+    ticket: TicketResponse
+    summary: str
+
 class TicketInput(BaseModel):
     id: int
     subject: str
@@ -37,18 +52,18 @@ async def handler(input, sandgarden, runtime_context):
     )
     summary = response.choices[0].message.content
     
-    # Return both ticket data and summary
-    return {
-        'ticket': {
-            'id': ticket.id,
-            'subject': ticket.subject,
-            'description': ticket.description,
-            'status': ticket.status,
-            'priority': ticket.priority,
-            'created_at': ticket.created_at.isoformat(),
-            'updated_at': ticket.updated_at.isoformat(),
-            'requester_id': ticket.requester_id,
-            'assignee_id': ticket.assignee_id
-        },
-        'summary': summary
-    }
+    # Return validated response
+    return TicketSummaryResponse(
+        ticket=TicketResponse(
+            id=ticket.id,
+            subject=ticket.subject,
+            description=ticket.description,
+            status=ticket.status,
+            priority=ticket.priority,
+            created_at=ticket.created_at,
+            updated_at=ticket.updated_at,
+            requester_id=ticket.requester_id,
+            assignee_id=ticket.assignee_id
+        ),
+        summary=summary
+    ).model_dump()

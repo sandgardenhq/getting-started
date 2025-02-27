@@ -74,7 +74,24 @@ async def handler(input, sandgarden, runtime_context):
     prompt = sandgarden.prompts('summarize-ticket')
     
     # Prepare ticket content for summarization
-    ticket_content = f"Subject: {ticket.subject}\n\nDescription: {ticket.description or 'No description provided'}"
+    ticket_content = f"""
+Ticket ID: {ticket.id}
+Subject: {ticket.subject}
+Status: {ticket.status}
+Priority: {ticket.priority or 'Not set'}
+Description: {ticket.description or 'No description provided'}
+
+Customer Details:
+- Email: {ticket.email}
+- Organization: {ticket.organization or 'Not specified'}
+- Organization Details: {ticket.organization_details or 'Not specified'}
+- Organization Notes: {ticket.organization_notes or 'None'}
+
+Metadata:
+- URL: {ticket.url or 'Not available'}
+- Tags: {', '.join(ticket.tags) if ticket.tags else 'None'}
+- Last Updated: {ticket.updated_at.isoformat()}
+"""
     
     # Get summary from LLM
     response = await llm.chat.completions.create(

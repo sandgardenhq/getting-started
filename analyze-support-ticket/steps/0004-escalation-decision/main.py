@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict
 from slack_sdk.webhook import WebhookClient
+from datetime import datetime, timezone
 
 class EscalationCriteria(BaseModel):
     should_escalate: bool
@@ -31,6 +32,17 @@ def format_notification(ticket: dict, account: Optional[Dict], risk_assessment: 
     risk_level = risk_assessment.get('risk_level', 'Unknown').upper()
     priority_score = risk_assessment.get('priority_score', 0)
     
+    # Calculate duration since ticket creation
+    created_at = datetime.fromisoformat(ticket.get('created_at', '').replace('Z', '+00:00'))
+    duration = datetime.now(timezone.utc) - created_at
+    duration_hours = duration.total_seconds() / 3600
+    duration_str = f"{int(duration_hours)}+ hours" if duration_hours >= 1 else f"{int(duration.total_seconds() / 60)} minutes"
+    
+    # Truncate description and add ellipsis if needed
+    description = ticket.get('description', 'No description')
+    if len(description) > 100:
+        description = description[:97] + "..."
+    
     return f"""🚨 {escalation.priority_level.upper()} TICKET - IMMEDIATE ACTION REQUIRED
 
 Customer: {account_info.get('name', 'Unknown')}
@@ -38,8 +50,8 @@ Revenue Impact: ${account_info.get('acv', 0):,} ARR
 Churn Risk: {risk_level} {'🔥' if risk_level == 'HIGH' else '⚠️'}
 
 Issue: {ticket.get('subject', 'No subject')}
-Duration: {ticket.get('duration', 'Unknown')}
-Impact: {ticket.get('description', 'No description')[:100]}...
+Duration: {duration_str}
+Impact: {description}
 Context: Priority Score {priority_score}/100
 Urgency: {escalation.response_sla}
 

@@ -6,8 +6,8 @@ class EscalateCheckerOutput(BaseModel):
     escalate: bool
 
 def handler(input, sandgarden):
-    conn = sandgarden.get_connectors('tickets-postgres')
-    openai = sandgarden.get_connectors('tickets-openai')
+    conn = sandgarden.get_connector('tickets-postgres')
+    openai = sandgarden.get_connector('tickets-openai')
     
     ticket_id = input.get('ticket_id') or input.get('$.ticket_id')
 

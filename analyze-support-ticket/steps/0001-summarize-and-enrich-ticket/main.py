@@ -94,14 +94,10 @@ Metadata:
 """
     
     # Get summary from LLM
-    response = await llm.chat.completions.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": ticket_content}
-        ]
+    summary = await llm.beta.chat.completions.parse(
+        prompt=prompt,
+        messages=[{"role": "user", "content": ticket_content}]
     )
-    summary = response.choices[0].message.content
     
     # Return validated response with JSON serialization
     return TicketSummaryResponse(

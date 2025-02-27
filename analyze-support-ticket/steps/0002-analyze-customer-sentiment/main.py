@@ -92,7 +92,7 @@ Account Information:
 - Tier: {account.tier if account else 'Unknown'}
 - Support Level: {account.support_level if account else 'Unknown'}
 - Industry: {account.industry if account else 'Unknown'}
-- Annual Contract Value: ${account.acv:,} if account else 'Unknown'}
+- Annual Contract Value: ${f"{account.acv:,}" if account else 'Unknown'}
 - Critical Systems: {', '.join(account.critical_systems) if account else 'Unknown'}
 - Region: {account.region if account else 'Unknown'}
 """

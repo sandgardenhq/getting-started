@@ -97,28 +97,18 @@ Account Information:
 - Region: {account.region if account else 'Unknown'}
 """
     
-    # Get sentiment analysis from LLM
+    # Get structured sentiment analysis from LLM
     response = await llm.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": prompt},
             {"role": "user", "content": analysis_content}
-        ]
+        ],
+        response_format={"type": "json_object"}
     )
-    analysis_result = response.choices[0].message.content
     
-    # Parse LLM response into structured format
-    # Assuming the LLM returns a structured format matching our schema
-    sentiment_data = {
-        "sentiment": "neutral",  # Default values, will be overwritten by LLM response
-        "confidence": 0.0,
-        "key_phrases": [],
-        "emotion_indicators": [],
-        "urgency_level": "low",
-        "satisfaction_indicators": []
-    }
-    
-    # TODO: Parse LLM response into sentiment_data structure
+    # Parse the structured response
+    sentiment_data = json.loads(response.choices[0].message.content)
     
     # Return validated response with JSON serialization
     return TicketSentimentResponse(

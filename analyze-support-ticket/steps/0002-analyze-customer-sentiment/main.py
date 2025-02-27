@@ -114,6 +114,6 @@ Account Information:
     return TicketSentimentResponse(
         ticket_id=ticket_data.ticket['id'],
         analysis=SentimentAnalysis(**sentiment_data),
-        raw_text=analysis_result,
+        raw_text=response.choices[0].message.content,
         account=account
     ).model_dump(mode='json')

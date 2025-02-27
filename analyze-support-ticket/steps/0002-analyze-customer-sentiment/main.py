@@ -99,9 +99,12 @@ Account Information:
     
     # Get structured sentiment analysis from LLM
     sentiment_data = await llm.beta.chat.completions.parse(
-        prompt=prompt,
-        messages=[{"role": "user", "content": analysis_content}],
-        response_format={"type": "json_object"}
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": analysis_content}
+        ],
+        response_format=SentimentAnalysis
     )
     
     # Return validated response with JSON serialization

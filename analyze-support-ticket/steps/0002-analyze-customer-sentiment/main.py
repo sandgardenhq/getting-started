@@ -23,6 +23,7 @@ class SentimentAnalysis(BaseModel):
 
 class TicketSentimentResponse(BaseModel):
     ticket_id: int
+    ticket: dict
     analysis: SentimentAnalysis
     raw_text: str
     account: Optional[Account] = None
@@ -110,6 +111,7 @@ Account Information:
     # Return validated response with JSON serialization
     return TicketSentimentResponse(
         ticket_id=ticket_data.ticket['id'],
+        ticket=ticket_data.ticket,
         analysis=SentimentAnalysis(**sentiment_data),
         raw_text=sentiment_data,  # Use the parsed response directly
         account=account

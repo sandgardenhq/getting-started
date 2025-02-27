@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from slack_sdk.webhook import WebhookClient
+import slack_sdk 
 
 def handler(input, sandgarden, runtime_context):
     """

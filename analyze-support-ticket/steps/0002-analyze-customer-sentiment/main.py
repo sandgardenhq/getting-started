@@ -1,11 +1,3 @@
-from pydantic import BaseModel
-
-def handler(input, sandgarden, runtime_context):
-    """
-    Analyze customer sentiment from ticket content
-    """
-    # TODO: Implement sentiment analysis
-    pass
 from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional, List

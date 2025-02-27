@@ -1,0 +1,48 @@
+{
+  "id": 12345,
+  "subject": "API Gateway returning 503 errors intermittently",
+  "raw_subject": "API Gateway returning 503 errors intermittently",
+  "description": "We're seeing intermittent 503 errors from the API Gateway endpoints in the production environment. This started occurring around 2:30 PM EST. The errors seem to happen every 15-20 minutes and last for about 30 seconds. Our monitoring shows increased latency during these periods. This is affecting approximately 10% of our API requests.\n\nError rate metrics:\n- Normal: 0.1% error rate\n- During incidents: 15-20% error rate\n\nWe've already checked our application logs and don't see any corresponding errors on our side. The issues seem to be occurring at the API Gateway level.",
+  "status": "open",
+  "priority": "urgent",
+  "created_at": "2024-02-27T14:30:00Z",
+  "updated_at": "2024-02-27T14:45:00Z",
+  "requester_id": 78901,
+  "submitter_id": 78901,
+  "assignee_id": 45678,
+  "organization_id": 23456,
+  "group_id": 34567,
+  "collaborator_ids": [89012, 90123],
+  "follower_ids": [89012],
+  "email_cc_ids": [],
+  "custom_fields": [
+    {
+      "id": 1,
+      "value": "production"
+    },
+    {
+      "id": 2,
+      "value": "api-gateway"
+    }
+  ],
+  "satisfaction_rating": {
+    "id": 56789,
+    "score": "offered",
+    "comment": null
+  },
+  "sharing_agreement_ids": [],
+  "custom_status_id": null,
+  "type": "incident",
+  "url": "https://company.zendesk.com/api/v2/tickets/12345",
+  "external_id": "INCIDENT-2024-027-001",
+  "via": {
+    "channel": "web"
+  },
+  "tags": ["api", "production", "gateway", "urgent"],
+  "has_incidents": false,
+  "due_at": null,
+  "problem_id": null,
+  "from_messaging_channel": false,
+  "generated_timestamp": 1709047800,
+  "recipient": "support@company.com"
+}

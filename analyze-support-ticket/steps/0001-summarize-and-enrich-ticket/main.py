@@ -87,4 +87,4 @@ Metadata:
             assignee_id=ticket.assignee_id
         ),
         summary=summary
-    ).model_dump(mode='json')
+    ).dict()

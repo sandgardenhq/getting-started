@@ -2,19 +2,7 @@ from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional, List, Dict, Any
 
-class CustomField(BaseModel):
-    id: int
-    value: str
-
-class SatisfactionRating(BaseModel):
-    comment: Optional[str] = None
-    id: int
-    score: str
-
-class Via(BaseModel):
-    channel: str
-
-class TicketResponse(BaseModel):
+class Ticket(BaseModel):
     id: int
     email: str
     subject: str
@@ -27,24 +15,10 @@ class TicketResponse(BaseModel):
     organization_notes: Optional[str] = None
     url: Optional[str] = None
     tags: List[str] = Field(default_factory=list)
-
+    
 class TicketSummaryResponse(BaseModel):
-    ticket: TicketResponse
+    ticket: Ticket
     summary: str
-
-class TicketInput(BaseModel):
-    id: int
-    email: str
-    subject: str
-    description: Optional[str] = None
-    status: str
-    priority: Optional[str] = None
-    updated_at: datetime
-    organization: Optional[str] = None
-    organization_details: Optional[str] = None
-    organization_notes: Optional[str] = None
-    url: Optional[str] = None
-    tags: List[str] = Field(default_factory=list)
 
 async def handler(input, sandgarden, runtime_context):
     """
@@ -67,7 +41,7 @@ async def handler(input, sandgarden, runtime_context):
         - summary: Structured analysis including technical summary and severity assessment
     """
     # Parse input
-    ticket = TicketInput(**input)
+    ticket = Ticket(**input)
     
     # Get LLM client and prompt
     llm = sandgarden.connectors['ticket-summarizer-model']
@@ -101,7 +75,7 @@ Metadata:
     
     # Return validated response with JSON serialization
     return TicketSummaryResponse(
-        ticket=TicketResponse(
+        ticket=Ticket(
             id=ticket.id,
             subject=ticket.subject,
             description=ticket.description,

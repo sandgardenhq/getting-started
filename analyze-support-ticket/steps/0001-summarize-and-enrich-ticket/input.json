@@ -6,13 +6,13 @@
       "type": "integer",
       "description": "Ticket identifier"
     },
+    "email": {
+      "type": "string",
+      "description": "Email of the requester"
+    },
     "subject": {
       "type": "string",
       "description": "Ticket subject line"
-    },
-    "raw_subject": {
-      "type": ["string", "null"],
-      "description": "Raw ticket subject before template processing"
     },
     "description": {
       "type": ["string", "null"],
@@ -26,121 +26,26 @@
       "type": ["string", "null"],
       "description": "Ticket priority level"
     },
-    "created_at": {
-      "type": "string",
-      "format": "date-time",
-      "description": "Timestamp when ticket was created"
-    },
     "updated_at": {
       "type": "string",
       "format": "date-time",
       "description": "Timestamp when ticket was last updated"
     },
-    "requester_id": {
-      "type": "integer",
-      "description": "ID of user who created the ticket"
-    },
-    "submitter_id": {
-      "type": "integer",
-      "description": "ID of user who submitted the ticket"
-    },
-    "assignee_id": {
-      "type": ["integer", "null"],
-      "description": "ID of user assigned to the ticket"
-    },
-    "organization_id": {
-      "type": ["integer", "null"],
-      "description": "ID of the organization"
-    },
-    "group_id": {
-      "type": ["integer", "null"],
-      "description": "ID of the assigned group"
-    },
-    "collaborator_ids": {
-      "type": "array",
-      "items": {
-        "type": "integer"
-      },
-      "description": "IDs of users collaborating on the ticket"
-    },
-    "follower_ids": {
-      "type": "array",
-      "items": {
-        "type": "integer"
-      },
-      "description": "IDs of users following the ticket"
-    },
-    "email_cc_ids": {
-      "type": "array",
-      "items": {
-        "type": "integer"
-      },
-      "description": "IDs of users CC'd on ticket emails"
-    },
-    "custom_fields": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "value": {
-            "type": "string"
-          }
-        },
-        "required": ["id", "value"]
-      },
-      "description": "Custom field values"
-    },
-    "satisfaction_rating": {
-      "type": ["object", "null"],
-      "properties": {
-        "comment": {
-          "type": ["string", "null"]
-        },
-        "id": {
-          "type": "integer"
-        },
-        "score": {
-          "type": "string"
-        }
-      },
-      "required": ["id", "score"],
-      "description": "Customer satisfaction rating"
-    },
-    "sharing_agreement_ids": {
-      "type": "array",
-      "items": {
-        "type": "integer"
-      },
-      "description": "IDs of sharing agreements"
-    },
-    "custom_status_id": {
-      "type": ["integer", "null"],
-      "description": "Custom status identifier"
-    },
-    "type": {
+    "organization": {
       "type": ["string", "null"],
-      "description": "Type of ticket"
+      "description": "Name of the organization"
+    },
+    "organization_details": {
+      "type": ["string", "null"],
+      "description": "Additional details about the organization"
+    },
+    "organization_notes": {
+      "type": ["string", "null"],
+      "description": "Notes about the organization"
     },
     "url": {
       "type": ["string", "null"],
       "description": "URL to the ticket"
-    },
-    "external_id": {
-      "type": ["string", "null"],
-      "description": "External identifier"
-    },
-    "via": {
-      "type": ["object", "null"],
-      "properties": {
-        "channel": {
-          "type": "string"
-        }
-      },
-      "required": ["channel"],
-      "description": "How the ticket was created"
     },
     "tags": {
       "type": "array",
@@ -148,33 +53,8 @@
         "type": "string"
       },
       "description": "Tags applied to the ticket"
-    },
-    "has_incidents": {
-      "type": "boolean",
-      "description": "Whether ticket has incidents"
-    },
-    "due_at": {
-      "type": ["string", "null"],
-      "format": "date-time",
-      "description": "When the ticket is due"
-    },
-    "problem_id": {
-      "type": ["integer", "null"],
-      "description": "ID of the problem ticket"
-    },
-    "from_messaging_channel": {
-      "type": "boolean",
-      "description": "Whether from messaging channel"
-    },
-    "generated_timestamp": {
-      "type": ["integer", "null"],
-      "description": "Generated timestamp"
-    },
-    "recipient": {
-      "type": ["string", "null"],
-      "description": "Email recipient"
     }
   },
-  "required": ["id", "subject", "status", "created_at", "updated_at", "requester_id", "submitter_id"],
+  "required": ["id", "email", "subject", "status", "updated_at"],
   "additionalProperties": false
 }

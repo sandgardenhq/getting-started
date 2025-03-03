@@ -1,0 +1,16 @@
+{
+  "input": {
+    "id": 123456,
+    "email": "john.doe@acme.com",
+    "subject": "Unable to access production environment",
+    "description": "Hi Support team,\n\nI'm having trouble accessing our production environment since this morning. When I try to log in through the dashboard, I get a 403 error. This is blocking our deployment.\n\nCan you please help?\n\nBest regards,\nJohn",
+    "status": "open",
+    "priority": "high",
+    "updated_at": "2024-03-20T14:30:00Z",
+    "organization": "Acme Corporation",
+    "organization_details": "Enterprise customer since 2022",
+    "organization_notes": "Primary contact: John Doe (CTO), Preferred contact method: Email",
+    "tags": ["access-issue", "production", "urgent"],
+    "url": "https://support.company.com/tickets/123456"
+  }
+}

@@ -8,25 +8,25 @@
         "name": "summarize-and-enrich-ticket",
         "input": "runInput",
         "workflowRunInput": true,
-        "step": "summarize-and-enrich-ticket:latest"
+        "step": "summarize-and-enrich-ticket:demo"
       },
       {
         "name": "analyze-customer-sentiment",
         "input": "stage0",
         "stageInput": 0,
-        "step": "analyze-customer-sentiment:latest"
+        "step": "analyze-customer-sentiment:demo"
       },
       {
         "name": "determine-churn-risk",
         "input": "stage1",
         "stageInput": 1,
-        "step": "determine-churn-risk:latest"
+        "step": "determine-churn-risk:demo"
       },
       {
         "name": "escalation-decision",
         "input": "stage2",
         "stageInput": 2,
-        "step": "escalation-decision:latest"
+        "step": "escalation-decision:demo"
       }
     ]
   },

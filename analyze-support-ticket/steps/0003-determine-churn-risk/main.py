@@ -43,6 +43,7 @@ class TicketSentimentResponse(BaseModel):
     ticket: Ticket
     analysis: SentimentAnalysis
     account: Optional[Account] = None
+    summary: str
     
 class ChurnRiskFactors(BaseModel):
     sentiment_indicators: List[str]

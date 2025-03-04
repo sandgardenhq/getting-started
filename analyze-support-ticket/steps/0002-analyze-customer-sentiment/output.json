@@ -146,8 +146,12 @@
       },
       "required": ["id", "name", "acv", "tier", "industry", "support_level", "critical_systems", "region"],
       "additionalProperties": false
+    },
+    "summary": {
+      "type": "string",
+      "description": "AI-generated summary of the ticket content"
     }
   },
-  "required": ["ticket", "analysis", "account"],
+  "required": ["ticket", "analysis", "summary"],
   "additionalProperties": false
 } 

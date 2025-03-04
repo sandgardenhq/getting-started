@@ -3,6 +3,68 @@ from typing import Optional, List, Dict
 from slack_sdk.webhook import WebhookClient
 from datetime import datetime, timezone
 
+class Account(BaseModel):
+    id: str
+    name: str
+    acv: int
+    tier: str
+    industry: str
+    support_level: str
+    critical_systems: List[str]
+    region: str
+
+class SentimentAnalysis(BaseModel):
+    sentiment: str  # positive, negative, neutral
+    confidence: float
+    key_phrases: List[str]
+    emotion_indicators: List[str]
+    urgency_level: str  # high, medium, low
+    satisfaction_indicators: List[str]
+    
+class Ticket(BaseModel):
+    id: int
+    email: str
+    subject: str
+    description: Optional[str] = None
+    status: str
+    priority: Optional[str] = None
+    updated_at: str
+    organization: Optional[str] = None
+    organization_details: Optional[str] = None
+    organization_notes: Optional[str] = None
+    url: Optional[str] = None
+    tags: List[str] = Field(default_factory=list)
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+        
+class TicketSentimentResponse(BaseModel):
+    ticket: Ticket
+    analysis: SentimentAnalysis
+    account: Optional[Account] = None
+    
+class ChurnRiskFactors(BaseModel):
+    sentiment_indicators: List[str]
+    technical_factors: List[str]
+    account_factors: List[str]
+    historical_factors: List[str]
+
+class ChurnRiskAssessment(BaseModel):
+    risk_level: str  # high, medium, low
+    confidence: float
+    risk_factors: ChurnRiskFactors
+    recommendations: List[str]
+    priority_score: int  # 1-100
+
+class ChurnRiskResponse(BaseModel):
+    ticket: Ticket
+    summary: str
+    sentiment: SentimentAnalysis
+    account: Optional[Account] = None
+    risk_assessment: ChurnRiskAssessment
+
 class EscalationCriteria(BaseModel):
     should_escalate: bool
     reasons: List[str]
@@ -11,20 +73,16 @@ class EscalationCriteria(BaseModel):
     response_sla: str  # immediate, 4 hours, 24 hours, etc.
 
 class EscalationResponse(BaseModel):
-    ticket: dict
+    ticket: Ticket
     summary: str
-    sentiment: dict
-    risk_assessment: dict
-    account: Optional[Dict] = None
+    sentiment: SentimentAnalysis
+    risk_assessment: ChurnRiskAssessment
+    account: Optional[Account] = None
     escalation: EscalationCriteria
     notification_sent: bool = False
 
 class TicketInput(BaseModel):
     ticket: dict
-    summary: str
-    sentiment: dict
-    risk_assessment: dict
-    account: Optional[Dict] = None
 
 def format_notification(ticket: dict, account: Optional[Dict], risk_assessment: dict, escalation: EscalationCriteria) -> str:
     """Format the Slack notification message."""

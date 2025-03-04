@@ -10,6 +10,10 @@
       "tags": [
           "enterprise",
           "other_tag"
-      ]
+      ],
+      "organization": "SandGarden",
+      "organization_details": "SandGarden is a company that makes software for managing customer support.",
+      "organization_notes": "SandGarden is a company that makes software for managing customer support.",
+      "url": "https://www.example.com"
   }
 }

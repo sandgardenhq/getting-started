@@ -187,8 +187,8 @@ Sentiment Analysis:
     # Send notification if escalation is needed
     notification_sent = False
     if escalation_criteria.should_escalate:
-        # webhook_url = os.getenv('WEBHOOK_URL')
-        webhook = WebhookClient('https://not.example.com')
+        webhook_url = sandgarden.connector_configs['demo-slack']['custom']['properties']['webhook_url']
+        webhook = WebhookClient(webhook_url)
         
         message = format_notification(
             ticket_data.ticket,

@@ -21,17 +21,34 @@ class SentimentAnalysis(BaseModel):
     urgency_level: str  # high, medium, low
     satisfaction_indicators: List[str]
 
+class Ticket(BaseModel):
+    id: int
+    email: str
+    subject: str
+    description: Optional[str] = None
+    status: str
+    priority: Optional[str] = None
+    updated_at: str
+    organization: Optional[str] = None
+    organization_details: Optional[str] = None
+    organization_notes: Optional[str] = None
+    url: Optional[str] = None
+    tags: List[str] = Field(default_factory=list)
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+        
 class TicketSentimentResponse(BaseModel):
-    ticket_id: int
-    ticket: dict
+    ticket: Ticket
     analysis: SentimentAnalysis
-    account: Optional[Account] = None
 
 class TicketInput(BaseModel):
-    ticket: dict
+    ticket: Ticket
     summary: str
 
-async def handler(input, sandgarden, runtime_context):
+def handler(input, sandgarden):
     """
     Analyze customer sentiment from support ticket content.
 
@@ -71,10 +88,11 @@ async def handler(input, sandgarden, runtime_context):
         )
     
     # Get LLM client and prompt
-    llm = sandgarden.connectors['sentiment-analyzer-model']
-    prompt = sandgarden.prompts('analyze-sentiment')
-    
+    llm = sandgarden.get_connector('ticket-summarizer-model')
+    prompt = sandgarden.get_prompt('analyze-ticket-sentiment')
+
     # Prepare content for analysis
+    # TODO: make account info optional
     analysis_content = f"""
 Ticket Content:
 {ticket_data.ticket.get('description', 'No description provided')}
@@ -98,19 +116,18 @@ Account Information:
 """
     
     # Get structured sentiment analysis from LLM
-    sentiment_data = await llm.beta.chat.completions.parse(
+    sentiment_data = llm.beta.chat.completions.parse(
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": prompt},
             {"role": "user", "content": analysis_content}
         ],
         response_format=SentimentAnalysis
-    )
+    ).choices[0].message.parsed
     
     # Return validated response with JSON serialization
-    return TicketSentimentResponse(
-        ticket_id=ticket_data.ticket['id'],
+    return sandgarden.out(TicketSentimentResponse(
         ticket=ticket_data.ticket,
         analysis=sentiment_data,  # Already a SentimentAnalysis instance
         account=account
-    ).model_dump(mode='json')
+    ))

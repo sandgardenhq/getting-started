@@ -135,5 +135,6 @@ Account Information:
     return sandgarden.out(TicketSentimentResponse(
         ticket=ticket_data.ticket,
         analysis=sentiment_data,  # Already a SentimentAnalysis instance
-        account=account
+        account=account,
+        summary=ticket_data.summary
     ))

@@ -1,7 +1,13 @@
+import os
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict
 from slack_sdk.webhook import WebhookClient
 from datetime import datetime, timezone
+import logging
+
+# Set up logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 class Account(BaseModel):
     id: str
@@ -10,7 +16,7 @@ class Account(BaseModel):
     tier: str
     industry: str
     support_level: str
-    critical_systems: List[str]
+    critical_systems: Optional[List[str]] = None
     region: str
 
 class SentimentAnalysis(BaseModel):
@@ -32,7 +38,7 @@ class Ticket(BaseModel):
     organization: Optional[str] = None
     organization_details: Optional[str] = None
     organization_notes: Optional[str] = None
-    url: Optional[str] = None
+    url: Optional[str] = "https://www.example.com"
     tags: List[str] = Field(default_factory=list)
     
     class Config:
@@ -81,18 +87,15 @@ class EscalationResponse(BaseModel):
     escalation: EscalationCriteria
     notification_sent: bool = False
 
-class TicketInput(BaseModel):
-    ticket: dict
-
-def format_notification(ticket: dict, account: Optional[Dict], risk_assessment: dict, escalation: EscalationCriteria) -> str:
+def format_notification(ticket: Ticket, account: Optional[Account], risk_assessment: ChurnRiskAssessment, escalation: EscalationCriteria) -> str:
     """Format the Slack notification message."""
-    account_info = account or {}
+    account_info = account or Account(id='Unknown', name='Unknown', acv=0, tier='Unknown', support_level='Unknown', industry='Unknown', critical_systems=[], region='Unknown')
     risk_level = risk_assessment.risk_level.upper()
     priority_score = risk_assessment.priority_score
     
     # Calculate duration since ticket creation
-    created_at = datetime.fromisoformat(ticket.created_at.replace('Z', '+00:00'))
-    duration = datetime.now(timezone.utc) - created_at
+    updated_at = datetime.fromisoformat(ticket.updated_at.replace('Z', '+00:00'))
+    duration = datetime.now(timezone.utc) - updated_at
     duration_hours = duration.total_seconds() / 3600
     duration_str = f"{int(duration_hours)}+ hours" if duration_hours >= 1 else f"{int(duration.total_seconds() / 60)} minutes"
     
@@ -108,14 +111,14 @@ Revenue Impact: ${account_info.acv:,} ARR
 Churn Risk: {risk_level} {'🔥' if risk_level == 'HIGH' else '⚠️'}
 
 Issue: {ticket.subject}
-Duration: {duration_str}
+Age: {duration_str}
 Impact: {description}
 Context: Priority Score {priority_score}/100
 Urgency: {escalation.response_sla}
 
 AI Analysis: {', '.join(escalation.reasons)}
 
-View in Zendesk: {ticket.get('url', '[No URL]')}
+View in Zendesk: {ticket.url}
 Escalate to On-Call: [Click to Page]"""
 
 # TODO: verify pydoc for all handlers
@@ -139,8 +142,10 @@ def handler(input, sandgarden):
         - Escalation decision and criteria
         - Notification status
     """
+    logger.info(f"WEBHOOK_URL: {os.getenv('WEBHOOK_URL')}")
     # Parse input
-    ticket_data = TicketInput(**input)
+    ticket_data = ChurnRiskResponse(**input)
+    logger.info(f"ticket.url: {ticket_data.ticket.url}")
     
     # Get LLM client and prompt
     llm = sandgarden.get_connector('ticket-summarizer-model')
@@ -171,17 +176,19 @@ Sentiment Analysis:
     
     # Get structured escalation assessment from LLM
     escalation_criteria = llm.beta.chat.completions.parse(
-        prompt=prompt,
-        messages=[{"role": "user", "content": analysis_content}],
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": analysis_content}
+        ],
         response_format=EscalationCriteria
     ).choices[0].message.parsed
     
     # Send notification if escalation is needed
     notification_sent = False
     if escalation_criteria.should_escalate:
-        # FIXME: hallucinations
-        webhook_url = sandgarden.secrets['slack_webhook_url']
-        webhook = WebhookClient(webhook_url)
+        # webhook_url = os.getenv('WEBHOOK_URL')
+        webhook = WebhookClient('https://not.example.com')
         
         message = format_notification(
             ticket_data.ticket,

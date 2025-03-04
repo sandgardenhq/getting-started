@@ -65,7 +65,7 @@ class ChurnRiskResponse(BaseModel):
     account: Optional[Account] = None
     risk_assessment: ChurnRiskAssessment
 
-async def handler(input, sandgarden):
+def handler(input, sandgarden):
     """
     Assess the risk of customer churn based on ticket content and sentiment.
 
@@ -122,7 +122,8 @@ Ticket Details:
 """
     
     # Get structured churn risk assessment from LLM
-    risk_assessment = await llm.beta.chat.completions.parse(
+    risk_assessment = llm.beta.chat.completions.parse(
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": prompt},
             {"role": "user", "content": analysis_content}

@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional, List
 import json
+import os
 
 class Account(BaseModel):
     id: str
@@ -74,13 +75,15 @@ def handler(input, sandgarden):
     # Parse input
     ticket_data = TicketInput(**input)
     
+    # get the current directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))    
     # Load accounts data
-    with open('accounts.json') as f:
+    with open(os.path.join(current_dir, 'accounts.json')) as f:
         accounts_data = json.load(f)
     
     # Find matching account
     account = None
-    org_name = ticket_data.ticket.get('organization')
+    org_name = ticket_data.ticket.organization
     if org_name:
         account = next(
             (Account(**acc) for acc in accounts_data['accounts'] 
@@ -96,15 +99,15 @@ def handler(input, sandgarden):
     # TODO: make account info optional
     analysis_content = f"""
 Ticket Content:
-{ticket_data.ticket.get('description', 'No description provided')}
+{ticket_data.ticket.description}
 
 Summary:
 {ticket_data.summary}
 
 Additional Context:
-- Priority: {ticket_data.ticket.get('priority', 'Not set')}
-- Status: {ticket_data.ticket.get('status', 'Unknown')}
-- Tags: {', '.join(ticket_data.ticket.get('tags', []))}
+- Priority: {ticket_data.ticket.priority}
+- Status: {ticket_data.ticket.status}
+- Tags: {', '.join(ticket_data.ticket.tags)}
 
 Account Information:
 - Name: {account.name if account else 'Unknown'}

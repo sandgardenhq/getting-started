@@ -9,18 +9,28 @@ class Ticket(BaseModel):
     description: Optional[str] = None
     status: str
     priority: Optional[str] = None
-    updated_at: datetime
+    updated_at: str
     organization: Optional[str] = None
     organization_details: Optional[str] = None
     organization_notes: Optional[str] = None
     url: Optional[str] = None
     tags: List[str] = Field(default_factory=list)
     
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+    
 class TicketSummaryResponse(BaseModel):
     ticket: Ticket
     summary: str
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
 
-async def handler(input, sandgarden, runtime_context):
+def handler(input, sandgarden):
     """
     Analyze a support ticket and generate an AI-powered summary of its content.
 
@@ -42,10 +52,10 @@ async def handler(input, sandgarden, runtime_context):
     """
     # Parse input
     ticket = Ticket(**input)
-    
+    # Return validated response with JSON serialization
     # Get LLM client and prompt
-    llm = sandgarden.connectors['ticket-summarizer-model']
-    prompt = sandgarden.prompts('summarize-ticket')
+    llm = sandgarden.get_connector('ticket-summarizer-model')
+    prompt = sandgarden.get_prompt('summarize-ticket')
     
     # Prepare ticket content for summarization
     ticket_content = f"""
@@ -64,27 +74,20 @@ Customer Details:
 Metadata:
 - URL: {ticket.url or 'Not available'}
 - Tags: {', '.join(ticket.tags) if ticket.tags else 'None'}
-- Last Updated: {ticket.updated_at.isoformat()}
+- Last Updated: {ticket.updated_at}
 """
     
     # Get summary from LLM
-    summary = await llm.beta.chat.completions.parse(
-        prompt=prompt,
-        messages=[{"role": "user", "content": ticket_content}]
-    )
-    
+    summary = llm.beta.chat.completions.parse(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": ticket_content}
+        ]
+    ).choices[0].message.content
+        
     # Return validated response with JSON serialization
-    return TicketSummaryResponse(
-        ticket=Ticket(
-            id=ticket.id,
-            subject=ticket.subject,
-            description=ticket.description,
-            status=ticket.status,
-            priority=ticket.priority,
-            created_at=ticket.created_at,
-            updated_at=ticket.updated_at,
-            requester_id=ticket.requester_id,
-            assignee_id=ticket.assignee_id
-        ),
+    return sandgarden.out(TicketSummaryResponse(
+        ticket=ticket,
         summary=summary
-    ).dict()
+    ))

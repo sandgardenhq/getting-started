@@ -43,6 +43,7 @@ class Ticket(BaseModel):
 class TicketSentimentResponse(BaseModel):
     ticket: Ticket
     analysis: SentimentAnalysis
+    account: Optional[Account] = None
 
 class TicketInput(BaseModel):
     ticket: Ticket

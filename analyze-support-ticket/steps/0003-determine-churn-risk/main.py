@@ -1,14 +1,49 @@
-from pydantic import BaseModel
-
-def handler(input, sandgarden, runtime_context):
-    """
-    Calculate customer churn risk based on sentiment and history
-    """
-    # TODO: Implement churn risk analysis
-    pass
 from pydantic import BaseModel, Field
+from datetime import datetime
 from typing import Optional, List, Dict
+    
+class Account(BaseModel):
+    id: str
+    name: str
+    acv: int
+    tier: str
+    industry: str
+    support_level: str
+    critical_systems: List[str]
+    region: str
 
+class SentimentAnalysis(BaseModel):
+    sentiment: str  # positive, negative, neutral
+    confidence: float
+    key_phrases: List[str]
+    emotion_indicators: List[str]
+    urgency_level: str  # high, medium, low
+    satisfaction_indicators: List[str]
+    
+class Ticket(BaseModel):
+    id: int
+    email: str
+    subject: str
+    description: Optional[str] = None
+    status: str
+    priority: Optional[str] = None
+    updated_at: str
+    organization: Optional[str] = None
+    organization_details: Optional[str] = None
+    organization_notes: Optional[str] = None
+    url: Optional[str] = None
+    tags: List[str] = Field(default_factory=list)
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+        
+class TicketSentimentResponse(BaseModel):
+    ticket: Ticket
+    analysis: SentimentAnalysis
+    account: Optional[Account] = None
+    
 class ChurnRiskFactors(BaseModel):
     sentiment_indicators: List[str]
     technical_factors: List[str]
@@ -23,19 +58,13 @@ class ChurnRiskAssessment(BaseModel):
     priority_score: int  # 1-100
 
 class ChurnRiskResponse(BaseModel):
-    ticket: dict
+    ticket: Ticket
     summary: str
-    sentiment: dict
-    account: Optional[Dict] = None
+    sentiment: SentimentAnalysis
+    account: Optional[Account] = None
     risk_assessment: ChurnRiskAssessment
 
-class TicketInput(BaseModel):
-    ticket: dict
-    summary: str
-    analysis: dict
-    account: Optional[Dict] = None
-
-async def handler(input, sandgarden, runtime_context):
+async def handler(input, sandgarden):
     """
     Assess the risk of customer churn based on ticket content and sentiment.
 
@@ -48,7 +77,6 @@ async def handler(input, sandgarden, runtime_context):
     Args:
         input: Dict containing ticket, summary, sentiment analysis, and account data
         sandgarden: SandGarden context with connectors and prompts
-        runtime_context: Runtime execution context
 
     Returns:
         Dict containing all previous analysis plus:
@@ -57,24 +85,25 @@ async def handler(input, sandgarden, runtime_context):
         - Recommendations
     """
     # Parse input
-    ticket_data = TicketInput(**input)
+    ticket_data = TicketSentimentResponse(**input)
     
     # Get LLM client and prompt
-    llm = sandgarden.connectors['churn-analyzer-model']
-    prompt = sandgarden.prompts('assess-churn-risk')
+    llm = sandgarden.get_connector('ticket-summarizer-model')
+    prompt = sandgarden.get_prompt('assess-churn-risk')
     
     # Prepare content for analysis
+    # TODO: move to prompt
     analysis_content = f"""
 Ticket Summary:
 {ticket_data.summary}
 
 Sentiment Analysis:
-- Overall Sentiment: {ticket_data.analysis.get('sentiment', 'Unknown')}
-- Confidence: {ticket_data.analysis.get('confidence', 0.0)}
-- Urgency Level: {ticket_data.analysis.get('urgency_level', 'Unknown')}
-- Key Phrases: {', '.join(ticket_data.analysis.get('key_phrases', []))}
-- Emotion Indicators: {', '.join(ticket_data.analysis.get('emotion_indicators', []))}
-- Satisfaction Indicators: {', '.join(ticket_data.analysis.get('satisfaction_indicators', []))}
+- Overall Sentiment: {ticket_data.analysis.sentiment}
+- Confidence: {ticket_data.analysis.confidence}
+- Urgency Level: {ticket_data.analysis.urgency_level}
+- Key Phrases: {', '.join(ticket_data.analysis.key_phrases)}
+- Emotion Indicators: {', '.join(ticket_data.analysis.emotion_indicators)}
+- Satisfaction Indicators: {', '.join(ticket_data.analysis.satisfaction_indicators)}
 
 Account Information:
 {f'''- Name: {ticket_data.account['name']}
@@ -86,23 +115,25 @@ Account Information:
 - Region: {ticket_data.account['region']}''' if ticket_data.account else '- No account information available'}
 
 Ticket Details:
-- Priority: {ticket_data.ticket.get('priority', 'Unknown')}
-- Status: {ticket_data.ticket.get('status', 'Unknown')}
-- Tags: {', '.join(ticket_data.ticket.get('tags', []))}
+- Priority: {ticket_data.ticket.priority}
+- Status: {ticket_data.ticket.status}
+- Tags: {', '.join(ticket_data.ticket.tags)}
 """
     
     # Get structured churn risk assessment from LLM
     risk_assessment = await llm.beta.chat.completions.parse(
-        prompt=prompt,
-        messages=[{"role": "user", "content": analysis_content}],
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": analysis_content}
+        ],
         response_format=ChurnRiskAssessment
-    )
+    ).choices[0].message.parsed
     
     # Return all data plus risk assessment
-    return ChurnRiskResponse(
+    return sandgarden.out(ChurnRiskResponse(
         ticket=ticket_data.ticket,
         summary=ticket_data.summary,
         sentiment=ticket_data.analysis,
         account=ticket_data.account,
         risk_assessment=risk_assessment
-    ).model_dump(mode='json')
+    ))

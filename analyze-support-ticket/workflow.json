@@ -1,7 +1,7 @@
 {
-  "id": "wrk_01jmx380kpen1sz9wsx6gn5a5j",
+  "id": "wrk_01jnfk8zfhfk4vr8pczxqy76hr",
   "name": "analyze-support-ticket",
-  "version": 2,
+  "version": 9,
   "config": {
     "stages": [
       {
@@ -30,7 +30,11 @@
       }
     ]
   },
-  "url": "https://api.sandgarden.com/api/v1/workflows/analyze-support-ticket:2",
-  "inputSchema": "{}",
-  "outputSchema": "{}"
+  "url": "https://api.sandgarden.com/api/v1/workflows/analyze-support-ticket:9",
+  "inputSchema": "{\"type\": \"object\", \"$schema\": \"http://json-schema.org/draft-07/schema#\", \"required\": [\"id\", \"email\", \"subject\", \"status\", \"updated_at\"], \"properties\": {\"id\": {\"type\": \"integer\", \"description\": \"Ticket identifier\"}, \"url\": {\"type\": [\"string\", \"null\"], \"description\": \"URL to the ticket\"}, \"tags\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}, \"description\": \"Tags applied to the ticket\"}, \"email\": {\"type\": \"string\", \"description\": \"Email of the requester\"}, \"status\": {\"type\": \"string\", \"description\": \"Current ticket status\"}, \"subject\": {\"type\": \"string\", \"description\": \"Ticket subject line\"}, \"priority\": {\"type\": [\"string\", \"null\"], \"description\": \"Ticket priority level\"}, \"updated_at\": {\"type\": \"string\", \"format\": \"date-time\", \"description\": \"Timestamp when ticket was last updated\"}, \"description\": {\"type\": [\"string\", \"null\"], \"description\": \"Detailed ticket description\"}, \"organization\": {\"type\": [\"string\", \"null\"], \"description\": \"Name of the organization\"}, \"organization_notes\": {\"type\": [\"string\", \"null\"], \"description\": \"Notes about the organization\"}, \"organization_details\": {\"type\": [\"string\", \"null\"], \"description\": \"Additional details about the organization\"}}, \"additionalProperties\": false}",
+  "outputSchema": "{}",
+  "buildStatus": "created",
+  "buildLogs": "",
+  "buildDuration": 0,
+  "cluster": "reliable-optimal-boat"
 }

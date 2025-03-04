@@ -97,6 +97,7 @@ def handler(input, sandgarden):
 
     # Prepare content for analysis
     # TODO: make account info optional
+    # TODO: move to prompt
     analysis_content = f"""
 Ticket Content:
 {ticket_data.ticket.description}

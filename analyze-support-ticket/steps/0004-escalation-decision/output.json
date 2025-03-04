@@ -240,7 +240,6 @@
         },
         "priority_level": {
           "type": "string",
-          "enum": ["critical", "high", "medium", "low"],
           "description": "Priority level for escalation"
         },
         "response_sla": {

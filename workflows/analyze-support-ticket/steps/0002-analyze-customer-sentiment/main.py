@@ -94,7 +94,7 @@ def handler(input, sandgarden):
     
     # Get LLM client and prompt
     llm = sandgarden.get_connector('ticket-summarizer-model')
-    prompt = sandgarden.get_prompt('analyze-ticket-sentiment')
+    prompt = sandgarden.get_prompt('analyze-sentiment')
 
     # Prepare content for analysis
     # TODO: make account info optional

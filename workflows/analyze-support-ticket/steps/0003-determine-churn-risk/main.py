@@ -107,13 +107,13 @@ Sentiment Analysis:
 - Satisfaction Indicators: {', '.join(ticket_data.analysis.satisfaction_indicators)}
 
 Account Information:
-{f'''- Name: {ticket_data.account['name']}
-- Annual Contract Value: ${ticket_data.account['acv']:,}
-- Tier: {ticket_data.account['tier']}
-- Support Level: {ticket_data.account['support_level']}
-- Industry: {ticket_data.account['industry']}
-- Critical Systems: {', '.join(ticket_data.account['critical_systems'])}
-- Region: {ticket_data.account['region']}''' if ticket_data.account else '- No account information available'}
+{f'''- Name: {ticket_data.account.name}
+- Annual Contract Value: ${ticket_data.account.acv}
+- Tier: {ticket_data.account.tier}
+- Support Level: {ticket_data.account.support_level}
+- Industry: {ticket_data.account.industry}
+- Critical Systems: {', '.join(ticket_data.account.critical_systems)}
+- Region: {ticket_data.account.region}''' if ticket_data.account else '- No account information available'}
 
 Ticket Details:
 - Priority: {ticket_data.ticket.priority}

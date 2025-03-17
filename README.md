@@ -27,7 +27,7 @@ _Technical Note: The director is a stateless Go binary designed to run in pools 
 ## Updates
 
 * [ ] Rewrite this README
-* [ ] Add Cursor rules
+* [x] Add Cursor rules
 * [x] Restructure directories
     * [x] Remove devcontainer duplication
     * [x] Remove aws/vpc
@@ -38,3 +38,6 @@ _Technical Note: The director is a stateless Go binary designed to run in pools 
 * [ ] Add Github actions
     * [ ] triggering
     * [ ] workflow syncing
+* [ ] Add more workflows
+    * [ ] Summary of the last time I talked to someone (email, notes)
+    * [ ] AWS access review based on title and org chart

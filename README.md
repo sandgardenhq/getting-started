@@ -23,3 +23,14 @@ There are two ways to run directors:
 * For production: [Deploy a pool of directors remotely in AWS](/aws/vpc/README.md)
 
 _Technical Note: The director is a stateless Go binary designed to run in pools behind a load balancer for redundancy and scalability. Directors operate entirely in your environment while communicating with the control plane (app.sandgarden.com) for configuration, logs, and metrics._
+
+## Updates
+
+* [ ] Rewrite this README
+* [ ] Add Cursor rules
+* [ ] Restructure directories
+    * [ ] Remove devcontainer duplication
+* [ ] Improve local exec guides
+    * [ ] Explain local steps
+* [ ] Update workflow for new SDK
+* [ ] Switch guides to steps/functions first

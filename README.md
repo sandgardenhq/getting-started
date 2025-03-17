@@ -28,9 +28,13 @@ _Technical Note: The director is a stateless Go binary designed to run in pools 
 
 * [ ] Rewrite this README
 * [ ] Add Cursor rules
-* [ ] Restructure directories
-    * [ ] Remove devcontainer duplication
+* [x] Restructure directories
+    * [x] Remove devcontainer duplication
+    * [x] Remove aws/vpc
 * [ ] Improve local exec guides
     * [ ] Explain local steps
 * [ ] Update workflow for new SDK
 * [ ] Switch guides to steps/functions first
+* [ ] Add Github actions
+    * [ ] triggering
+    * [ ] workflow syncing

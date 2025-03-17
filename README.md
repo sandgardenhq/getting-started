@@ -33,7 +33,7 @@ workflows/
 
 ## Development Environment Setup
 
-This repository includes a devcontainer configuration for a consistent development environment. The devcontainer provides:
+The fastest to get started is to use the devcontainer configuration included in this project. This repository includes a devcontainer configuration for a consistent development environment. The devcontainer provides:
 
 - Python 3.12.5
 - Sandgarden CLI pre-installed
@@ -43,7 +43,7 @@ This repository includes a devcontainer configuration for a consistent developme
 
 ### Prerequisites
 
-- [VS Code](https://code.visualstudio.com/) or [Cursor](https://www.cursor.com/)
+- [Cursor](https://www.cursor.com/) or [VS Code](https://code.visualstudio.com/)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) or something similar like [OrbStack](https://orbstack.dev/)
 - [VS Code Remote Development extension pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
 

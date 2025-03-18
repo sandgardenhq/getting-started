@@ -38,7 +38,9 @@ terraform.rc
 .env
 *.db
 *.lock.hcl
+# Ignore dev container files
 .devcontainer/.sandgarden/staticcfg.json
 setup.sh
-
 .sandgarden
+env.properties
+sand

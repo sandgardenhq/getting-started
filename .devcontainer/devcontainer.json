@@ -52,9 +52,24 @@
         "vscode.docker",
         "vscode.yaml",
         "ms-azuretools.vscode-docker",
-        "KevinRose.vsc-python-indent"
+        "KevinRose.vsc-python-indent",
+        "waderyan.gitblame",
+        "github.vscode-github-actions",
+        "golang.go",
+        "andrejunges.handlebars",
+        "hashicorp.terraform"
       ]
     }
   },
-  "postCreateCommand": "sh /workspaces/sandgarden/setup.sh"
+  "postCreateCommand": "sh /workspaces/sandgarden/setup.sh",
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh/known_hosts,target=/root/.ssh/known_hosts,type=bind,consistency=cached",
+    "source=${localEnv:SSH_AUTH_SOCK_PATH:/run/host-services/ssh-auth.sock},target=/run/host-services/ssh-auth.sock,type=bind,consistency=cached,if=exists"
+  ],
+  "remoteEnv": {},
+  "initializeCommand": "bash -c 'if [[ \"$(uname -s)\" == \"Darwin\" ]]; then echo \"SSH_AUTH_SOCK_PATH=/run/host-services/ssh-auth.sock\" > .devcontainer/env.properties; else echo \"# Not on macOS\" > .devcontainer/env.properties; fi'",
+  "updateContentCommand": "bash -c 'if [ -f .devcontainer/env.properties ] && grep -q SSH_AUTH_SOCK_PATH .devcontainer/env.properties; then source .devcontainer/env.properties && echo \"Adding macOS SSH agent mount\"; fi'",
+  "containerEnv": {
+    "SSH_AUTH_SOCK": "${localEnv:SSH_AUTH_SOCK_PATH:/run/host-services/ssh-auth.sock}"
+  }
 }

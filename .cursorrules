@@ -59,8 +59,20 @@ When creating or editing a workflow use the following project structure guidelin
 - **Modular design** use distinct files for services and utilities.
 
 ### Sandgarden commands
-Some times you will need to interact with the Sandgarden service where workflows are hosted and deployed. You can do this using the `sand` command line utility. Here are some commands that may be useful.
-- `sand prompts create --content <path to file> --name <name>` will register a prompt with sandgarden. You can then load it using the Sandgarden library.
+Some times you will need to interact with the Sandgarden service where workflows are hosted and deployed. You can do this using the `sand` command line utility. Some instructions for using the sand utility.
+
+- Always use the `--json` flag when running `sand` commands
+- All commands accept a `-h` parameter that will show documentation and an example response
+- Resource like workflows, steps, and prompts all have these sub-commands:
+    - `list` list all known resources of that type
+    - `list --name <name>` lists all known version of the resource named <name> and their ids
+    - `get --name <name>:<version | tag>` gets the information about the resource with that name and tag or version
+- Create commands have slightly different syntax for each reasource
+
+Here are some specific commands that may be useful. Arguments in `[square brackets]` are optional.
+- `sand prompts create --content <path to file> --name <name> [--tag <tag>]` will register a prompt with sandgarden. You can then load it using the Sandgarden library.
+- `sand steps push docker  --name=<name> --description=<description> --file=<step directory full path> [--connector <connector name>] [--prompt <prompt name>] [--tag <tag name>] [--vars <var1=val1,var2=val2>]` will push a step to sandgarden. `--connector,--tag,--prompt` can all be provided multiple times. `--vars` is a string array of environment variables to set in the step runtime.
+- `sand workflows push --name <name> --description=<description> --stages <JSON config of stages> [--tag <tag>][--runAsync true]` will push a workflow to sandgarden. `--tag` can  be provided multiple times. `--runAsync` sets whether the workflow always runs asynchronously.
 
 ### Sandgarden library
 Inside the python code in steps you can use the `sandgarden` object passed into the `handler` function to interact with the Sandgarden service. Here are some useful functions:

@@ -87,9 +87,9 @@ The fastest to get started is to use the devcontainer configuration included in 
     * [ ] Explain local steps
 * [ ] Update workflow for new SDK
 * [ ] Switch guides to steps/functions first
-* [ ] Add Github actions
+* [x] Add Github actions
     * [x] triggering
-    * [ ] workflow syncing
+    * [x] workflow syncing
 * [ ] Add more workflows
     * [ ] Summary of the last time I talked to someone (email, notes)
     * [ ] AWS access review based on title and org chart

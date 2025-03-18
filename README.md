@@ -88,7 +88,7 @@ The fastest to get started is to use the devcontainer configuration included in 
 * [ ] Update workflow for new SDK
 * [ ] Switch guides to steps/functions first
 * [ ] Add Github actions
-    * [ ] triggering
+    * [x] triggering
     * [ ] workflow syncing
 * [ ] Add more workflows
     * [ ] Summary of the last time I talked to someone (email, notes)
@@ -96,4 +96,7 @@ The fastest to get started is to use the devcontainer configuration included in 
 * [ ] Add guides
     * [ ] Creating a Workflow
     * [ ] Deploying a Workflow
+* [ ] Devcontainer improvements
+    * [x] Host SSH
+    * [x] extensions
 

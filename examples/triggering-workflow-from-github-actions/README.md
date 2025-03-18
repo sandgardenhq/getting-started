@@ -2,38 +2,41 @@
 
 This example repository demonstrates how to trigger and execute Sandgarden workflows directly from GitHub Actions.
 
-## Overview
-
-This integration allows you to:
-- Automatically start Sandgarden workflows when GitHub events occur
-- Pass data between your GitHub Actions and Sandgarden workflows
-- Monitor and respond to Sandgarden workflow statuses from within GitHub Actions
-
-## Contents
-
-- `.github/workflows/` - Example GitHub Actions workflow configurations
-- `sandgarden/` - Example Sandgarden workflow definitions
-
 ## Getting Started
 
-*This section needs to be completed with setup instructions*
+1. Get your Sandgarden API Key:
+   - Visit [Sandgarden API Keys](https://app.sandgarden.com/settings/api-keys)
+   - Click "Create API Key"
+   - Save the key securely - you'll need it in step 3
 
-## Usage Examples
+2. Copy `github-workflow.yml` to your repository's `.github/workflows` directory and rename it appropriately (e.g., `summarize-pr.yml`, `process-issue.yml`)
 
-*This section needs to be completed with usage examples*
+3. Customize the workflow file:
 
-## Configuration Options
+   a. Configure trigger events:
+   ```yaml
+   on:
+     # Replace with your desired trigger events
+     pull_request:
+       types: [opened, synchronize, reopened]
+   ```
 
-*This section needs to be completed with configuration details*
+   b. Set up secrets in your GitHub repository:
+   - Go to Settings → Secrets and variables → Actions
+   - Add `SAND_API_KEY` with your Sandgarden API key
+   - Add `SAND_API_URL` with your workflow's endpoint URL (found on your workflow's page at app.sandgarden.com)
 
-## Best Practices
+   c. Configure workflow inputs:
+   ```yaml
+   -d "{\"input\": {\"text\": \"WHATEVER INPUTS YOU WANT\", \"number\": 3}}"
+   ```
+   Replace with your workflow's input schema. You can reference GitHub context using `${{ github.event.xxx }}`.
 
-*This section needs to be completed with best practices*
+   Example for PR processing:
+   ```yaml
+   -d "{\"input\": {\"pr_title\": \"${{ github.event.pull_request.title }}\", \"pr_body\": \"${{ github.event.pull_request.body }}\"}}"
+   ```
 
-## Troubleshooting
+### 🤷 But what if I just want to run an individual step? 🤷 
 
-*This section needs to be completed with troubleshooting guidance*
-
----
-
-**Note:** This README is a work in progress. Additional documentation will be added to provide complete instructions for setting up and using this integration.
+Steps work exactly the same way. Just use the URL of the step you want to run as your `SAND_API_URL`.

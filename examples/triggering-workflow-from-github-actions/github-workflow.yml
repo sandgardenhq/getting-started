@@ -1,0 +1,22 @@
+name: Trigger Sandgarden From Github Actions
+
+on:
+  # TODO: Add the events that trigger your workflow
+  # pull_request:
+  #   types: [opened, synchronize, reopened]
+
+jobs:
+  summarize-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Sandgarden Workflow
+        env:
+          # TODO: Fill in your API key and the URL of your workflow
+          SAND_API_KEY: ${{ secrets.SAND_API_KEY }}
+          SAND_API_URL: ${{ secrets.SAND_API_URL }}
+        # TODO: Add the inputs you want to pass to the workflow as the last argument
+        run: |
+          curl -X POST "$SAND_API_URL" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $SAND_API_KEY" \
+            -d "{\"input\": {\"text\": \"WHATEVER INPUTS YOU WANT\", \"number\": 3}}" 

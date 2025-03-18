@@ -1,6 +1,6 @@
 # Triggering Sandgarden Workflows from GitHub Actions
 
-This example repository demonstrates how to trigger and execute Sandgarden workflows directly from GitHub Actions.
+This example demonstrates how to trigger and execute Sandgarden workflows directly from GitHub Actions.
 
 ## Getting Started
 

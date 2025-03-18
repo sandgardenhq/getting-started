@@ -1,0 +1,20 @@
+name: Deploy to Sandgarden From Github Actions
+
+on:
+  # TODO: Add the events that trigger your workflow
+  # pull_request:
+  #   types: [opened, synchronize, reopened]
+
+jobs:
+  deploy-to-sandgarden:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Sandgarden
+        uses: sandgarden/github-action@v1
+        with:
+          api-key: ${{ secrets.SAND_API_KEY }}
+          api-url: ${{ secrets.SAND_API_URL }}
+          branch: ${{ github.ref }}
+          environment: ${{ github.ref_name }}
+          # TODO: Add any other inputs you need for your workflow
+          # input-name: ${{ github.event.inputs.input-name }}

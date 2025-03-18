@@ -248,6 +248,13 @@ def sync_to_sandgarden(branch: str, environment: str) -> Dict[str, Any]:
     
     print(f"Found {len(workflows)} workflows to sync")
     
+    # Track synced resources
+    synced_resources = {
+        "workflows": [],
+        "steps": [],
+        "prompts": []
+    }
+    
     # Update resources in Sandgarden
     for workflow in workflows:
         for step in workflow.get("steps", []):
@@ -255,16 +262,60 @@ def sync_to_sandgarden(branch: str, environment: str) -> Dict[str, Any]:
                 if prompt.get("updated"):
                     print(f"\nUpdating prompt: {workflow['name']}/{step['name']}/{prompt['name']}")
                     update_resource("prompts", f"{workflow['name']}/{step['name']}/{prompt['name']}", prompt, branch)
+                    synced_resources["prompts"].append(f"{workflow['name']}/{step['name']}/{prompt['name']}")
             
             if step.get("updated"):
                 print(f"\nUpdating step: {workflow['name']}/{step['name']}")
                 update_resource("steps", f"{workflow['name']}/{step['name']}", step, branch)
+                synced_resources["steps"].append(f"{workflow['name']}/{step['name']}")
             
         
         if workflow.get("updated"):
             print(f"\nUpdating workflow: {workflow['name']}")
             update_resource("workflows", workflow["name"], workflow, branch)
+            synced_resources["workflows"].append(workflow["name"])
     
+    return synced_resources
+
+def post_pr_comment(message: str) -> None:
+    """Post a comment on the PR using GitHub API."""
+    event_path = os.environ.get("GITHUB_EVENT_PATH")
+    if not event_path:
+        print("No PR event data found, skipping comment")
+        return
+        
+    try:
+        with open(event_path) as f:
+            event_data = json.load(f)
+            if "pull_request" not in event_data:
+                print("No PR data found, skipping comment")
+                return
+                
+            pr_number = event_data["pull_request"]["number"]
+            repo = event_data["repository"]["full_name"]
+            
+            # Get GitHub token from environment
+            github_token = os.environ.get("GITHUB_TOKEN")
+            if not github_token:
+                print("No GitHub token found, skipping comment")
+                return
+                
+            # Post comment using GitHub API
+            headers = {
+                "Authorization": f"token {github_token}",
+                "Accept": "application/vnd.github.v3+json"
+            }
+            
+            url = f"https://api.github.com/repos/{repo}/issues/{pr_number}/comments"
+            data = {"body": message}
+            
+            response = requests.post(url, headers=headers, json=data)
+            if response.status_code != 201:
+                print(f"Failed to post comment: {response.text}")
+                
+    except Exception as e:
+        print(f"Error posting PR comment: {e}")
+
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: python sync_to_sandgarden.py <branch> <environment>")
@@ -274,8 +325,35 @@ if __name__ == "__main__":
     environment = sys.argv[2]
     
     try:
-        sync_to_sandgarden(branch, environment)
+        synced = sync_to_sandgarden(branch, environment)
         print(f"Successfully synced to Sandgarden")
+        
+        # Build success message
+        message = "# ✅ Sandgarden Sync Complete\n\n"
+        message += "Successfully synced the following resources to Sandgarden:\n\n"
+        
+        for resource_type, resources in synced.items():
+            if resources:
+                message += f"## {resource_type.title()}\n"
+                for resource in resources:
+                    message += f"- `{resource}`\n"
+                message += "\n"
+        
+        print("\nSynced resources:")
+        for resource_type, resources in synced.items():
+            if resources:
+                print(f"\n{resource_type.title()}:")
+                for resource in resources:
+                    print(f"  - {resource}")
+                    
+        # Post success comment
+        post_pr_comment(message)
+        
     except Exception as e:
-        print(f"Error syncing to Sandgarden: {e}", file=sys.stderr)
+        error_msg = "# ❌ Sandgarden Sync Failed\n\n"
+        error_msg += f"Failed to sync to Sandgarden with the following error:\n\n"
+        error_msg += f"```\n{str(e)}\n```"
+        print(error_msg, file=sys.stderr)
+        # Post error comment
+        post_pr_comment(error_msg)
         sys.exit(1) 

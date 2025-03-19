@@ -7,18 +7,34 @@ from typing import Dict, Any, List
 from pathlib import Path
 
 def get_changed_files() -> List[str]:
-    """Get list of files changed in the PR."""
-    event_path = os.environ.get("GITHUB_EVENT_PATH")
-    if not event_path:
+    """Get list of files changed in the PR using GitHub API."""
+    # Get PR details from environment
+    repo = os.environ.get("GITHUB_REPOSITORY")
+    pr_number = os.environ.get("GITHUB_REF").split("/")[-1] if os.environ.get("GITHUB_REF", "").startswith("refs/pull/") else None
+    github_token = os.environ.get("GITHUB_TOKEN")
+    
+    if not all([repo, pr_number, github_token]):
+        print("Missing required GitHub environment variables")
         return []
         
     try:
-        with open(event_path) as f:
-            event_data = json.load(f)
-            if "pull_request" in event_data:
-                return [file["filename"] for file in event_data["pull_request"]["files"]]
+        headers = {
+            "Authorization": f"token {github_token}",
+            "Accept": "application/vnd.github.v3+json"
+        }
+        
+        # Fetch PR files
+        url = f"https://api.github.com/repos/{repo}/pulls/{pr_number}/files"
+        response = requests.get(url, headers=headers)
+        
+        if response.status_code == 200:
+            return [file["filename"] for file in response.json()]
+        else:
+            print(f"Error fetching PR files: {response.text}")
+            
     except Exception as e:
-        print(f"Error reading PR event data: {e}")
+        print(f"Error fetching PR files: {e}")
+        
     return []
 
 def find_prompts(step_dir: Path, changed_files: List[str]) -> List[Dict[str, Any]]:

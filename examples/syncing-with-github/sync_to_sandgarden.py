@@ -8,22 +8,33 @@ from pathlib import Path
 
 def get_changed_files() -> List[str]:
     """Get list of files changed in the PR using GitHub API."""
-    # Get PR details from environment
-    repo = os.environ.get("GITHUB_REPOSITORY")
-    pr_number = os.environ.get("GITHUB_REF").split("/")[-1] if os.environ.get("GITHUB_REF", "").startswith("refs/pull/") else None
-    github_token = os.environ.get("GITHUB_TOKEN")
-    
-    if not all([repo, pr_number, github_token]):
-        print("Missing required GitHub environment variables")
+    event_path = os.environ.get("GITHUB_EVENT_PATH")
+    if not event_path:
+        print("No event data found")
         return []
         
     try:
+        with open(event_path) as f:
+            event_data = json.load(f)
+            
+        # For PR merge events, we need to get the PR number from the event
+        if "pull_request" not in event_data:
+            print("No PR data found in event")
+            return []
+            
+        pr_number = event_data["pull_request"]["number"]
+        repo = event_data["repository"]["full_name"]
+        github_token = os.environ.get("GITHUB_TOKEN")
+        
+        if not github_token:
+            print("No GitHub token found")
+            return []
+            
         headers = {
             "Authorization": f"token {github_token}",
             "Accept": "application/vnd.github.v3+json"
         }
         
-        # Fetch PR files
         url = f"https://api.github.com/repos/{repo}/pulls/{pr_number}/files"
         response = requests.get(url, headers=headers)
         
@@ -33,7 +44,7 @@ def get_changed_files() -> List[str]:
             print(f"Error fetching PR files: {response.text}")
             
     except Exception as e:
-        print(f"Error fetching PR files: {e}")
+        print(f"Error processing event data: {e}")
         
     return []
 

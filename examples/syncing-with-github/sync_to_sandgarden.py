@@ -201,6 +201,9 @@ def find_workflows(workspace_path: Path, changed_files: List[str]) -> List[Dict[
     
     return workflows
 
+# TODO: How to find and include connectors?
+# TODO: How to find and include env VARS?
+# TODO: How to find and include schemas for steps and workflows?
 def update_resource(resource_type: str, name: str, data: Dict[str, Any], branch: str) -> None:
     """Update a resource in Sandgarden using the sand utility."""
     try:

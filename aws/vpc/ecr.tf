@@ -13,7 +13,7 @@ locals {
 }
 
 resource "aws_ecr_pull_through_cache_rule" "public" {
-  ecr_repository_prefix = "sgdirector-cache"
+  ecr_repository_prefix = "${var.namespace}-cache"
   upstream_registry_url = var.sandgarden_ecr_repo_url
 }
 
@@ -21,7 +21,7 @@ resource "aws_ecr_pull_through_cache_rule" "public" {
 resource "aws_ssm_parameter" "ecr_repo_url" {
   name  = "/${var.namespace}/ecr/repo_url"
   type  = "String"
-  value = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/sgdirector-cache/sandgarden/sgdirector:${local.director_version}"
+  value = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.namespace}-cache/sandgarden/sgdirector:${local.director_version}"
 }
 
 data "aws_caller_identity" "current" {}

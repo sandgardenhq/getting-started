@@ -53,33 +53,6 @@ data "aws_iam_policy_document" "director_policy" {
     ]
     resources = ["*"]
   }
-  
-  statement {
-    effect = "Allow"
-    actions = [
-      "lambda:CreateFunction",
-      "lambda:UpdateFunctionCode",
-      "lambda:UpdateFunctionConfiguration",
-      "lambda:InvokeFunction",
-      "lambda:DeleteFunction",
-      "lambda:GetFunction",
-      "lambda:ListFunctions"
-    ]
-    resources = ["*"]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "iam:PassRole"
-    ]
-    resources = ["*"]
-    condition {
-      test     = "StringEquals"
-      variable = "iam:PassedToService"
-      values   = ["lambda.amazonaws.com"]
-    }
-  }
 
   statement {
     effect = "Allow"

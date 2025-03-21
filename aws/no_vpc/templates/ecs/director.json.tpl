@@ -10,7 +10,7 @@
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "/ecs/sandgarden-director",
+        "awslogs-group": "/ecs/${namespace}-director",
         "awslogs-region": "${aws_region}",
         "awslogs-stream-prefix": "ecs"
       }

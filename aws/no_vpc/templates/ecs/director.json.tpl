@@ -34,6 +34,10 @@
       {
         "name": "SAND_LOG_DESTINATION",
         "value": "s3://${s3_bucket}"
+      },
+      {
+        "name": "SAND_CLUSTER",
+        "value": "${sand_cluster}"
       }
     ],
     "secrets": [

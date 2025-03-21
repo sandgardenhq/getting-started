@@ -1,7 +1,7 @@
 [
   {
     "essential": true,
-    "name": "sandgarden-director-ctr",
+    "name": "${namespace}-director-ctr",
     "image": "${sandgarden_ecr_repo_url}",
     "privileged": true,
     "cpu": ${task_cpu},

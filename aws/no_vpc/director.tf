@@ -26,11 +26,11 @@ resource "aws_vpc_security_group_egress_rule" "sandgarden_director_all_outbound"
 }
 
 resource "aws_ecs_cluster" "sandgarden_director_cluster" {
-  name = "sandgarden-director-cluster"
+  name = "${var.namespace}-director-cluster"
 }
 
 resource "aws_ecs_task_definition" "sandgarden_director" {
-  family                   = "sandgarden-director-task"
+  family                   = "${var.namespace}-director-task"
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn 
   task_role_arn     = aws_iam_role.director_role.arn
   network_mode             = "host"
@@ -49,27 +49,28 @@ resource "aws_ecs_task_definition" "sandgarden_director" {
       "aws_region"            = var.aws_region
       "s3_bucket"             = aws_s3_bucket.director_logs_bucket.bucket
       "sand_cluster"          = var.cluster_name
+      "namespace"             = var.namespace
     }
   )
   depends_on = [aws_cloudwatch_log_group.director]
 }
 
 resource "aws_ecs_service" "director-frontend" {
-  name            = "sandgarden-director-service"
+  name            = "${var.namespace}-director-service"
   cluster         = aws_ecs_cluster.sandgarden_director_cluster.id
   task_definition = aws_ecs_task_definition.sandgarden_director.arn
-  desired_count   = 2
+  desired_count   = 1
   launch_type     = "EC2"
 
   load_balancer {
     target_group_arn = aws_lb_target_group.director_nlb_tg.id
-    container_name   = "sandgarden-director-ctr"
+    container_name   = "${var.namespace}-director-ctr"
     container_port   = 8987
   }
 }
 
 resource "aws_cloudwatch_log_group" "director" {
-  name              = "/ecs/sandgarden-director"
+  name              = "/ecs/${var.namespace}-director"
   retention_in_days = 30
 
   tags = {
@@ -106,7 +107,7 @@ resource "aws_ecs_cluster_capacity_providers" "main" {
 
 resource "aws_appautoscaling_target" "director_target" {
   max_capacity       = 10
-  min_capacity       = 2
+  min_capacity       = 1
   resource_id        = "service/${aws_ecs_cluster.sandgarden_director_cluster.name}/${aws_ecs_service.director-frontend.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"

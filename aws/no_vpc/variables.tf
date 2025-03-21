@@ -48,8 +48,9 @@ variable "task_memory" {
 }
 
 variable "director_version" {
-  description = "Version of the Sandgarden Director image to use. If not specified, latest non-latest tag will be used."
+  description = "Version of the Sandgarden Director image to use. If not specified, latest tag will be used."
   type        = string
+  default     = "latest"
 }
 
 variable "cluster_name" {

@@ -6,7 +6,7 @@ it lets you test your changes as you make them.
 
 There are four different ways to use local developer mode:
 
-1. Dev Container - a VS Code dev container that automatically runs the director _(WARNING: this does not work with Cursor)_
+1. Dev Container - a VS Code dev container that automatically runs the director (also works in Cursor)
 2. Github Codespaces - same as dev container, but remotely in Codespaces
 3. Vanilla Binary - starts the director with in a local process
 4. Docker Compose - run the director locally in docker

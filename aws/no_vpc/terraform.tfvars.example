@@ -1,3 +1,0 @@
-namespace="sandgarden-poc or YOUR NAMESPACE HERE"
-tags={ app = "sandgarden", role = "director" }
-sand_api_key="YOUR API KEY HERE"

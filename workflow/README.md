@@ -24,14 +24,14 @@ sand connectors create openai --name="trivia-openai" --api-key="FILL_IN"
 
 ```bash
 cd workflow/steps/001_answer_some_questions 
-sand steps create local --name=answer-some-questions --volumeMountPath $PWD --entrypoint="handler.handler" --connector trivia-openai --tag=latest --outputSchema "$(cat response_schema.json)" --cluster $(jq -r .cluster ../../../.devcontainer/.sandgarden/staticcfg.json)
+sand steps create local --name=answer-some-questions --volumeMountPath ${HOST_PATH:-$PWD} --entrypoint="handler.handler" --connector trivia-openai --tag=latest --outputSchema "$(cat response_schema.json)" --cluster $(jq -r .cluster ../../../.devcontainer/.sandgarden/staticcfg.json)
 ```
 
 ## 4. Create Step 3 - check the answers
 
 ```bash
-cd /workspaces/sandgarden/workflow/steps/002_check_your_work
-sand steps create local --name=check-your-work --volumeMountPath $PWD --entrypoint="handler.handler" --connector trivia-openai --outputSchema "$(cat output_schema.json)" --tag latest --inputSchema "$(cat input_schema.json)" --cluster $(jq -r .cluster ../../../.devcontainer/.sandgarden/staticcfg.json)
+cd workflow/steps/002_check_your_work
+sand steps create local --name=check-your-work --volumeMountPath ${HOST_PATH:-$PWD} --entrypoint="handler.handler" --connector trivia-openai --outputSchema "$(cat output_schema.json)" --tag latest --inputSchema "$(cat input_schema.json)" --cluster $(jq -r .cluster ../../../.devcontainer/.sandgarden/staticcfg.json)
 ```
 
 ## 5. Update the workflow

@@ -52,7 +52,6 @@ tofu apply
 
 ## Outputs
 
-* `lambda_role_arn` - ARN of the IAM role created for Lambda functions to use
 * `ecr_registry_url` - URL of the ECR repository where container images are stored
 
 ## Resources Created
@@ -73,7 +72,6 @@ Container Resources:
 IAM Resources:
 * ECS task execution role
 * ECS task role
-* Lambda execution role
 
 Other:
 * Secrets Manager secret for API key

@@ -29,21 +29,15 @@ sand health # Health check?
 ## Outputs
 
 * director_secret_arn
-* lambda_role_arn
 * nlb_dns
 
 ## Resources created
 
 * ASG for directors
 * Role/Instance Profile for directors to assume
-* Basic example role for lambda workflows to run as
 * The ECR repo acting as a passthrough for director images
 
 ## Private Cloud Director Notes
 
 ### Questions
 * Will customers be able to fetch the AMI we have specified?
-
-### TODO
-
-* [ ] Make lambda policy customizable

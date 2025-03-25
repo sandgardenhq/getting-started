@@ -42,3 +42,10 @@ terraform.rc
 setup.sh
 
 .sandgarden
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+*.pyzw

@@ -29,7 +29,6 @@ sand health # Health check?
 ## Outputs
 
 * director_secret_arn
-* lambda_role_arn
 * nlb_dns
 
 ## Resources created
@@ -44,6 +43,3 @@ sand health # Health check?
 ### Questions
 * Will customers be able to fetch the AMI we have specified?
 
-### TODO
-
-* [ ] Make lambda policy customizable

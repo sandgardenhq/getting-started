@@ -63,6 +63,9 @@ The fastest to get started is to use the devcontainer configuration included in 
 3. Edit the `.env` file and add your Sandgarden API key:
    ```
    SAND_API_KEY=your_sandgarden_api_key
+   SSH_AUTH_SOCK_PATH=/run/host-services/ssh-auth.sock
+   GIT_USER_NAME="Your Name"
+   GIT_USER_EMAIL="Your Email Address"
    ```
 
 4. Open the project in Cursor:

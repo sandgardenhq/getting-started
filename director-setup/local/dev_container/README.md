@@ -10,12 +10,15 @@ This configuration provides a complete development environment for Sandgarden wo
 
 0. GO TO  `../../.devcontainer to see the config`
 
-1. Copy the environment file and add your API key:
+1. Copy the environment file and fill in your API key and git info:
    ```bash
    cp .devcontainer/.env.example .devcontainer/.env
    ```
 
-2. Edit `.env` and replace `YOUR_SAND_API_KEY` with your actual Sand API key
+2. Edit `.env`
+   1. Replace `YOUR_SAND_API_KEY` with your actual Sand API key
+   1. Replace `GIT_USER_NAME` with your user name for git
+   1. Replace `GIT_USER_EMAIL` with your email address
 
 3. Open this directory in VS Code and click "Reopen in Container" when prompted (or use the control pane if not prompted)
 

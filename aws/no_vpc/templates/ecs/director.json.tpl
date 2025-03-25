@@ -1,7 +1,7 @@
 [
   {
     "essential": true,
-    "name": "sandgarden-director-ctr",
+    "name": "${namespace}-director-ctr",
     "image": "${sandgarden_ecr_repo_url}",
     "privileged": true,
     "cpu": ${task_cpu},
@@ -10,7 +10,7 @@
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "/ecs/sandgarden-director",
+        "awslogs-group": "/ecs/${namespace}-director",
         "awslogs-region": "${aws_region}",
         "awslogs-stream-prefix": "ecs"
       }
@@ -34,6 +34,10 @@
       {
         "name": "SAND_LOG_DESTINATION",
         "value": "s3://${s3_bucket}"
+      },
+      {
+        "name": "SAND_CLUSTER",
+        "value": "${sand_cluster}"
       }
     ],
     "secrets": [

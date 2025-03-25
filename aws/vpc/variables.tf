@@ -53,9 +53,14 @@ variable "task_memory" {
 }
 
 variable "director_version" {
-  description = "Version of the Sandgarden Director image to use. If not specified, latest non-latest tag will be used."
+  description = "Version of the Sandgarden Director image to use. If not specified, latest tag will be used."
   type        = string
-  default     = "v1.0.0"
+  default     = "latest"
+}
+
+variable "cluster_name" {
+  description = "Cluster name for created directors"
+  type        = string 
 }
 
 variable "public_subnet_cidr" {

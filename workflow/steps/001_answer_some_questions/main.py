@@ -1,12 +1,10 @@
-import sandgarden_runtime
 import json
 import random
 import requests
 
-def handler(input, sandgarden, runtime_context):
+def handler(input, sandgarden):
     # Initialize OpenAI connector
-    sandgarden_runtime.initialize_connectors(['trivia-openai'], sandgarden)
-    openai = sandgarden.connectors['trivia-openai']
+    openai = sandgarden.get_connector('trivia-openai')
     
     # Load the dataset via HTTP
     url = "https://raw.githubusercontent.com/google-research-datasets/cf_triviaqa/refs/heads/main/har_dataset.jsonl"

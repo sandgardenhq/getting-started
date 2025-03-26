@@ -1,4 +1,3 @@
-import sandgarden_runtime
 from pydantic import BaseModel
 
 class Judgment(BaseModel):
@@ -30,10 +29,9 @@ The explanation should be a string that explains why the answer is correct or in
 id should be the id of the question you were given.
 """
 
-def handler(input, sandgarden, runtime_context):
+def handler(input, sandgarden):
     # Initialize the OpenAI connectors
-    sandgarden_runtime.initialize_connectors(['trivia-openai'], sandgarden)
-    openai = sandgarden.connectors['trivia-openai']
+    openai = sandgarden.get_connector('trivia-openai')
     
     judgements = []
     for response in input['answers']:

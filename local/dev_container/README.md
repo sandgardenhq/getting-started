@@ -20,6 +20,6 @@ This configuration provides a complete development environment for Sandgarden wo
    1. Replace `GIT_USER_NAME` with your user name for git
    1. Replace `GIT_USER_EMAIL` with your email address
 
-3. Open this directory in VS Code and click "Reopen in Container" when prompted (or use the control pane if not prompted)
+3. Open this directory in Cursor or VS Code and click "Reopen in Container" when prompted (or use the control pane if not prompted)
 
 The Director service will be available at `http://localhost:8987` and visible in the [Sandgarden UI](https://app.sandgarden.com). Your workspace will be mounted and ready for workflow development.

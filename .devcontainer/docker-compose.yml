@@ -3,6 +3,7 @@ services:
     image: mcr.microsoft.com/devcontainers/base:bookworm
     environment:
       - SAND_API_KEY=${SAND_API_KEY}
+      - HOST_PATH=$PWD
     volumes:
       - ..:/workspaces/sandgarden:cached
       - /var/run/docker.sock:/var/run/docker.sock
@@ -18,6 +19,7 @@ services:
       - SAND_API_KEY=${SAND_API_KEY}
       - SAND_HOME=/.sandgarden
       - SAND_TERMINATE_TLS=false
+      - SAND_CLUSTER=getting-started
     ports:
       - "8987:8987"
     volumes:

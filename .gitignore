@@ -49,3 +49,4 @@ setup.sh
 *.pyz
 *.pywz
 *.pyzw
+staticcfg.json

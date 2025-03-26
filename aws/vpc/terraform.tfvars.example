@@ -1,6 +1,0 @@
-namespace="sandgarden-poc or YOUR NAMESPACE HERE"
-vpc_id="YOUR VPC ID HERE"
-tags={ app = "sandgarden", role = "director" }
-sand_api_key="YOUR API KEY HERE"
-public_subnet_cidr = "10.0.1.0/24"  # Adjust based on your VPC CIDR
-private_subnet_cidr = "10.0.2.0/24"  # Adjust based on your VPC CIDR

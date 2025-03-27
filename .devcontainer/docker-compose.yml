@@ -20,6 +20,7 @@ services:
       - SAND_HOME=/.sandgarden
       - SAND_TERMINATE_TLS=false
       - SAND_CLUSTER=getting-started
+      - SAND_DEFAULT_DOCKER_PLATFORM=linux/arm64
     ports:
       - "8987:8987"
     volumes:

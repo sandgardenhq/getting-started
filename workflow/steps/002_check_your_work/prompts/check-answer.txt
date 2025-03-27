@@ -1,0 +1,5 @@
+ID: {{id}}
+Question: {{question}}
+Reference Text: {{reference_text}}
+Correct Answer: {{answer}}
+Given Answer: {{given_answer}}

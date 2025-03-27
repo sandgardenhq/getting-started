@@ -1,0 +1,7 @@
+Do your best to answer the following question: 
+{{question}}
+
+The answer is contained in the following text: 
+{{text}}
+
+Only answer based on the information in the text.

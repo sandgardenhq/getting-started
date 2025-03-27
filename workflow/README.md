@@ -27,12 +27,15 @@ sand connectors create openai --name="trivia-openai" --api-key="FILL_IN"
 ## 3. Create the step - answer some questions
 
 ```bash
+sand prompts create --name answer-trivia --content=${HOST_PATH:-$PWD}/workflow/steps/001_answer_some_questions/prompts/answer-trivia.txt
 sand steps create local --name=answer-some-questions --volumeMountPath ${HOST_PATH:-$PWD}/workflow/steps/001_answer_some_questions --connector trivia-openai --tag=latest --outputSchema "$(cat workflow/steps/001_answer_some_questions/response_schema.json)" --cluster getting-started
 ```
 
 ## 4. Create Step 3 - check the answers
 
 ```bash
+sand prompts create --name answer-trivia --content=${HOST_PATH:-$PWD}/workflow/steps/002_check_your_work/prompts/judge-system-prompt.txt
+sand prompts create --name answer-trivia --content=${HOST_PATH:-$PWD}/workflow/steps/002_check_your_work/prompts/check-answers.txt
 sand steps create local --name=check-your-work --volumeMountPath ${HOST_PATH:-$PWD}/workflow/steps/002_check_your_work --connector trivia-openai --outputSchema "$(cat workflow/steps/002_check_your_work/output_schema.json)" --tag latest --inputSchema "$(cat workflow/steps/002_check_your_work/input_schema.json)" --cluster getting-started
 ```
 

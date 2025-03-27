@@ -19,13 +19,15 @@ fi
 
 echo "Please visit https://app.sandgarden.com/settings/api-keys to create an API key."
 echo "Click 'Create API Key' and make sure to select director access."
-read -p "Press Enter when you have created your API key..."
-
 # Prompt for Sandgarden API Key
 read -p "Enter your API key: " INSTALL_DIR
 
 # Create a cluster
-sand clusters create --name getting-started --tag getting-started
+if ! sand clusters create --name getting-started --tag getting-started 2>&1 | grep -q "Error: remote operation failed: failed to create cluster: conflict: ERROR: duplicate key value violates unique constraint"; then
+    echo "Cluster created successfully"
+else
+    echo "Cluster 'getting-started' already exists"
+fi
 
 # Prompt for OpenAI API Key
 read -p "Enter your OpenAI API key: " OPENAI_API_KEY

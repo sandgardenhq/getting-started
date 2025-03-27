@@ -35,13 +35,23 @@ chmod 0755 sand
 # Find a suitable location in PATH
 for dir in ${PATH//:/ }; do
     if [ -w "$dir" ]; then
-        INSTALL_DIR="$dir"
+        DEFAULT_DIR="$dir"
         break
     fi
 done
 
-if [ -z "$INSTALL_DIR" ]; then
+if [ -z "$DEFAULT_DIR" ]; then
     echo "No writable directory found in PATH"
+    exit 1
+fi
+
+# Prompt for installation directory
+read -p "Enter installation directory [$DEFAULT_DIR]: " INSTALL_DIR
+INSTALL_DIR=${INSTALL_DIR:-$DEFAULT_DIR}
+
+# Verify directory is writable
+if [ ! -w "$INSTALL_DIR" ]; then
+    echo "Error: Directory $INSTALL_DIR is not writable"
     exit 1
 fi
 

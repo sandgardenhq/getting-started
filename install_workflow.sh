@@ -17,6 +17,17 @@ if [[ "$FORCE" == false && $(basename "$PWD") != "getting-started" ]]; then
     exit 1
 fi
 
+# Check if sand CLI is installed
+if ! command -v sand &> /dev/null; then
+    echo "sand CLI not found. Installing..."
+    if [ -f "install_cli.sh" ]; then
+        bash install_cli.sh
+    else
+        echo "Error: install_cli.sh not found"
+        exit 1
+    fi
+fi
+
 echo "Please visit https://app.sandgarden.com/settings/api-keys to create an API key."
 echo "Click 'Create API Key' and make sure to select director access."
 # Prompt for Sandgarden API Key

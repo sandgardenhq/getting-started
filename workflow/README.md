@@ -11,10 +11,14 @@ This is an example workflow that loads the CF-TriviaQA dataset and answers some 
 
 The instructions were written so that they could work either in a Dev Container, or running on the host machine (if you were using docker-compose for example). The paths are a little different in those cases, so this is just a little bit of BASH trickery to make it so one command can serve both cases.
 
+## 0. Create a cluster
+```bash
+sand clusters create --name getting-started --tag getting-started
+```
+
 ## 1. Create the workflow
 
 ```bash
-cd workflow
 sand workflows create --name trivia --description "An example workflow using GPT-4o-mini to answer questions from the CF-TriviaQA Dataset" --stages='[{"step":"answer-some-questions:latest"}] --cluster getting-started'
 ```
 
@@ -28,15 +32,15 @@ sand connectors create openai --name="trivia-openai" --api-key="FILL_IN"
 
 ```bash
 sand prompts create --name answer-trivia --content=${HOST_PATH:-$PWD}/workflow/steps/001_answer_some_questions/prompts/answer-trivia.txt
-sand steps create local --name=answer-some-questions --volumeMountPath ${HOST_PATH:-$PWD}/workflow/steps/001_answer_some_questions --connector trivia-openai --tag=latest --outputSchema "$(cat workflow/steps/001_answer_some_questions/response_schema.json)" --cluster getting-started
+sand steps create local --name=answer-some-questions --volumeMountPath ${HOST_PATH:-$PWD}/workflow/steps/001_answer_some_questions --connector trivia-openai --tag=latest --prompt answer-trivia:1 --cluster getting-started
 ```
 
 ## 4. Create Step 3 - check the answers
 
 ```bash
-sand prompts create --name answer-trivia --content=${HOST_PATH:-$PWD}/workflow/steps/002_check_your_work/prompts/judge-system-prompt.txt
-sand prompts create --name answer-trivia --content=${HOST_PATH:-$PWD}/workflow/steps/002_check_your_work/prompts/check-answers.txt
-sand steps create local --name=check-your-work --volumeMountPath ${HOST_PATH:-$PWD}/workflow/steps/002_check_your_work --connector trivia-openai --outputSchema "$(cat workflow/steps/002_check_your_work/output_schema.json)" --tag latest --inputSchema "$(cat workflow/steps/002_check_your_work/input_schema.json)" --cluster getting-started
+sand prompts create --name judge-system-prompt --content=${HOST_PATH:-$PWD}/workflow/steps/002_check_your_work/prompts/judge-system-prompt.txt
+sand prompts create --name check-answers --content=${HOST_PATH:-$PWD}/workflow/steps/002_check_your_work/prompts/check-answers.txt
+sand steps create local --name=check-your-work --volumeMountPath ${HOST_PATH:-$PWD}/workflow/steps/002_check_your_work --connector trivia-openai --prompt check-answers --prompt judge-system-prompt --tag latest  --cluster getting-started
 ```
 
 ## 5. Update the workflow

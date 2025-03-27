@@ -9,7 +9,6 @@ def handler(input, sandgarden):
     # Initialize the OpenAI connectors
     openai = sandgarden.get_connector('trivia-openai')
     system_prompt = sandgarden.get_prompt('judge-system-prompt')
-    prompt = sandgarden.get_prompt('check-answers')
     judgements = []
     for response in input['answers']:
         id = response['question']['question_id']
@@ -18,7 +17,15 @@ def handler(input, sandgarden):
         answer = response['question']['annotation']['answer'][0]['paragraph_reference']['string']
         given_answer = response['answer']
         
-        prompt = prompt.render(id=id, question=question, reference_text=reference_text, answer=answer, given_answer=given_answer)   
+        rag = {
+            "id":id, 
+            "question":question, 
+            "reference_text":reference_text, 
+            "answer":answer, 
+            "given_answer":given_answer
+        }
+        
+        prompt = sandgarden.render_prompt('check-answers', rag)   
         res = openai.beta.chat.completions.parse(
             model="gpt-4o-mini",
             messages=[

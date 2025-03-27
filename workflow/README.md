@@ -15,7 +15,7 @@ The instructions were written so that they could work either in a Dev Container,
 
 ```bash
 cd workflow
-sand workflows create --name trivia --description "An example workflow using GPT-4o-mini to answer questions from the CF-TriviaQA Dataset" --stages='[{"step":"answer-some-questions:latest"}] --cluster $(jq -r .cluster ../.devcontainer/.sandgarden/staticcfg.json)'
+sand workflows create --name trivia --description "An example workflow using GPT-4o-mini to answer questions from the CF-TriviaQA Dataset" --stages='[{"step":"answer-some-questions:latest"}] --cluster getting-started'
 ```
 
 ## 2. Create an OpenAI connector

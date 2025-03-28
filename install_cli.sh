@@ -33,12 +33,25 @@ curl -L "$URL" -o sand
 chmod 0755 sand
 
 # Find a suitable location in PATH
-for dir in ${PATH//:/ }; do
+DEFAULT_DIR=""
+
+# Check preferred locations first
+for dir in "/usr/local/bin" "$HOME/bin"; do
     if [ -w "$dir" ]; then
         DEFAULT_DIR="$dir"
         break
     fi
 done
+
+# Fall back to first writable directory in PATH if no preferred location is available
+if [ -z "$DEFAULT_DIR" ]; then
+    for dir in ${PATH//:/ }; do
+        if [ -w "$dir" ]; then
+            DEFAULT_DIR="$dir"
+            break
+        fi
+    done
+fi
 
 if [ -z "$DEFAULT_DIR" ]; then
     echo "No writable directory found in PATH"
@@ -48,6 +61,8 @@ fi
 # Prompt for installation directory
 read -p "Enter installation directory [$DEFAULT_DIR]: " INSTALL_DIR
 INSTALL_DIR=${INSTALL_DIR:-$DEFAULT_DIR}
+INSTALL_DIR=$(echo "$INSTALL_DIR" | sed "s|~|$HOME|")
+INSTALL_DIR=$(realpath "$INSTALL_DIR")
 
 # Verify directory is writable
 if [ ! -w "$INSTALL_DIR" ]; then

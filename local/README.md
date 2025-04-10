@@ -44,6 +44,7 @@ Dev Container provides a complete development environment for Sandgarden workflo
 
 If a Director is active then your workspace will be mounted and ready for workflow development. Go to [the workflow directory](https://github.com/sandgardenhq/getting-started/workflow/README.md) in the `getting-started` repo and follow the ReadMe instructions there to try one of our pre-built workflows, or get started building your own project :)
 
+
 ## Docker Compose
 
 This is very similar to the Dev Container mode and will start a Sandgarden Director in a local docker container with a complete development environment for Sandgarden workflows.

@@ -15,7 +15,7 @@ To get started in local developer mode, first prepare the following:
 3. _(Optional)_ Create an OpenAI API Key and keep it handy, if you would like to try one of our provided example workflows after deploying a Director.
 
 
-There are four different ways to use local developer mode:
+There are three different ways to use local developer mode:
 
 1. Dev Container - a VS Code dev container that automatically runs the director (also works in Cursor)
 2. Github Codespaces - same as dev container, but remotely in Codespaces
@@ -43,7 +43,7 @@ Dev Container provides a complete development environment for Sandgarden workflo
 
 4. When the Dev Container finishes building, open another VS Code terminal and run `sand directors list` to confirm the process completed successfully - you should see an active Director listed. You should also see an active Director in the [Sandgarden Admin UI](https://app.sandgarden.com/infrastructure/directors).
 
-The Director service will be available at `http://localhost:8987` and visible in the [Sandgarden UI](https://app.sandgarden.com). Your workspace will be mounted and ready for workflow development.
+If a Director is active then your workspace will be mounted and ready for workflow development. Go to [the workflow directory](https://github.com/sandgardenhq/getting-started/workflow/README.md) in the `getting-started` repo and follow the ReadMe instructions there to try one of our pre-built workflows, or get started building your own project :)
 
 ## Docker Compose
 

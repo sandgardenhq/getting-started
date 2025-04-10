@@ -15,11 +15,10 @@ To get started in local developer mode, first prepare the following:
 3. _(Optional)_ Create an OpenAI API Key and keep it handy, if you would like to try one of our provided example workflows after deploying a Director.
 
 
-There are three different ways to use local developer mode:
+There are two ways to use local developer mode:
 
-1. Dev Container - a VS Code dev container that automatically runs the director (also works in Cursor)
-2. Github Codespaces - same as dev container, but remotely in Codespaces
-3. Docker Compose - run the director locally in docker
+1. Dev Container - a VS Code Dev Container that automatically runs the director (also works in Cursor)
+2. Docker Compose - run the director locally in docker
 
 ## Dev Container
 

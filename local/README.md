@@ -1,10 +1,9 @@
 # Local Developer Mode
 
 Local developer mode runs a Sandgarden director in a local docker image on your development machine.
-It's a simple way to get started with Sandgarden without having to set up a cloud environment, and
-it lets you test your changes as you make them.
+It's a simple way to get started with Sandgarden without having to set up a cloud environment, and it lets you test your changes as you make them.
 
-## Setup
+## Prerequisites
 
 To get started in local developer mode, first prepare the following:
 
@@ -32,7 +31,7 @@ Dev Container provides a complete development environment for Sandgarden workflo
 
 ### Setup
 
-1. Copy the environment file and add your API key:
+1. Open the .devcontainer directory from the `getting-started` repo in VS Code, then make a copy of the '.env.example' file in the same directory and rename the copy as '.env'. You can also execute this command in your terminal:
    ```bash
    cp .devcontainer/.env.example .devcontainer/.env
    ```

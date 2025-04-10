@@ -31,12 +31,12 @@ Dev Container provides a complete development environment for Sandgarden workflo
 
 ### Setup
 
-1. Open the .devcontainer directory from the `getting-started` repo in VS Code, then make a copy of the '.env.example' file in the same directory and rename the copy as '.env'. You can also execute this command in your terminal:
+1. Open the .devcontainer directory from the `getting-started` repo in VS Code, then make a copy of the `.env.example` file in the same directory and rename the copy as `.env`. You can also execute this command in your terminal:
    ```bash
    cp .devcontainer/.env.example .devcontainer/.env
    ```
 
-2. Edit `.env` and replace `YOUR_SAND_API_KEY` with your actual Sand API key
+2. Edit the `.env` and replace the `YOUR_SAND_API_KEY` string with your actual Sandgarden Director API key.
 
 3. Open this directory in VS Code and click "Reopen in Container" when prompted
 

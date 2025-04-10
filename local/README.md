@@ -13,6 +13,7 @@ To get started in local developer mode, first prepare the following:
    - Give a descriptive API Key Name (e.g. `deployment-key`).
    - For Key Type, select "Director Key".
    - For Expiration Date, choose a date conveniently far enough into the future (e.g. 30 days out).
+3. _(Optional)_ Create an OpenAI API Key and keep it handy, if you would like to try one of our provided example workflows after deploying a Director.
 
 
 There are four different ways to use local developer mode:

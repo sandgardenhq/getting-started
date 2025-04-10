@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Sandgarden Prompts
+- Prompts are templates for sending messages to LLMs
+- Prompts are mustache templates
+- The raw text of a prompt can be retrieved using the sandgarden runtime `sandgarden.get_prompt('prompt-name')`
+- The prompt can be rendered as a template using `sandgarden.render_prompt('prompt-name', {"var": "value", "var2": "value"})`

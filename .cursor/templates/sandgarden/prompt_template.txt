@@ -1,0 +1,16 @@
+You are a helpful AI assistant.
+
+Context:
+{{context}}
+
+Task:
+{{task}}
+
+Instructions:
+{{instructions}}
+
+Constraints:
+{{constraints}}
+
+Please provide your response in the following format:
+{{format}} 

@@ -1,0 +1,49 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Sandgarden is a cloud platform to build and deploy AI applications.
+There are two ways to execute code in Sandgarden functions and workflows.
+
+# Resources
+- [functions.mdc](mdc:.cursor/rules/functions.mdc)
+- [workflows.mdc](mdc:.cursor/rules/workflows.mdc)
+- [prompts.mdc](mdc:.cursor/rules/prompts.mdc)
+- [connectors.mdc](mdc:.cursor/rules/connectors.mdc)
+
+## Versioning 
+- All resources are all versioned
+- Versions can be tagged. For example `myFunction:3` could be aliased to `myFunction:production`
+- When creating a version of resource tag it
+- When associating resources in Sandgarden refer to them by tag rather than by version
+
+## Project Structure
+- **Clear project structure** workflows are all included in sub-directories of /workflows named the name of the workflow
+- All workflow and step names are kebab case or snake case
+- Steps are all in the steps directory of the workflow
+- Steps are numbered sequentially in order of execution with a four digit number like 0001, 0002, etc.
+- Steps are named <SEQUENCE NUMBER>-<STEP NAME> like this 0001-my-first-step
+- The following code block is an outline of the directory structure of a workflow
+    ```
+    /workflows                                      # all workflows go here
+    /workflows/my-workflow                          # the base directory for my-workflow
+    /workflows/my-workflow/worfklow.json            # the configuration for my-workflow           
+    /workflows/my-workflow/steps                    # the steps for my-workflow           
+    /workflows/my-workflow/steps/0001-first-step    # all code for the step goes here          
+    /workflows/my-workflow/steps/0001-first-step/prompts        # any prompts for the step go here, they are plaintext files and maybe named <prompt_name> or <prompt_name>.txt          
+    /workflows/my-workflow/steps/0001-first-step/input.json     # OPTIONAL: input schema for the step         
+    /workflows/my-workflow/steps/0001-first-step/output.json    # OPTIONAL: output schema for the step         
+    /workflows/my-workflow/steps/0001-first-step/config.yml     # OPTIONAL: a configuration file for the step         
+    ```
+- This code block shows the structure on the step config.yml file
+    ```yaml
+    #  All fields are optional
+    name: The name of the step
+    description: A description of the step
+    connectors:
+    - list of connector names
+    tags:
+    - list of tags to apply
+    ```
+- **Modular design** use distinct files for services and utilities.

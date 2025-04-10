@@ -1,0 +1,41 @@
+name: Sync to Sandgarden
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  sync-to-sandgarden:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+          
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+           
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r integrations/sync-workflows-from-github/requirements.txt
+
+      - name: Install Sandgarden CLI
+        run: |
+          echo "Installing Sandgarden CLI $PWD"
+          curl https://api.sandgarden.com/api/v1/assets/sand/latest/sand_linux_amd64 -L -o sand
+          sudo chmod 0755 sand
+          
+      - name: Sync to Sandgarden
+        env:
+          SAND_API_KEY: ${{ secrets.SAND_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SAND_CLI_PATH: ${{ github.workspace }}/sand
+        run: python integrations/sync-workflows-from-github/sync_to_sandgarden.py ${{ github.event.pull_request.base.ref }}

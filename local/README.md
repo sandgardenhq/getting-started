@@ -32,35 +32,6 @@ Dev Container provides a complete development environment for Sandgarden workflo
 
 The Director service will be available at `http://localhost:8987` and visible in the [Sandgarden UI](https://app.sandgarden.com). Your workspace will be mounted and ready for workflow development.
 
-## Vanilla Binary
-
-This is the simplest way to run the director locally. It's a single binary that you can run in a local process.
-
-### Prerequisites
-
-You will need to make sure you have:
-
-- A Sandgarden API key (get yours at [app.sandgarden.com](https://app.sandgarden.com))
-- Go installed
-
-before running the binary.
-
-### Setup
-
-1. Run the setup script:
-   ```bash
-   ./setup.sh
-   ```
-
-2. Follow the prompts to configure your API key. _This will download the Sandgarden binaries and configure a locally running director with your API key._
-
-3. Run the director:
-   ```bash
-   runner -f Procfile -p .
-   ```
-
-The Director will be available at `http://localhost:8987` and visible in the [Sandgarden UI](https://app.sandgarden.com).
-
 ## Docker Compose
 
 This will start the Sandgarden Director in a local docker container. The Director service will be available at `http://localhost:8987` and should be visible in the [Sandgarden UI](https://app.sandgarden.com).

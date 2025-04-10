@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Sandgarden Connectors
+
+- Sandgarden functions use connectors to interact with external services like databases, LLMs, and APIs.
+- Connectors can be loaded from the sandgarden runtime using `sandgarden.get_connector('connector-name')`
+- Connectors will return a client for the service specified. For example, a connector to an OpenAI model will return a client for the OpenAI SDK.

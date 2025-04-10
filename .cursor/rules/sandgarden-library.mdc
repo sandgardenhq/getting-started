@@ -1,0 +1,13 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+## Sandgarden library
+Inside the python code in steps you can use the `sandgarden` object passed into the `handler` function to interact with the Sandgarden service. Here are some useful functions:
+
+- `sandgarden.get_prompt(prompt_name)` fetches the text of a prompt 
+- `sandgarden.render_prompt(prompt_name, data)` renders a prompt template with the given data
+- The handler function in main.py should always return using `sandgarden.out(output)` the `out` function will handle serialization.
+- `sandgarden.get_connector('connector-name')` fetches a connection to a remote resource like an LLM, database, or API

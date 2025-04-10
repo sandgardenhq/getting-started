@@ -1,0 +1,12 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Sandgarden Workflows
+
+- Workflows coordinate many functions. See [sandgarden-functions.mdc](mdc:.cursor/rules/sandgarden-functions.mdc)
+- If a workflow requires input us an input schema. The schema should be the same as the input schema of the first function called by the workflow.
+- Specify an output schema for the workflow. Always use the output schema of the last function invoked by the workflow.
+- Workflows have no code of their own only configuration

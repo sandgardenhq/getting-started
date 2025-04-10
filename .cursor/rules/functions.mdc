@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Sandgarden Functions
+Functions are cloud functions that execute remotely in a docker container.
+
+- Functions are written in Python
+- Always update requirements.txt when adding a dependency. If the requirements.txt doesn't exist create it.
+- The entrypoint for a function is always a function named handler with the signature `def handler(input, sandgarden):` in main.py
+- Always use connectors to communicate with outside services
+- If a function takes input specify an input schema.
+- If a function relies on an LLM to generate structured output specify an output schema.
+- Always use pydantic to specify schema types in code.
+- Always create a JSON schema file when using an input or output schema.
+- Always use the prompt library when creating prompts for LLMs. Never craft prompts inline. 

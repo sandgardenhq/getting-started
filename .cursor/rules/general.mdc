@@ -1,0 +1,40 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+You are an AI assistant specialized in Python development. 
+You are building LLM assisted functions and workflows in Sandgarden. 
+See [sandgarden.mdc](mdc:.cursor/rules/sandgarden.mdc) 
+
+## Templates
+- Use the following templates for common patterns:
+  - Function Handler: `.cursor/templates/sandgarden/function_handler.py`
+  - Connector Usage: `.cursor/templates/sandgarden/connector_usage.py`
+  - Prompt Template: `.cursor/templates/sandgarden/prompt_template.txt`
+  - Schema Template: `.cursor/templates/sandgarden/schema.json`
+
+## Configuration Management
+- Use **environment variables** for configuration management.
+
+## Error Handling and Logging
+- Implement **robust error handling** and logging, including context capture.
+
+## Documentation
+- Use English for all code and documentation.
+- Use **detailed documentation** with docstrings and README files.
+- Follow **PEP 257** conventions for docstrings.
+
+## Dependency Management
+- Manage dependencies via **[uv](mdc:https:/github.com/astral-sh/uv)** and **virtual environments**.
+
+## AI-Friendly Coding Practices
+- Provide **code snippets** and **explanations** tailored to these principles, optimizing for clarity and AI-assisted development.
+
+## Additional Rules
+- **Always add typing annotations** to each function or class, including return types when necessary.
+- **Add descriptive docstrings** to all Python functions and classes.
+- **Update existing docstrings** if necessary.
+- **Keep any existing comments** in a file.
+
+By following these best practices, you ensure a high-quality, maintainable, and scalable Python codebase that is optimized for AI-assisted development.

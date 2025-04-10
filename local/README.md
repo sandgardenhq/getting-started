@@ -9,6 +9,10 @@ it lets you test your changes as you make them.
 To get started in local developer mode, first prepare the following:
 
 1. Clone [this getting-started repo](https://github.com/sandgardenhq/getting-started.git), through either Git or VS Code.
+2. Create a Sandgarden API Key [through the Admin UI](https://app.sandgarden.com/settings/api-keys/new).
+   - Give a descriptive API Key Name (e.g. `deployment-key`).
+   - For Key Type, select "Director Key".
+   - For Expiration Date, choose a date conveniently far enough into the future (e.g. 30 days out).
 
 
 There are four different ways to use local developer mode:

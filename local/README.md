@@ -47,16 +47,16 @@ If a Director is active then your workspace will be mounted and ready for workfl
 
 ## Docker Compose
 
-This will start the Sandgarden Director in a local docker container. The Director service will be available at `http://localhost:8987` and should be visible in the [Sandgarden UI](https://app.sandgarden.com).
+This is very similar to the Dev Container mode and will start a Sandgarden Director in a local docker container with a complete development environment for Sandgarden workflows.
 
 ### Setup
 
-1. Copy the environment file and add your API key:
+1. Open the .devcontainer directory from the `getting-started` repo, then make a copy of the `.env.example` file in the same directory and rename the copy as `.env`. You can also execute this command in your terminal:
    ```bash
    cp .env.example .env
    ```
 
-2. Edit `.env` and replace `YOUR_SAND_API_KEY` with your actual Sand API key
+2. Edit the `.env` and replace the `YOUR_SAND_API_KEY` string with your actual Sandgarden Director API key.
 
 3. _(Optional)_ Edit `docker-compose.yml` to change the workspace mount path:
    ```yaml

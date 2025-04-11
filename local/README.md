@@ -66,7 +66,7 @@ This is very similar to the Dev Container mode and will start a Sandgarden Direc
 
 4. Start the environment:
    ```bash
-   docker compose up
+   docker compose up --detach
    ```
 
 5. From the root directory of the `getting-started` repo, install the Sandgarden CLI:

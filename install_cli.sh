@@ -18,6 +18,17 @@ case $ARCH in
         ;;
 esac
 
+#Map OS to download URL format
+case $OS in
+    "darwin")
+        OS="osx"
+        ;;
+    *)
+        echo "Unsupported architecture: $OS"
+        exit 1
+        ;;
+esac
+
 # Construct download URL
 URL="https://api.sandgarden.com/api/v1/assets/sand/latest/sand_${OS}_${ARCH}"
 

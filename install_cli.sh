@@ -18,6 +18,17 @@ case $ARCH in
         ;;
 esac
 
+#Map OS to download URL format
+case $OS in
+    "darwin")
+        OS="osx"
+        ;;
+    *)
+        echo "Unsupported architecture: $OS"
+        exit 1
+        ;;
+esac
+
 # Construct download URL
 URL="https://api.sandgarden.com/api/v1/assets/sand/latest/sand_${OS}_${ARCH}"
 
@@ -77,5 +88,8 @@ mv sand "$INSTALL_DIR"
 # Cleanup
 cd - > /dev/null
 rm -rf "$TMP_DIR"
+
+# Export the API Key from docker_compose/.env file and set it as an env var for CLI usage
+set -o allexport; source docker_compose/.env; set +o allexport
 
 echo "Sandgarden CLI installed successfully!"

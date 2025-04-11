@@ -43,7 +43,9 @@ else
 fi
 
 # Prompt for OpenAI API Key
-read -p "Enter your OpenAI API key: " OPENAI_API_KEY
+if [ -z "$OPENAI_API_KEY" ]; then
+    read -p "Enter your OpenAI API key: " OPENAI_API_KEY
+fi
 
 # Create an OpenAI connector
 sand connectors create openai --name="trivia-openai" --api-key="${OPENAI_API_KEY}"

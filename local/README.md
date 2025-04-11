@@ -61,22 +61,16 @@ This is very similar to the Dev Container mode and will start a Sandgarden Direc
 
 2. Edit the `.env` and replace the `YOUR_SAND_API_KEY` string with your actual Sandgarden Director API key.
 
-3. _(Optional)_ Edit `docker-compose.yml` to change the workspace mount path:
-   ```yaml
-   volumes:
-     - /path/to/your/workspace:/workspaces/sandgarden
-   ```
-
-4. From the root directory of the `getting-started` repo, start the docker container:
+3. From the root directory of the `getting-started` repo, start the docker container:
    ```bash
    docker compose -f docker_compose/docker-compose.yml up --detach
    ```
 
-5. From the root directory of the `getting-started` repo, run the script to install the Sandgarden CLI:
+4. From the root directory of the `getting-started` repo, run the script to install the Sandgarden CLI:
    ```bash
    ./install_cli.sh
    ```
-6. Set environment variable with your API Key for CLI to run:
+5. Set environment variable with your API Key for CLI to run:
    ```bash
    export SAND_API_KEY=<YOUR_SAND_API_KEY>
    ```

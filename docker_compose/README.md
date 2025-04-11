@@ -1,4 +1,4 @@
-# Local Developer Mode
+# Local Developer Mode - Dev Container
 
 Local developer mode runs a Sandgarden director in a local docker image on your development machine.
 It's a simple way to get started with Sandgarden without having to set up a cloud environment, and it lets you test your changes as you make them.
@@ -13,12 +13,6 @@ To get started in local developer mode, first prepare the following:
    - For Key Type, select "Director Key".
    - For Expiration Date, choose a date conveniently far enough into the future (e.g. 30 days out).
 3. _(Optional)_ Create an OpenAI API Key and keep it handy, if you would like to try one of our provided example workflows after deploying a Director.
-
-
-There are two ways to use local developer mode:
-
-1. Dev Container - a VS Code Dev Container that automatically runs the director (also works in Cursor)
-2. Docker Compose - run the Director locally in docker
 
 ## Dev Container
 

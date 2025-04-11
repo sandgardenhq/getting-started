@@ -47,18 +47,18 @@ read -p "Enter your OpenAI API key: " OPENAI_API_KEY
 sand connectors create openai --name="trivia-openai" --api-key="${OPENAI_API_KEY}"
 
 # Create the prompts
-sand prompts create --name answer-trivia --content=${HOST_PATH:-$PWD}/workflow/steps/001_answer_some_questions/prompts/answer-trivia.txt
+sand prompts create --name answer-trivia --content=${HOST_PATH:-$PWD}/workflow/functions/001_answer_some_questions/prompts/answer-trivia.txt
 
-# Create the first step
-sand steps create local --name=answer-some-questions --volumeMountPath ${HOST_PATH:-$PWD}/workflow/steps/001_answer_some_questions --connector trivia-openai --tag=latest --prompt answer-trivia --cluster getting-started
+# Create the first function
+sand functions create local --name=answer-some-questions --volumeMountPath ${HOST_PATH:-$PWD}/workflow/functions/001_answer_some_questions --connector trivia-openai --tag=latest --prompt answer-trivia --cluster getting-started
 
-# Create the second step
-sand prompts create --name judge-system-prompt --content=${HOST_PATH:-$PWD}/workflow/steps/002_check_your_work/prompts/judge-system-prompt.txt
-sand prompts create --name check-answers --content=${HOST_PATH:-$PWD}/workflow/steps/002_check_your_work/prompts/check-answers.txt
-sand steps create local --name=check-your-work --volumeMountPath ${HOST_PATH:-$PWD}/workflow/steps/002_check_your_work --connector trivia-openai --prompt check-answers --prompt judge-system-prompt --tag latest  --cluster getting-started
+# Create the second function
+sand prompts create --name judge-system-prompt --content=${HOST_PATH:-$PWD}/workflow/functions/002_check_your_work/prompts/judge-system-prompt.txt
+sand prompts create --name check-answers --content=${HOST_PATH:-$PWD}/workflow/functions/002_check_your_work/prompts/check-answers.txt
+sand functions create local --name=check-your-work --volumeMountPath ${HOST_PATH:-$PWD}/workflow/functions/002_check_your_work --connector trivia-openai --prompt check-answers --prompt judge-system-prompt --tag latest  --cluster getting-started
 
 # Create the workflow
-sand workflows create --name trivia --description "An example workflow using GPT-4o-mini to answer questions from the CF-TriviaQA Dataset" --stages='[{"step":"answer-some-questions:latest"},{"step":"check-your-work:latest"}]'  --tag latest --cluster getting-started
+sand workflows create --name trivia --description "An example workflow using GPT-4o-mini to answer questions from the CF-TriviaQA Dataset" --stages='[{"function":"answer-some-questions:latest"},{"function":"check-your-work:latest"}]'  --tag latest --cluster getting-started
 
 echo "✅ Workflow successfully pushed to Sandgarden!"
 

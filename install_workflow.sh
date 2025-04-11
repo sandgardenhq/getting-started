@@ -11,7 +11,7 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 # Check if we're in the root of the getting-started repo
-if [[ "$FORCE" == false && $(basename "$PWD") != "getting-started" ]]; then
+if [[ "$FORCE" == false && ($(basename "$PWD") != "getting-started" || $(basename "$PWD") != "sandgarden") ]]; then
     echo "Error: This script must be run from the root of the getting-started repo"
     echo "If you cloned the repo into a different directory, use --force to bypass this check"
     exit 1

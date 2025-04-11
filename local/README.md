@@ -51,7 +51,7 @@ This is very similar to the Dev Container mode and will start a Sandgarden Direc
 
 ### Setup
 
-1. Open the .devcontainer directory from the `getting-started` repo, then make a copy of the `.env.example` file in the same directory and rename the copy as `.env`. You can also execute this command in your terminal:
+1. Open the `/local/docker_compose/` directory inside the `getting-started` repo, then make a copy of the `.env.example` file in the same directory and rename the copy as `.env`. You can also execute this command in your terminal:
    ```bash
    cp .env.example .env
    ```
@@ -72,4 +72,8 @@ This is very similar to the Dev Container mode and will start a Sandgarden Direc
 5. From the root directory of the `getting-started` repo, install the Sandgarden CLI:
    ```bash
    ./install_cli.sh
+   ```
+6. Set environment variable with your API Key for CLI to run:
+   ```bash
+   export SAND_API_KEY=<YOUR_SAND_API_KEY>
    ```

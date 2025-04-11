@@ -28,10 +28,12 @@ if ! command -v sand &> /dev/null; then
     fi
 fi
 
-echo "Please visit https://app.sandgarden.com/settings/api-keys to create an API key."
-echo "Click 'Create API Key' and make sure to select director access."
-# Prompt for Sandgarden API Key
-read -p "Enter your API key: " INSTALL_DIR
+# Get Sandgarden API Key
+if [ -z "$SAND_API_KEY" ]; then
+    echo "Please visit https://app.sandgarden.com/settings/api-keys to create an API key."
+    echo "Click 'Create API Key' and make sure to select director access."
+    read -p "Enter your API key: " SAND_API_KEY
+fi
 
 # Create a cluster
 if ! sand clusters create --name getting-started --tag getting-started 2>&1 | grep -q "Error: remote operation failed: failed to create cluster: conflict: ERROR: duplicate key value violates unique constraint"; then

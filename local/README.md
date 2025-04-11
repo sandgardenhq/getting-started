@@ -70,7 +70,8 @@ This is very similar to the Dev Container mode and will start a Sandgarden Direc
    ```bash
    ./install_cli.sh
    ```
-5. Set environment variable with your API Key for CLI to run:
+
+5. Run `sand directors list` to confirm everything was successful - you should see an active Director listed. You should also see an active Director in the [Sandgarden Admin UI](https://app.sandgarden.com/infrastructure/directors).
    ```bash
-   export SAND_API_KEY=<YOUR_SAND_API_KEY>
+   sand directors list
    ```

@@ -89,4 +89,7 @@ mv sand "$INSTALL_DIR"
 cd - > /dev/null
 rm -rf "$TMP_DIR"
 
+# Export the API Key from docker_compose/.env file and set it as an env var for CLI usage
+set -o allexport; source docker_compose/.env; set +o allexport
+
 echo "Sandgarden CLI installed successfully!"

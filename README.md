@@ -23,6 +23,7 @@ There are two ways to run directors:
 * For development:
   - [Run a director locally with Docker compose](/docker_compose/README.md)
   - [Run a dev container locally with VS Code or Cursor](/.devcontainer/README.md)
-* For production: [Deploy a pool of directors remotely in AWS](/aws/README.md)
+* For production:
+  - [Deploy a pool of directors remotely in AWS](/aws/README.md)
 
 _Technical Note: The director is a stateless Go binary designed to run in pools behind a load balancer for redundancy and scalability. Directors operate entirely in your environment while communicating with the control plane (app.sandgarden.com) for configuration, logs, and metrics._

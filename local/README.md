@@ -69,26 +69,7 @@ This is very similar to the Dev Container mode and will start a Sandgarden Direc
    docker compose up
    ```
 
-
-### Other Commands
-
-#### Starting
-```bash
-    docker compose build sandgarden
-    docker compose up -d
-```
-
-#### Connecting to the shell
-```bash
-    docker compose exec -it sandgarden /bin/bash
-```
-
-#### Show logs
-```bash
-    docker compose logs -f sandgarden
-```
-
-#### Stopping
-```bash
-    docker compose down
-```
+5. From the root directory of the `getting-started` repo, install the Sandgarden CLI:
+   ```bash
+   ./install_cli.sh
+   ```

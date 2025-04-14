@@ -1,0 +1,15 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Sandgarden commands
+Some times you will need to interact with the Sandgarden service where workflows are hosted and deployed. You can do this using the `sand` command line utility.
+- Sandgarden commands all follow a similar structure `sand <resource> <action>`
+- The comman actions are:
+    - create -- creates a new version of the resource
+    - get -- fetch a particular instance of a resource
+    - list -- list all resources of this type
+    - tag -- alias a version to a tag
+    - delete -- delete a resource
+- For example, `sand prompts create --content <path to file> --name <name>` will register a prompt with sandgarden. You can then load it using the Sandgarden library.

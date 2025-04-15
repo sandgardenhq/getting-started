@@ -12,6 +12,9 @@ To get started in local developer mode, first prepare the following:
    - Give a descriptive API Key Name (e.g. `deployment-key`).
    - For Key Type, select "Director Key".
    - For Expiration Date, choose a date conveniently far enough into the future (e.g. 30 days out).
+3. Update the `.env` file in the directory where you cloned this project
+   - `cp .env.example .env`
+   - Update `SAND_API_KEY=YOUR_SAND_API_KEY` and replace `YOUR_SAND_API_KEY` with the director key you just created
 3. _(Optional)_ Create an OpenAI API Key and keep it handy, if you would like to try one of our provided example workflows after deploying a Director.
 
 
@@ -21,24 +24,17 @@ This is very similar to the Dev Container mode and will start a Sandgarden Direc
 
 ### Setup
 
-1. Make a copy of the `docker_compose/.env.example` file, keeping it in the same directory, and rename the copy as `.env`. You can also execute this command in your terminal:
-   ```bash
-   cp docker_compose/.env.example docker_compose/.env
-   ```
-
-2. Edit the `.env` and replace the `YOUR_SAND_API_KEY` string with your actual Sandgarden Director API key.
-
-3. From the root directory of the `getting-started` repo, start the docker container:
+1. From the root directory of the `getting-started` repo, start the docker container:
    ```bash
    docker compose -f docker_compose/docker-compose.yml up --detach
    ```
 
-4. From the root directory of the `getting-started` repo, run the script to install the Sandgarden CLI:
+2. From the root directory of the `getting-started` repo, run the script to install the Sandgarden CLI:
    ```bash
    ./install_cli.sh
    ```
 
-5. Run `sand directors list` to confirm everything was successful - you should see an active Director listed. You should also see an active Director in the [Sandgarden Admin UI](https://app.sandgarden.com/infrastructure/directors).
+3. Run `sand directors list` to confirm everything was successful - you should see an active Director listed. You should also see an active Director in the [Sandgarden Admin UI](https://app.sandgarden.com/infrastructure/directors).
    ```bash
    sand directors list
    ```

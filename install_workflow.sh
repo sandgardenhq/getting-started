@@ -28,6 +28,10 @@ if ! command -v sand &> /dev/null; then
     fi
 fi
 
+# Export the API Key from .env file and set it as an env var for CLI usage
+set -o allexport; source .env; set +o allexport
+
+
 # Get Sandgarden API Key
 if [ -z "$SAND_API_KEY" ]; then
     echo "Please visit https://app.sandgarden.com/settings/api-keys to create an API key."

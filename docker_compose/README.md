@@ -26,12 +26,12 @@ This is very similar to the Dev Container mode and will start a Sandgarden Direc
 
 1. From the root directory of the `getting-started` repo, start the docker container:
    ```bash
-   docker compose -f docker_compose/docker-compose.yml up --detach
+   docker compose -f docker_compose/docker-compose.yml --env-file .env up --detach
    ```
 
 2. From the root directory of the `getting-started` repo, run the script to install the Sandgarden CLI:
    ```bash
-   ./install_cli.sh
+   source ./install_cli.sh
    ```
 
 3. Run `sand directors list` to confirm everything was successful - you should see an active Director listed. You should also see an active Director in the [Sandgarden Admin UI](https://app.sandgarden.com/infrastructure/directors).

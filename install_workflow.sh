@@ -1,21 +1,31 @@
 #!/bin/bash
 
 # Parse command line arguments
-FORCE=false
-while [[ "$#" -gt 0 ]]; do
-    case $1 in
-        --force) FORCE=true ;;
-        *) echo "Unknown parameter: $1"; exit 1 ;;
-    esac
-    shift
-done
+#FORCE=false
+#while [[ "$#" -gt 0 ]]; do
+#    case $1 in
+#        --force) FORCE=true ;;
+#        *) echo "Unknown parameter: $1"; exit 1 ;;
+#    esac
+#    shift
+#done
 
 # Check if we're in the root of the getting-started repo
-if [[ "$FORCE" == false && ($(basename "$PWD") != "getting-started" || $(basename "$PWD") != "sandgarden") ]]; then
-    echo "Error: This script must be run from the root of the getting-started repo"
-    echo "If you cloned the repo into a different directory, use --force to bypass this check"
-    exit 1
-fi
+#if [[ "$FORCE" == false && ($(basename "$PWD") != "getting-started" || $(basename "$PWD") != "sandgarden") ]]; then
+#    echo "Error: This script must be run from the root of the getting-started repo"
+#    echo "If you cloned the repo into a different directory, use --force to bypass this check"
+#    exit 1
+#fi
+
+safe_exit() {
+    if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+        # If sourced, use return
+        return 1
+    else
+        # If executed directly, use exit
+        exit 1
+    fi
+}
 
 # Check if sand CLI is installed
 if ! command -v sand &> /dev/null; then
@@ -24,7 +34,7 @@ if ! command -v sand &> /dev/null; then
         bash install_cli.sh
     else
         echo "Error: install_cli.sh not found"
-        exit 1
+        safe_exit
     fi
 fi
 
@@ -36,7 +46,8 @@ set -o allexport; source .env; set +o allexport
 if [ -z "$SAND_API_KEY" ]; then
     echo "Please visit https://app.sandgarden.com/settings/api-keys to create an API key."
     echo "Click 'Create API Key' and make sure to select director access."
-    read -p "Enter your API key: " SAND_API_KEY
+    echo "Enter your API key: "
+    read SAND_API_KEY
 fi
 
 # Create a cluster
@@ -48,7 +59,8 @@ fi
 
 # Prompt for OpenAI API Key
 if [ -z "$OPENAI_API_KEY" ]; then
-    read -p "Enter your OpenAI API key: " OPENAI_API_KEY
+    echo "Enter your OpenAI API key: "
+    read OPENAI_API_KEY
 fi
 
 # Create an OpenAI connector

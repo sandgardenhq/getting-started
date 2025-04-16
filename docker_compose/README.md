@@ -39,4 +39,6 @@ This is very similar to the Dev Container mode and will start a Sandgarden Direc
    sand directors list
    ```
 
-If a Director is active, and the Sandgarden CLI is functioning, then your workspace is ready for workflow development. Go to [the workflow directory](https://github.com/sandgardenhq/getting-started/workflow/README.md) in the `getting-started` repo and follow the ReadMe instructions there to try one of our pre-built workflows, or get started building your own project :)
+If a Director is active, and the Sandgarden CLI is functioning, then your workspace is ready for workflow development. 
+
+Go to [the workflow directory](https://github.com/sandgardenhq/getting-started/workflow/README.md) in the `getting-started` repo and follow the ReadMe instructions there to try one of our pre-built workflows, or get started building your own project :)

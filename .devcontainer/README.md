@@ -34,9 +34,11 @@ Dev Container provides a complete development environment for Sandgarden workflo
 3. Click the "Open a Remote Window" button in the bottom-left corner and select "Reopen in Container" from the menu.
    - This will start building the Dev Container, the first time you do it may take a few minutes to fully download build. Click “show log” in VSCode to check progress and as long as stuff is happening, it's all good.
 
-4. When the Dev Container finishes building, open another VS Code terminal and run `sand directors list` to confirm the process completed successfully - you should see an active Director listed. You should also see an active Director in the [Sandgarden Admin UI](https://app.sandgarden.com/infrastructure/directors).
+4. When the Dev Container finishes building, open another VS Code terminal and run `sand directors list` to confirm everything was successful - you should see an active Director listed. You should also see an active Director in the [Sandgarden Admin UI](https://app.sandgarden.com/infrastructure/directors).
    ```bash
    sand directors list
    ```
 
-If a Director is active then your workspace will be mounted and ready for workflow development. Go to [the workflow directory](https://github.com/sandgardenhq/getting-started/workflow/README.md) in the `getting-started` repo and follow the ReadMe instructions there to try one of our pre-built workflows, or get started building your own project :)
+If a Director is active then your workspace will be mounted and ready for workflow development. 
+
+Go to [the workflow directory](https://github.com/sandgardenhq/getting-started/workflow/README.md) in the `getting-started` repo and follow the ReadMe instructions there to try one of our pre-built workflows, or get started building your own project :)

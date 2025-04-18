@@ -50,3 +50,4 @@ setup.sh
 *.pywz
 *.pyzw
 staticcfg.json
+.DS_Store

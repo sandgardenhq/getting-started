@@ -11,7 +11,7 @@ This is an example workflow that loads the CF-TriviaQA dataset and answers some 
 
 ### 1. Run install_workflow.sh
 ```bash
-./install_workflow.sh
+source ./install_workflow.sh
 ```
 
 ### 2. Run it!

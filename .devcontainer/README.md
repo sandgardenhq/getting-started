@@ -18,12 +18,10 @@ Dev Container provides a complete development environment for Sandgarden workflo
    cp .env .devcontainer/.env
    ```
 
-2. Edit the `.env` and replace the `YOUR_SAND_API_KEY` string with your actual Sandgarden Director API key.
-
-3. In VS Code, open the directory you cloned the `getting-started` repo to, then click the "Open a Remote Window" button in the bottom-left corner and select "Reopen in Container" from the menu.
+2. In VS Code, open the directory you cloned the `getting-started` repo to, then click the "Open a Remote Window" button in the bottom-left corner and select "Reopen in Container" from the menu.
    - This will start building the Dev Container, the first time you do it may take a few minutes to fully download build. Click “show log” in VSCode to check progress and as long as stuff is happening, it's all good.
 
-4. When the Dev Container finishes building, open another VS Code terminal and run `sand directors list` to confirm everything was successful - you should see an active Director listed. You should also see an active Director in the [Sandgarden Admin UI](https://app.sandgarden.com/infrastructure/directors).
+3. When the Dev Container finishes building, open another VS Code terminal and run `sand directors list` to confirm everything was successful - you should see an active Director listed. You should also see an active Director in the [Sandgarden Admin UI](https://app.sandgarden.com/infrastructure/directors).
    ```bash
    sand directors list
    ```

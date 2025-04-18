@@ -3,21 +3,6 @@
 Local developer mode runs a Sandgarden director in a local docker image on your development machine.
 It's a simple way to get started with Sandgarden without having to set up a cloud environment, and it lets you test your changes as you make them.
 
-## Prerequisites
-
-To get started in local developer mode, first prepare the following:
-
-1. Clone [this getting-started repo](https://github.com/sandgardenhq/getting-started.git), through either Git or VS Code.
-2. Create a Sandgarden API Key [through the Admin UI](https://app.sandgarden.com/settings/api-keys/new).
-   - Give a descriptive API Key Name (e.g. `deployment-key`).
-   - For Key Type, select "Director Key".
-   - For Expiration Date, choose a date conveniently far enough into the future (e.g. 30 days out).
-3. Make a copy of the `.env.example` file in the root directory where you cloned this project, renaming it `.env`
-   - `cp .env.example .env`
-   - Update `SAND_API_KEY=YOUR_SAND_API_KEY` and replace `YOUR_SAND_API_KEY` with the Sandgarden Director key you just created.
-3. _(Optional)_ Create an OpenAI API Key and keep it handy, if you would like to try one of our provided example workflows after deploying a Director.
-
-
 ## Docker Compose
 
 This is very similar to the Dev Container mode and will start a Sandgarden Director in a local docker container with a complete development environment for Sandgarden workflows.

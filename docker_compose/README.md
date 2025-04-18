@@ -12,7 +12,7 @@ To get started in local developer mode, first prepare the following:
    - Give a descriptive API Key Name (e.g. `deployment-key`).
    - For Key Type, select "Director Key".
    - For Expiration Date, choose a date conveniently far enough into the future (e.g. 30 days out).
-3. Update the `.env` file in the directory where you cloned this project
+3. Update the `.env` file in the root directory where you cloned this project
    - `cp .env.example .env`
    - Update `SAND_API_KEY=YOUR_SAND_API_KEY` and replace `YOUR_SAND_API_KEY` with the director key you just created
 3. _(Optional)_ Create an OpenAI API Key and keep it handy, if you would like to try one of our provided example workflows after deploying a Director.

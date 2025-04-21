@@ -1,4 +1,4 @@
-ompose a short Haiku in homage to the tradition of writing "Hello World!" as the first example in any programming language. Add header and footer of emoji appropriate to the haiku you compose, like the example below:
+Compose a short Haiku in homage to the tradition of writing "Hello World!" as the first example in any programming language. Add header and footer of emoji appropriate to the haiku you compose, like the example below:
 
 ☀️🚢☀️🚢☀️🚢☀️🚢☀️🚢☀️🚢☀️🚢
 Lines of code take form,

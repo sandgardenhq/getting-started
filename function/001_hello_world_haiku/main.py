@@ -1,10 +1,10 @@
 from datetime import datetime
 
 def handler(input, sandgarden):
-    resp = sandgarden.get_connector('dogfood-openai').chat.completions.create(
+    resp = sandgarden.get_connector('haiku-openai').chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "user", "content": sandgarden.get_prompt('hello_world_haiku')},
+            {"role": "user", "content": sandgarden.get_prompt('hello-world-haiku')},
         ],
     )
     haiku = resp.choices[0].message.content

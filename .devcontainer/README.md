@@ -38,7 +38,11 @@ Dev Container provides a complete development environment for Sandgarden workflo
    ```bash
    sand directors list
    ```
+   - If a Director is active then your workspace will be mounted and ready for workflow development. 
 
-If a Director is active then your workspace will be mounted and ready for workflow development. 
+5. Run our 'Hello World' script, which will build a simple function generating a haiku using OpenAI :)
+   ```bash
+   source ./install_workflow.sh
+   ```
 
-Go to [the workflow directory](https://github.com/sandgardenhq/getting-started/workflow/README.md) in the `getting-started` repo and follow the ReadMe instructions there to try one of our pre-built workflows, or get started building your own project :)
+If you'd like to try a more complex workflow example, go to [the workflow directory](https://github.com/sandgardenhq/getting-started/workflow/README.md) in the `getting-started` repo and follow the ReadMe instructions there. Or just start building your own project :)

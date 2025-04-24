@@ -12,6 +12,9 @@ To get started in local developer mode, first prepare the following:
    - Give a descriptive API Key Name (e.g. `deployment-key`).
    - For Key Type, select "Director Key".
    - For Expiration Date, choose a date conveniently far enough into the future (e.g. 30 days out).
+3. Update the `.env` file in the directory where you cloned this project
+   - `cp .env.example .env`
+   - Update `SAND_API_KEY=YOUR_SAND_API_KEY` and replace `YOUR_SAND_API_KEY` with the director key you just created
 3. _(Optional)_ Create an OpenAI API Key and keep it handy, if you would like to try one of our provided example workflows after deploying a Director.
 
 
@@ -21,26 +24,25 @@ This is very similar to the Dev Container mode and will start a Sandgarden Direc
 
 ### Setup
 
-1. Make a copy of the `docker_compose/.env.example` file, keeping it in the same directory, and rename the copy as `.env`. You can also execute this command in your terminal:
+1. From the root directory of the `getting-started` repo, start the docker container:
    ```bash
-   cp docker_compose/.env.example docker_compose/.env
+   docker compose -f docker_compose/docker-compose.yml --env-file .env up --detach
    ```
 
-2. Edit the `.env` and replace the `YOUR_SAND_API_KEY` string with your actual Sandgarden Director API key.
-
-3. From the root directory of the `getting-started` repo, start the docker container:
+2. From the root directory of the `getting-started` repo, run the script to install the Sandgarden CLI:
    ```bash
-   docker compose -f docker_compose/docker-compose.yml up --detach
+   source ./install_cli.sh
    ```
 
-4. From the root directory of the `getting-started` repo, run the script to install the Sandgarden CLI:
-   ```bash
-   ./install_cli.sh
-   ```
-
-5. Run `sand directors list` to confirm everything was successful - you should see an active Director listed. You should also see an active Director in the [Sandgarden Admin UI](https://app.sandgarden.com/infrastructure/directors).
+3. Run `sand directors list` to confirm everything was successful - you should see an active Director listed. You should also see an active Director in the [Sandgarden Admin UI](https://app.sandgarden.com/infrastructure/directors).
    ```bash
    sand directors list
    ```
+   - If a Director is active then your workspace will be mounted and ready for workflow development. 
 
-If a Director is active, and the Sandgarden CLI is functioning, then your workspace is ready for workflow development. Go to [the workflow directory](https://github.com/sandgardenhq/getting-started/workflow/README.md) in the `getting-started` repo and follow the ReadMe instructions there to try one of our pre-built workflows, or get started building your own project :)
+4. Run our 'Hello World' script, which will build a simple function generating a haiku using OpenAI :)
+   ```bash
+   source ./install_workflow.sh
+   ```
+
+If you'd like to try a more complex workflow example, go to [the workflow directory](https://github.com/sandgardenhq/getting-started/workflow/README.md) in the `getting-started` repo and follow the ReadMe instructions there. Or just start building your own project :)

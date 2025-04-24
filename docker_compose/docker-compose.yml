@@ -11,5 +11,5 @@ services:
       - "8987:8987"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ../../:/workspaces/sandgarden
+      - ../:/workspaces/sandgarden
       - .sandgarden:/.sandgarden
